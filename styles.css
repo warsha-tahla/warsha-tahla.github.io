@@ -13,17 +13,11 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-.site-header {
-  width: min(1380px, calc(100% - 96px));
-  height: 92px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  border-bottom: 1px solid var(--edge);
-}
+/* The identity's .mz-topbar-frame already gives the three-column contract, the centring and the
+   rail height, and .mz-topbar already draws the rule beneath. Only the page's content width is ours. */
+.site-header { width: min(1380px, calc(100% - 96px)); }
 
-.wordmark { display: flex; align-items: center; gap: 13px; width: max-content; font-weight: 700; }
+.wordmark { gap: 13px; width: max-content; }
 
 .wordmark-mark {
   width: 40px;
@@ -33,9 +27,8 @@ a { color: inherit; text-decoration: none; }
 .wordmark > span:last-child { font-family: var(--face-ar); font-size: 1.25rem; }
 
 nav { display: flex; gap: 34px; font-size: .86rem; color: var(--ink-soft); }
-nav a, .header-link { transition: color 160ms ease; }
-nav a:hover, .header-link:hover { color: var(--gold-ink); }
-.header-link { justify-self: end; font-size: .84rem; font-weight: 700; border-bottom: 1px solid var(--gold); }
+nav a { transition: color 160ms ease; }
+nav a:hover { color: var(--gold-ink); }
 
 .hero {
   width: min(1380px, calc(100% - 96px));
@@ -246,3 +239,9 @@ h1 em, .closing h2 em { color: var(--gold-ink); font-style: normal; }
 /* The header carries what the workshop declares about itself: its version and when it last moved. */
 .build-stamp { display: grid; gap: 3px; justify-items: start; margin: 0; font-size: .66rem; line-height: 1.5; color: var(--stone); }
 .build-stamp span:first-child { font-family: var(--face-mono); color: var(--gold-ink); }
+
+/* A privacy policy has to be findable — by a reader and by a reviewer — so it is a link of its own,
+   in the page's own direction, not a fragment inside the ltr machine stamp. */
+.footer-legal { margin: 0; font-size: .82rem; }
+.footer-legal a { border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: color 160ms ease; }
+.footer-legal a:hover { color: var(--gold-ink); }
