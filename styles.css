@@ -237,8 +237,8 @@ h1 em, .closing h2 em { color: var(--gold-ink); font-style: normal; }
 }
 
 /* The header carries what the workshop declares about itself: its version and when it last moved. */
-.build-stamp { display: grid; gap: 3px; justify-items: start; margin: 0; font-size: .66rem; line-height: 1.5; color: var(--stone); }
-.build-stamp span:first-child { font-family: var(--face-mono); color: var(--gold-ink); }
+/* The rail is 68px: it holds one short token, not a sentence. The date lives in the footer. */
+.build-version { font-family: var(--face-mono); font-size: .72rem; color: var(--gold-ink); }
 
 /* A privacy policy has to be findable — by a reader and by a reviewer — so it is a link of its own,
    in the page's own direction, not a fragment inside the ltr machine stamp. */
