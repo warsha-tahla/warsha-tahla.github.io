@@ -1,0 +1,1072 @@
+/* Standardized CSS component primitives enforced by gate/gate.mjs (vars, chamfer, mz- prefix, gold contrast). */
+
+/* Shared 45-degree chamfer polygon clip path utility. */
+.mz-chamfered {
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+
+/* surface — surface container component replacing legacy surface/card styles. */
+.mz-surface {
+  background: var(--panel);
+  border: 1px solid var(--edge-soft);
+  --chamfer: 6px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-surface--pad { padding: 1rem 1.1rem 1.1rem; }
+.mz-surface--flush { border: 0; background: none; }
+
+/* glass — the surface lifted off the page: translucent, hairlined, and threaded with light. */
+.mz-glass {
+  position: relative;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  backdrop-filter: saturate(1.25) blur(10px);
+  border: 1px solid color-mix(in srgb, var(--edge) 58%, transparent);
+  box-shadow: var(--lift);
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+/* Gold thread on the top edge: light falling on the panel, not an eighth colour. */
+.mz-glass::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .55;
+}
+/* base.css already rests every animation under prefers-reduced-motion. */
+.mz-glass--sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0 44%,
+              color-mix(in srgb, var(--gold) 9%, transparent) 48%, transparent 52% 100%);
+  transform: translateX(-60%);
+  animation: mz-sheen 14s linear infinite;
+}
+.mz-glass--sheen > * { position: relative; z-index: 1; }
+@keyframes mz-sheen { to { transform: translateX(75%); } }
+
+/* head — section header container replacing legacy section-head styles. */
+.mz-head {
+  display: flex;
+  align-items: baseline;
+  gap: .7rem;
+  padding: .7rem .9rem;
+  border-bottom: 1px solid var(--edge-soft);
+}
+.mz-head-index {
+  flex: none;
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  color: var(--gold-ink);
+  direction: ltr;
+}
+.mz-head-title { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-md); font-weight: 600; margin: 0; }
+.mz-head-title > .mz-icon { color: var(--gold-ink); }
+.mz-head-note { font-size: var(--size-2xs); color: var(--ink-soft); margin: 0; }
+.mz-head-tools { margin-inline-start: auto; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+/* A head's tools are a row like a toolbar's, so a field beside a button lands on one line — ADR-0055. */
+.mz-head-tools > *,
+.mz-head-tools .mz-btn-group > * { block-size: var(--control); align-self: center; }
+.mz-head-tools .mz-tag { padding-block: 0; }
+
+/* button — button component replacing legacy button classes. */
+/* Height comes from the token, not the padding, so a mixed row lands on one line — ADR-0035. */
+.mz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  block-size: var(--control);
+  padding-inline: .8rem;
+  font-family: var(--face-ar);
+  font-size: var(--size-xs);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+  --chamfer: 6px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+
+/* Focus ring defined via inset box-shadow to prevent clip-path clipping. */
+.mz-btn:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--gold-ink); }
+
+.mz-btn:hover:not([disabled]) { background: var(--gold-wash); border-color: var(--gold); }
+.mz-btn:active:not([disabled]) { background: var(--sand); }
+.mz-btn[disabled] { color: var(--stone); background: var(--sand); cursor: not-allowed; }
+.mz-btn[aria-busy="true"] { cursor: progress; color: var(--ink-soft); }
+
+/* Primary button variant using gold accent wash and high-contrast gold-ink text. */
+.mz-btn--primary { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold); font-weight: 600; }
+.mz-btn--primary:hover:not([disabled]) { background: var(--sand); border-color: var(--gold-ink); }
+
+.mz-btn--danger { color: var(--signal-bad); background: var(--signal-bad-wash); border-color: var(--signal-bad); }
+.mz-btn--danger:hover:not([disabled]) { background: var(--signal-bad); color: var(--panel); }
+
+.mz-btn--ghost { background: transparent; }
+.mz-btn--quiet { background: transparent; border-color: transparent; color: var(--ink-soft); }
+.mz-btn--quiet:hover:not([disabled]) { color: var(--ink); border-color: var(--edge); background: transparent; }
+
+.mz-btn--sm { block-size: var(--control-sm); padding-inline: .5rem; font-size: var(--size-2xs); --chamfer: 4px; }
+.mz-btn--lg { block-size: var(--control-lg); padding-inline: 1.15rem; font-size: var(--size-sm); --chamfer: 8px; }
+
+/* Filter toggle button reflecting pressed state. */
+.mz-btn[aria-pressed="true"] { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold); }
+
+/* button — icon button component for square action buttons requiring aria-label. */
+/* An icon control is the icon itself: no frame competes with the drawing, and the glyph is read at a glance. */
+.mz-btn--icon { padding-inline: 0; inline-size: var(--control); aspect-ratio: 1; background: transparent; border-color: transparent; }
+.mz-btn--icon:hover:not([disabled]) { background: var(--gold-wash); border-color: transparent; }
+.mz-btn--icon.mz-btn--sm { inline-size: var(--control-sm); }
+.mz-btn--icon.mz-btn--lg { inline-size: var(--control-lg); }
+.mz-btn--icon > .mz-icon { inline-size: 1.35rem; block-size: 1.35rem; font-size: 1.35rem; }
+.mz-btn--icon.mz-btn--sm > .mz-icon { inline-size: 1.2rem; block-size: 1.2rem; font-size: 1.2rem; }
+.mz-btn--icon.mz-btn--lg > .mz-icon { inline-size: 1.6rem; block-size: 1.6rem; font-size: 1.6rem; }
+/* :where() zeroes specificity so an icon carrying .mz-icon still decides its own size. */
+.mz-btn > :where(svg) { width: 1em; height: 1em; flex: none; }
+
+/* The icon is the button: no border, and the ground appears only on touch. */
+.mz-btn--bare { background: transparent; border-color: transparent; color: var(--ink-soft); }
+.mz-btn--bare:hover:not([disabled]) { background: var(--gold-wash); border-color: transparent; color: var(--gold-ink); }
+.mz-btn--bare[aria-pressed="true"] { border-color: transparent; }
+/* Dim the colour only: dimming the element would dim its tooltip with it. */
+.mz-btn--bare[disabled] { background: transparent; color: color-mix(in srgb, var(--ink-soft) 32%, transparent); }
+
+/* مجموعة أزرار ملتصقة — حدٌّ واحد بينها لا حدّان */
+.mz-btn-group { display: inline-flex; gap: 0; }
+.mz-btn-group .mz-btn + .mz-btn { margin-inline-start: -1px; }
+.mz-btn-group .mz-btn:hover { position: relative; z-index: 1; }
+
+/* icon — the shipped sprite drawn in the current colour: stroked, never filled. */
+.mz-icon {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  flex: none;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mz-icon--sm { inline-size: 1rem; block-size: 1rem; }
+.mz-icon--lg { inline-size: 1.25rem; block-size: 1.25rem; }
+.mz-icon--reverse { rotate: 180deg; }
+.mz-icon-label { display: inline-flex; align-items: center; gap: .4rem; }
+.mz-icon-label > .mz-icon { color: var(--gold-ink); }
+
+/* tip — a label that appears under a control without waiting on the browser's own delay. */
+.mz-tip { position: relative; }
+.mz-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  inset-block-start: calc(100% + .45rem);
+  inset-inline-end: 0;
+  z-index: 60;
+  padding: .3rem .55rem;
+  white-space: nowrap;
+  pointer-events: none;
+  font-family: var(--face-ar);
+  font-size: var(--size-2xs);
+  line-height: 1.4;
+  color: var(--paper);
+  background: var(--ink);
+  box-shadow: var(--lift-sm);
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity var(--quick), transform var(--quick);
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-tip:hover::after, .mz-tip:focus-visible::after { opacity: 1; transform: translateY(0); }
+/* At the start of a bar the tip hangs from its start edge, or it runs off the page. */
+.mz-tip--start::after { inset-inline: 0 auto; }
+
+/* kbd — a key drawn as a key, so a shortcut is not read as prose. */
+.mz-kbd {
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  color: var(--stone);
+  background: var(--sand);
+  border: 1px solid var(--edge-soft);
+  padding: .05rem .35rem;
+  line-height: 1.5;
+  direction: ltr;
+  white-space: nowrap;
+}
+
+/* tag — tag component for non-clickable classification chips. */
+.mz-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .16rem .48rem;
+  font-family: var(--face-ar);
+  font-size: var(--size-2xs);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  background: var(--sand);
+  border: 1px solid var(--edge-soft);
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-tag--gold { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold); }
+.mz-tag--quiet { background: transparent; color: var(--stone); }
+/* وسمٌ يحمل مسارًا أو منفذًا أو فرعًا: أحاديّ ومعزول الاتّجاه، وبلا تباعد حروف. */
+.mz-tag--code {
+  font-family: var(--face-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.mz-tag--count { font-family: var(--face-mono); font-variant-numeric: tabular-nums; min-width: 1.6em; justify-content: center; }
+
+/* signal — signal component displaying status via solid vs hollow shape before color. */
+.mz-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: var(--size-2xs);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.mz-signal::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  flex: none;
+  background: currentColor;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.mz-signal--ok { color: var(--signal-ok); }
+.mz-signal--warn { color: var(--signal-warn); }
+.mz-signal--bad { color: var(--signal-bad); }
+.mz-signal--idle { color: var(--signal-idle); }
+/* الساكن مفرَّغ لا مصمت — فرقٌ يُقرأ بلا لون */
+.mz-signal--idle::before { background: none; box-shadow: inset 0 0 0 1.5px currentColor; }
+
+/* أرضيّة الصفّ حسب حالته — خفيفةٌ لا صارخة، والإشارة تبقى حاملة المعنى */
+.mz-row--ok { background: var(--signal-ok-wash); }
+.mz-row--warn { background: var(--signal-warn-wash); }
+.mz-row--bad { background: var(--signal-bad-wash); }
+
+/* toolbar — toolbar component for filter and search controls. */
+.mz-toolbar {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  flex-wrap: wrap;
+  padding: .6rem .9rem;
+}
+/* The row owns the height: an --sm button and a bare tag beside a field read as three steps. */
+/* A group is a wrapper, so the row reaches through it too — otherwise its buttons keep their own size. */
+.mz-toolbar > *,
+.mz-toolbar .mz-btn-group > *,
+.mz-toolbar-end > * { block-size: var(--control); align-self: center; }
+.mz-toolbar .mz-tag { padding-block: 0; }
+/* field — the three controls wear one skin, so a form never mixes two shapes. */
+.mz-input, .mz-select, .mz-textarea {
+  font-family: var(--face-ar);
+  font-size: var(--size-xs);
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  padding: .34rem .8rem;
+  outline: none;
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-input:focus-visible, .mz-select:focus-visible, .mz-textarea:focus-visible { box-shadow: inset 0 0 0 2px var(--gold-ink); }
+/* Input and select wear the row height; only the textarea grows with its content. */
+.mz-input, .mz-select { block-size: var(--control); padding-block: 0; }
+.mz-input { min-width: 14rem; flex: 1 1 auto; max-width: 30rem; }
+.mz-input-wrap { position: relative; min-inline-size: 14rem; flex: 1 1 auto; max-inline-size: 30rem; }
+.mz-input-wrap .mz-input { inline-size: 100%; min-inline-size: 0; padding-inline-start: 2.2rem; }
+.mz-input-icon {
+  position: absolute;
+  z-index: 1;
+  inset-inline-start: .8rem;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  color: var(--stone);
+  pointer-events: none;
+}
+.mz-toolbar-end { margin-inline-start: auto; display: flex; gap: .4rem; align-items: center; }
+
+/* metric — telemetry metric rail component for summary statistics. */
+.mz-metric-rail {
+  display: flex;
+  gap: .75rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding: .25rem .15rem .8rem;
+}
+.mz-metric {
+  position: relative;
+  flex: 1 0 13rem;
+  min-inline-size: 13rem;
+  min-block-size: 11.5rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto auto;
+  align-items: start;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 36%),
+    var(--panel);
+  border: 1px solid var(--edge);
+  box-shadow: var(--lift-sm);
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+  transition: transform var(--quick), border-color var(--quick), box-shadow var(--quick);
+}
+.mz-metric::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 12% 42%;
+  block-size: 2px;
+  background: var(--gold);
+}
+.mz-metric:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: var(--lift); }
+.mz-metric-head { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.mz-metric-icon {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  display: grid;
+  place-items: center;
+  color: var(--gold-ink);
+  background: var(--gold-wash);
+  border: 1px solid color-mix(in srgb, var(--gold) 68%, transparent);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.mz-metric-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .18rem .42rem;
+  color: var(--gold-ink);
+  background: color-mix(in srgb, var(--gold-wash) 76%, transparent);
+  border: 1px solid var(--edge-soft);
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  direction: ltr;
+}
+.mz-metric-trend .mz-icon { inline-size: .8rem; block-size: .8rem; }
+.mz-metric-value {
+  grid-column: 1 / -1;
+  align-self: end;
+  display: block;
+  margin-block-start: 1.25rem;
+  font-family: var(--face-mono);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.055em;
+  direction: ltr;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.mz-metric-label { grid-column: 1 / -1; display: block; margin-block-start: .55rem; font-size: var(--size-sm); font-weight: 600; color: var(--ink); }
+.mz-metric-note { grid-column: 1 / -1; display: block; margin-block-start: .15rem; font-size: var(--size-2xs); color: var(--stone); }
+
+/* table — table component with sticky header support. */
+.mz-table-wrap { overflow: auto; max-height: 40rem; }
+.mz-table { width: 100%; border-collapse: collapse; font-size: var(--size-2xs); }
+.mz-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--sand);
+  color: var(--ink-soft);
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  text-align: start;
+  padding: .45rem .55rem;
+  border-bottom: 1px solid var(--edge);
+  white-space: nowrap;
+}
+.mz-table td { padding: .4rem .55rem; border-bottom: 1px solid var(--edge-soft); vertical-align: middle; }
+.mz-table tbody tr:last-child td { border-bottom: 0; }
+.mz-table tbody tr:hover { background: var(--gold-wash); }
+.mz-table .mz-num { font-family: var(--face-mono); direction: ltr; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* pagination — bounded result navigation with a page-size control. */
+.mz-pagination {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: .7rem;
+  padding: .55rem .75rem;
+  border-top: 1px solid var(--edge);
+  background: var(--panel);
+  font-size: var(--size-2xs);
+}
+.mz-pagination-summary { display: inline-flex; align-items: center; gap: .35rem; color: var(--stone); font-variant-numeric: tabular-nums; }
+.mz-pagination-controls, .mz-pagination-pages { display: flex; align-items: center; gap: .3rem; }
+.mz-pagination-pages .mz-btn { min-inline-size: var(--control-sm); padding-inline: .45rem; font-family: var(--face-mono); font-variant-numeric: tabular-nums; }
+.mz-pagination-pages .mz-btn[aria-current="page"] { border-color: var(--gold); background: var(--gold-wash); color: var(--gold-ink); font-weight: 600; }
+.mz-pagination-gap { min-inline-size: 1.25rem; color: var(--stone); text-align: center; }
+.mz-pagination-size { display: flex; align-items: center; gap: .4rem; justify-self: end; color: var(--stone); white-space: nowrap; }
+.mz-pagination-size .mz-select { block-size: var(--control-sm); min-inline-size: 4.5rem; padding-block: 0; }
+@media (max-width: 760px) {
+  .mz-pagination { grid-template-columns: 1fr; justify-items: center; }
+  .mz-pagination-size { justify-self: center; }
+}
+
+/* row — collapsible row component for compact item detail views. */
+.mz-row {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1.5fr) minmax(12rem, 1.15fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: .7rem .9rem;
+  border-bottom: 1px solid var(--edge-soft);
+}
+.mz-row:last-child { border-bottom: 0; }
+.mz-row-title { display: flex; align-items: center; gap: .4rem; font-weight: 600; font-size: var(--size-sm); }
+.mz-row-title > .mz-icon { color: var(--gold-ink); }
+.mz-row-desc { font-size: var(--size-2xs); color: var(--ink-soft); margin-top: .2rem; }
+.mz-row-tags { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: .4rem; }
+.mz-row-actions { display: flex; gap: .3rem; align-items: center; flex-wrap: wrap; }
+/* التفاصيل تنطوي داخل الصفّ — أرخص من صفحةٍ ثانية، وتحفظ موضع القراءة */
+.mz-row-detail { display: none; padding: .7rem .9rem; background: var(--code-bg); border-bottom: 1px solid var(--edge-soft); }
+.mz-row-detail[open], .mz-row-detail.is-open { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .5rem; }
+@media (max-width: 860px) { .mz-row { grid-template-columns: 1fr; } }
+
+/* empty — empty state container for blank dataset views. */
+.mz-empty {
+  display: grid;
+  place-items: center;
+  gap: .5rem;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: var(--size-sm);
+}
+.mz-empty-hint { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-2xs); color: var(--stone); }
+/* The unit mark, faded: it fills the void by saying where you are, not by being read. */
+.mz-empty-mark { inline-size: 4.5rem; block-size: 4.5rem; opacity: .45; }
+
+/* toast — a brief, polite update with one clear reading path. */
+.mz-toast-stack {
+  position: fixed;
+  inset-inline-start: 1rem;
+  inset-block-end: 1rem;
+  z-index: 90;
+  display: grid;
+  gap: .65rem;
+  max-inline-size: calc(100vw - 2rem);
+}
+.mz-toast {
+  position: relative;
+  min-inline-size: 18rem;
+  max-inline-size: 28rem;
+  padding: .85rem .9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  overflow: hidden;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  border: 1px solid var(--edge-soft);
+  box-shadow: var(--lift-lg);
+  backdrop-filter: saturate(1.2) blur(12px);
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+  animation: mz-toast-in .24s cubic-bezier(.2, .8, .2, 1) both;
+}
+.mz-toast::before {
+  content: "";
+  position: absolute;
+  inset-block: .65rem;
+  inset-inline-start: 0;
+  inline-size: 3px;
+  background: linear-gradient(transparent, var(--gold) 22% 78%, transparent);
+}
+.mz-toast-icon {
+  flex: none;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  display: grid;
+  place-items: center;
+  color: var(--gold-ink);
+  background: var(--gold-wash);
+  border: 1px solid color-mix(in srgb, var(--gold) 62%, transparent);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.mz-toast-copy { min-inline-size: 0; flex: 1; display: grid; gap: .12rem; }
+.mz-toast-title { margin: 0; font-size: var(--size-sm); font-weight: 600; line-height: 1.45; }
+.mz-toast-body { margin: 0; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.6; }
+.mz-toast-close {
+  flex: none;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: var(--stone);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.mz-toast-close:hover { color: var(--ink); background: var(--gold-wash); }
+.mz-toast-close:focus-visible { outline: 1px solid var(--gold-ink); outline-offset: 2px; }
+.mz-toast-close .mz-icon { inline-size: .9rem; block-size: .9rem; }
+@keyframes mz-toast-in {
+  from { opacity: 0; transform: translateY(.65rem) scale(.98); }
+}
+@media (max-width: 30rem) {
+  .mz-toast-stack { inset-inline: .75rem; inset-block-end: .75rem; max-inline-size: none; }
+  .mz-toast { min-inline-size: 0; max-inline-size: none; inline-size: 100%; }
+}
+
+/* topbar — topbar component for sticky site navigation headers. */
+.mz-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .55rem .9rem;
+  min-block-size: var(--rail);
+  background: var(--panel);
+  border-bottom: 1px solid var(--edge);
+}
+/* Drop the bar inline padding when the row inside it sets the page width — ADR-0035. */
+.mz-topbar--flush { padding-inline: 0; }
+
+/* Glass needs a layered ground under it; over still paper there is nothing to see. */
+.mz-topbar--glass {
+  background: color-mix(in srgb, var(--panel) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--edge-soft);
+}
+/* One header contract: brand at the start, context in the true centre, actions at the end. */
+.mz-topbar-frame {
+  inline-size: 100%;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(.7rem, 1.6vw, 1.25rem);
+  min-block-size: var(--rail);
+}
+.mz-topbar-frame > .mz-brand { justify-self: start; }
+.mz-topbar-center {
+  min-inline-size: 0;
+  display: flex;
+  justify-content: center;
+}
+.mz-topbar-frame > .mz-topbar-end { justify-self: end; }
+/* A brand is usually an anchor, and an underlined brand is the bug every surface inherited. */
+.mz-brand {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  font-weight: 600;
+  font-size: var(--size-md);
+  color: inherit;
+  text-decoration: none;
+}
+/* One mark size for every bar; the six HTML width attributes this replaces disagreed. */
+.mz-brand svg,
+.mz-brand img,
+.mz-brand > [class*="mz-mark--"] { inline-size: var(--brand-mark); block-size: var(--brand-mark); flex: none; }
+.mz-brand svg,
+.mz-brand > [class*="mz-mark--"] { color: var(--gold); }
+.mz-brand > [class*="mz-mark--"] { font-size: var(--brand-mark); }
+.mz-brand:hover b { color: var(--gold-ink); }
+
+/* The mark breathes so the bar reads alive; base.css rests it for anyone who asks. */
+.mz-brand svg,
+.mz-brand img,
+.mz-brand > [class*="mz-mark--"] {
+  transform-origin: center;
+  animation: mz-brand-breathe 6s ease-in-out infinite;
+}
+.mz-brand:hover svg,
+.mz-brand:hover img,
+.mz-brand:hover > [class*="mz-mark--"] { animation-duration: 2.4s; }
+@keyframes mz-brand-breathe {
+  0%, 100% { transform: scale(.9); }
+  50%      { transform: scale(1.12); }
+}
+/* The name with a small place line under it, two lines inside the rail. */
+.mz-brand-word { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+/* The name carries the bar, so it reads a tier above the controls beside it. */
+.mz-brand-word b { font-size: var(--size-lg); font-weight: 600; letter-spacing: -.01em; line-height: 1.2; }
+.mz-brand-word small {
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  font-weight: 400;
+  color: var(--stone);
+  direction: ltr;
+  unicode-bidi: plaintext;
+  max-inline-size: 19rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mz-topbar-end { margin-inline-start: auto; display: flex; align-items: center; gap: .4rem; }
+/* A hairline between two tool groups reads where bare spacing does not. */
+.mz-topbar-rule { inline-size: 1px; block-size: 1.4rem; background: var(--edge-soft); margin-inline: .35rem; flex: none; }
+
+/* The dated stamp every package already declares, published so a surface wears it instead of typing it. */
+.mz-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .2rem .5rem .2rem .35rem;
+  border: 1px solid var(--edge);
+  background: var(--panel);
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  color: var(--ink-soft);
+  white-space: nowrap;
+  direction: ltr;
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-stamp b {
+  font-family: var(--face-mono);
+  color: var(--gold-ink);
+  background: var(--gold-wash);
+  border: 1px solid var(--gold);
+  padding: .12rem .45rem;
+  font-weight: 500;
+  --chamfer: 3px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-stamp i { color: var(--stone); opacity: .6; font-style: normal; }
+.mz-stamp time { color: var(--stone); }
+
+/* footer — one foot for every surface, so the last line of a page reads the same everywhere. */
+.mz-footer {
+  border-block-start: 1px solid var(--edge);
+  padding-block: .45rem;
+  /* The bar above it carries this same gutter, and a foot without it puts the © and the version against the glass. */
+  padding-inline: .9rem;
+  margin-block-start: 0;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  backdrop-filter: blur(12px);
+}
+/* Drop the foot inline padding when the row inside it sets the page width — ADR-0035. */
+.mz-footer--flush { padding-inline: 0; }
+/* The role is explicit: a document signs itself; a dock carries live controls — ADR-0079. */
+.mz-footer--document, .mz-footer--dock { position: relative; }
+.mz-footer--dock { position: sticky; inset-block-end: 0; z-index: 19; }
+/* A named frame makes the grid contract survive an extra wrapper and gives the gate an anatomy to verify. */
+.mz-footer-frame {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(.8rem, 2vw, 1.6rem);
+  min-block-size: 36px;
+}
+.mz-footer-id { margin: 0; display: flex; align-items: center; gap: .65rem; min-inline-size: 0; }
+.mz-footer-id > :where(svg, img) { inline-size: 24px; block-size: 24px; flex: none; color: var(--gold); }
+.mz-footer-id p { margin: 0; overflow: hidden; color: var(--stone); font-size: var(--size-xs); white-space: nowrap; text-overflow: ellipsis; }
+.mz-footer-id b { color: var(--ink); font-weight: 600; }
+.mz-footer-id span { color: var(--stone); }
+.mz-footer-seal { display: flex; align-items: center; gap: .55rem; color: var(--gold); }
+.mz-footer-seal > [class*="mz-mark--"] { inline-size: 2.5rem; block-size: 2.5rem; font-size: 2.5rem; }
+.mz-footer-seal::before,
+.mz-footer-seal::after { content: ""; inline-size: 4px; block-size: 4px; background: currentColor; transform: rotate(45deg); }
+.mz-footer-vow { font-size: var(--size-xs); font-weight: 600; letter-spacing: -.01em; color: var(--gold-ink); white-space: nowrap; }
+.mz-footer-stamp {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .55rem;
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  color: var(--stone);
+}
+.mz-footer-stamp b {
+  font-weight: 500;
+  color: var(--gold-ink);
+  border: 1px solid var(--gold);
+  padding: .15rem .48rem;
+  letter-spacing: .06em;
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+@media (max-width: 760px) {
+  .mz-footer { padding-block: .65rem; }
+  .mz-footer-frame { grid-template-columns: minmax(0, 1fr) auto; gap: .8rem; }
+  .mz-footer-seal { display: none; }
+  .mz-footer-stamp { justify-content: flex-end; }
+  .mz-footer-stamp :where(time, span) { display: none; }
+}
+
+/* palette — command palette modal component (Cmd+K). */
+.mz-palette-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  padding-top: 11vh;
+  justify-content: center;
+  background: color-mix(in srgb, var(--ink) 32%, transparent);
+  backdrop-filter: blur(3px);
+}
+.mz-palette-backdrop[open], .mz-palette-backdrop.is-open { display: flex; }
+.mz-palette {
+  display: flex;
+  flex-direction: column;
+  width: min(46rem, calc(100% - 2rem));
+  max-block-size: 72vh;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  box-shadow: var(--lift-lg);
+  --chamfer: 8px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+/* What is typed may be Arabic or a path, so the first character decides direction. */
+.mz-palette-input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--edge-soft);
+  outline: none;
+  padding: .7rem .9rem;
+  font-family: var(--face-ar);
+  font-size: var(--size-md);
+  color: var(--ink);
+  background: transparent;
+  unicode-bidi: plaintext;
+}
+/* The border sits on the row, not on the input inside it. */
+.mz-palette-find {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem .9rem;
+  border-bottom: 1px solid var(--edge-soft);
+  color: var(--stone);
+  flex: none;
+}
+.mz-palette-find .mz-palette-input { border-bottom: 0; padding: 0; flex: 1; }
+.mz-palette-body { overflow-y: auto; overscroll-behavior: contain; }
+/* The foot names the keys, so a shortcut is not left to accident. */
+.mz-palette-foot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: none;
+  padding: .45rem .9rem;
+  border-top: 1px solid var(--edge-soft);
+  background: var(--sand);
+  font-family: var(--face-ar);
+  font-size: var(--size-2xs);
+  color: var(--stone);
+}
+.mz-palette-foot span { display: inline-flex; align-items: center; gap: .3rem; }
+.mz-palette-foot span:last-child { margin-inline-start: auto; }
+.mz-palette-item { display: flex; align-items: center; gap: .5rem; width: 100%; padding: .45rem .9rem; border: 0; background: transparent; text-align: start; font-size: var(--size-xs); color: var(--ink); }
+.mz-palette-item:hover, .mz-palette-item[aria-selected="true"], .mz-palette-item[data-at] { background: var(--gold-wash); }
+.mz-palette-item .mz-tag--code { margin-inline-start: auto; }
+
+/* field — form field binding a label, a control and its hint or error into one column. */
+.mz-field { display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
+.mz-field-label { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--size-2xs); color: var(--ink-soft); }
+.mz-field-label .mz-icon { inline-size: .85rem; block-size: .85rem; color: var(--gold-ink); }
+.mz-field-hint { font-size: var(--size-2xs); color: var(--stone); }
+/* The error replaces the hint instead of joining it, so a field never argues with itself. */
+.mz-field-error { font-size: var(--size-2xs); color: var(--signal-bad); }
+.mz-textarea { min-height: 5rem; resize: vertical; width: 100%; line-height: 1.6; }
+.mz-input[aria-invalid="true"], .mz-select[aria-invalid="true"], .mz-textarea[aria-invalid="true"] {
+  border-color: var(--signal-bad);
+  background: var(--signal-bad-wash);
+}
+.mz-input[disabled], .mz-select[disabled], .mz-textarea[disabled] { color: var(--stone); background: var(--sand); cursor: not-allowed; }
+.mz-input[readonly], .mz-textarea[readonly] { background: var(--sand); color: var(--ink-soft); }
+.mz-input::placeholder, .mz-textarea::placeholder { color: var(--stone); }
+
+/* multiselect — searchable multiple choice with removable selected values. */
+almukhtar-multiselect {
+  position: relative;
+  display: grid;
+  gap: .3rem;
+  inline-size: min(30rem, 100%);
+  min-inline-size: 18rem;
+  font-family: var(--face-ar);
+  text-align: start;
+}
+.mz-multiselect-control {
+  min-block-size: var(--control-lg);
+  display: flex;
+  align-items: stretch;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  --chamfer: 6px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+almukhtar-multiselect[open] .mz-multiselect-control { border-color: var(--gold-ink); box-shadow: inset 0 0 0 1px var(--gold-ink); }
+almukhtar-multiselect[disabled] .mz-multiselect-control { color: var(--stone); background: var(--sand); }
+.mz-multiselect-values {
+  min-inline-size: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .35rem;
+  padding: .35rem .55rem;
+}
+.mz-multiselect-placeholder { color: var(--stone); font-size: var(--size-xs); }
+.mz-multiselect-chip {
+  min-inline-size: 0;
+  padding: .18rem .42rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  color: var(--gold-ink);
+  background: var(--gold-wash);
+  border: 1px solid color-mix(in srgb, var(--gold) 74%, transparent);
+  font-size: var(--size-2xs);
+  line-height: 1.4;
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-multiselect-chip:hover { color: var(--ink); border-color: var(--gold-ink); }
+.mz-multiselect-chip .mz-icon { inline-size: .75rem; block-size: .75rem; }
+.mz-multiselect-toggle {
+  inline-size: var(--control-lg);
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-inline-start: 1px solid var(--edge-soft);
+}
+.mz-multiselect-toggle:hover { color: var(--gold-ink); background: var(--gold-wash); }
+.mz-multiselect-toggle .mz-icon { transition: rotate var(--quick); }
+almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
+.mz-multiselect-panel {
+  position: absolute;
+  z-index: 60;
+  inset-block-start: calc(100% + .4rem);
+  inset-inline: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--panel) 96%, transparent);
+  border: 1px solid var(--edge);
+  box-shadow: var(--lift-lg);
+  backdrop-filter: saturate(1.2) blur(12px);
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+  animation: mz-multiselect-open .18s cubic-bezier(.2, .8, .2, 1) both;
+}
+.mz-multiselect-search {
+  min-block-size: var(--control-lg);
+  padding-inline: .7rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  border-block-end: 1px solid var(--edge-soft);
+  color: var(--stone);
+}
+.mz-multiselect-search input {
+  min-inline-size: 0;
+  inline-size: 100%;
+  block-size: var(--control-lg);
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: var(--size-xs);
+}
+.mz-multiselect-search input::placeholder { color: var(--stone); }
+.mz-multiselect-list { max-block-size: 14rem; padding-block: .35rem; overflow-y: auto; scrollbar-width: thin; }
+.mz-multiselect-option {
+  inline-size: 100%;
+  min-block-size: 2.4rem;
+  padding: .4rem .65rem;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  text-align: start;
+  font-size: var(--size-xs);
+}
+.mz-multiselect-option:hover,
+.mz-multiselect-option:focus-visible { background: var(--gold-wash); }
+.mz-multiselect-option[aria-disabled="true"] { color: var(--stone); cursor: not-allowed; }
+.mz-multiselect-option-mark {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: transparent;
+  border: 1px solid var(--edge);
+  clip-path: polygon(24% 0, 76% 0, 100% 24%, 100% 76%, 76% 100%, 24% 100%, 0 76%, 0 24%);
+}
+.mz-multiselect-option-mark .mz-icon { inline-size: .75rem; block-size: .75rem; }
+.mz-multiselect-option[aria-selected="true"] .mz-multiselect-option-mark {
+  color: var(--panel);
+  background: var(--gold-ink);
+  border-color: var(--gold-ink);
+}
+.mz-multiselect-empty { margin: 0; padding: 1.1rem .75rem; color: var(--stone); text-align: center; font-size: var(--size-xs); }
+.mz-multiselect-foot {
+  min-block-size: var(--control);
+  padding-inline: .7rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--stone);
+  background: var(--sand);
+  border-block-start: 1px solid var(--edge-soft);
+  font-size: var(--size-2xs);
+}
+.mz-multiselect-foot button { padding: 0; color: var(--gold-ink); background: transparent; border: 0; font-size: inherit; }
+.mz-multiselect-foot button[disabled] { color: var(--stone); cursor: not-allowed; }
+almukhtar-multiselect[data-inline] .mz-multiselect-panel { position: static; margin-block-start: .1rem; }
+@keyframes mz-multiselect-open {
+  from { opacity: 0; transform: translateY(-.35rem) scale(.99); }
+}
+@media (max-width: 30rem) {
+  almukhtar-multiselect { min-inline-size: 0; }
+}
+
+/* choice — a chamfered square to tick, an octagon to pick, and both fill when chosen. */
+.mz-check, .mz-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: var(--size-xs);
+  color: var(--ink);
+  cursor: pointer;
+}
+.mz-check > input, .mz-radio > input {
+  appearance: none;
+  margin: 0;
+  flex: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  cursor: inherit;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.mz-check > input {
+  --chamfer: 3px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+/* The radio borrows the signal's octagon, so chosen reads in the same solid-versus-hollow language. */
+.mz-radio > input { clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); }
+.mz-check > input:checked, .mz-radio > input:checked { background: var(--gold-ink); border-color: var(--gold-ink); }
+.mz-check > input:indeterminate { background: var(--gold-wash); border-color: var(--gold); }
+.mz-check:hover > input:not([disabled]), .mz-radio:hover > input:not([disabled]) { border-color: var(--gold); }
+.mz-check > input:focus-visible, .mz-radio > input:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--gold-ink); }
+/* A filled control needs its focus ring in the paper colour, or the gold ring vanishes into the gold fill. */
+.mz-check > input:checked:focus-visible, .mz-radio > input:checked:focus-visible { box-shadow: inset 0 0 0 2px var(--panel); }
+.mz-check > input[disabled], .mz-radio > input[disabled] { background: var(--sand); border-color: var(--edge-soft); cursor: not-allowed; }
+.mz-check:has(> input[disabled]), .mz-radio:has(> input[disabled]) { color: var(--stone); cursor: not-allowed; }
+
+/* card — the surface given a body and a footer, reusing mz-head for its header. */
+.mz-card { display: flex; flex-direction: column; }
+.mz-card-body { display: flex; flex-direction: column; gap: .5rem; padding: .85rem .9rem; font-size: var(--size-xs); color: var(--ink-soft); }
+.mz-card-body > p { margin: 0; }
+/* Actions sit at the end of the card, so cards of unequal height still end on one line. */
+.mz-card-foot { margin-top: auto; display: flex; align-items: center; gap: .4rem; padding: .6rem .9rem; border-top: 1px solid var(--edge-soft); }
+.mz-card-foot--end { justify-content: flex-end; }
+.mz-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .6rem; }
+
+/* ── الحساب: ختمُه ولونُه ────────────────────────────────────────────────── */
+/* اللون يُختار بالاسم لا بالقيمة، فلا يؤلّف سطحٌ لونًا ولا يكسر بوّابة اللوحة — ADR-0006. */
+[data-accent="gold"]   { --accent: var(--accent-gold);   --accent-wash: var(--accent-gold-wash); }
+[data-accent="clay"]   { --accent: var(--accent-clay);   --accent-wash: var(--accent-clay-wash); }
+[data-accent="olive"]  { --accent: var(--accent-olive);  --accent-wash: var(--accent-olive-wash); }
+[data-accent="teal"]   { --accent: var(--accent-teal);   --accent-wash: var(--accent-teal-wash); }
+[data-accent="indigo"] { --accent: var(--accent-indigo); --accent-wash: var(--accent-indigo-wash); }
+[data-accent="plum"]   { --accent: var(--accent-plum);   --accent-wash: var(--accent-plum-wash); }
+/* seal — account seal component: an octagon carrying a glyph, ground and ink from one accent. */
+.mz-seal {
+  inline-size: var(--control);
+  block-size: var(--control);
+  display: grid;
+  place-items: center;
+  color: var(--accent, var(--gold-ink));
+  background: var(--accent-wash, var(--gold-wash));
+  border: 1px solid color-mix(in srgb, var(--accent, var(--gold)) 34%, transparent);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.mz-seal--sm { inline-size: var(--control-sm); block-size: var(--control-sm); font-size: var(--size-2xs); }
+.mz-seal--lg { inline-size: var(--control-lg); block-size: var(--control-lg); font-size: var(--size-md); }
+/* وسمٌ يلبس لونَ صنفه: الوسم وحده يختار لونه، لأنّه بلا نوعٍ يرثه عنه. */
+.mz-tag--accent {
+  color: var(--accent, var(--ink-soft));
+  background: var(--accent-wash, var(--sand));
+  border-color: color-mix(in srgb, var(--accent, var(--edge-soft)) 34%, transparent);
+}

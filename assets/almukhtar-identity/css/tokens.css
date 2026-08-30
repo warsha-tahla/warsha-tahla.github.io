@@ -1,0 +1,186 @@
+/* Identity tokens — authored in the package as the single source of truth. */
+
+/* ── الفاتح — الأساس — 56 رمزًا ─────────────────────────────── */
+:root {
+  --paper:            #f6f6f4;
+  --panel:            #ffffff;
+  --sand:             #ece7df;
+  --edge:             #d6cdbe;
+  --edge-soft:        #e6e0d6;
+  --gold:             #b9a88a;
+  --gold-ink:         #7a6647;
+  --gold-wash:        #f2ede4;
+  --ink:              #2a2a2a;
+  --ink-soft:         #6e675d;
+  --stone:            #8b847a;
+  --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.28'/></svg>");
+  --code-bg:          #fbfaf8;
+  --signal-ok:        #0f7b3e;
+  --signal-ok-wash:   #e8f6ec;
+  --signal-warn:      #b45309;
+  --signal-warn-wash: #fef4e8;
+  --signal-bad:       #c62828;
+  --signal-bad-wash:  #fdeaea;
+  --signal-idle:      #6e675d;
+  --signal-idle-wash: #eeece7;
+  /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
+  --accent-gold:        #7a6647;
+  --accent-gold-wash:   #f2ede4;
+  --accent-clay:        #9a5b3f;
+  --accent-clay-wash:   #f7ece7;
+  --accent-olive:       #5d6b35;
+  --accent-olive-wash:  #eff1e6;
+  --accent-teal:        #2f6b66;
+  --accent-teal-wash:   #e9f1f0;
+  --accent-indigo:      #4a5580;
+  --accent-indigo-wash: #eceef4;
+  --accent-plum:        #74476b;
+  --accent-plum-wash:   #f3eaf1;
+  --face-ar:          "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", "Noto Sans Arabic", "Geeza Pro", sans-serif;
+  --face-mono:        "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* المقياس الثابت — قاعُه 12.8px: لا نصّ واجهةٍ دونه، والوسم 14px، ومتن القراءة 16.8-18px */
+  --size-2xs:         .8rem;
+  --size-xs:          .88rem;
+  --size-sm:          .95rem;
+  --size-md:          1.05rem;
+  --size-lg:          1.125rem;
+  --size-xl:          1.3rem;
+  /* المقياس السائل — الصفر متنُ قراءةٍ يبدأ 16px على الهاتف وينتهي 18px على المكتب */
+  --step-0:           clamp(1rem, .95rem + .3vw, 1.125rem);
+  --step-1:           clamp(1.125rem, 1.05rem + .35vw, 1.3rem);
+  --step-2:           clamp(1.18rem, 1.06rem + .5vw, 1.45rem);
+  --step-3:           clamp(1.4rem, 1.2rem + .9vw, 1.95rem);
+  --step-4:           clamp(1.8rem, 1.4rem + 1.8vw, 2.8rem);
+  --gutter:           clamp(1.25rem, 4vw, 4.5rem);
+  --chamfer:          14px;
+  /* Rhythm: one height for every control in a row, one rail for the page head — ADR-0035. */
+  --control-sm:       27px;
+  --control:          34px;
+  --control-lg:       42px;
+  /* The rail holds a 38px mark plus its padding and still breathes; 3.4rem left none. */
+  --rail:             4.25rem;
+  /* One size for the unit mark in a bar, so six surfaces stop choosing six. */
+  --brand-mark:       38px;
+  /* One duration for every short motion; differing timings read as confusion. */
+  --quick:            130ms cubic-bezier(.2, .6, .2, 1);
+  /* Three steps of elevation: flush, raised, and floating over everything. */
+  --lift-sm:          0 1px 2px rgb(0 0 0 / .05);
+  --lift:             0 1px 2px rgb(0 0 0 / .04), 0 10px 30px rgb(0 0 0 / .06);
+  --lift-lg:          0 2px 6px rgb(0 0 0 / .06), 0 24px 64px rgb(0 0 0 / .18);
+}
+
+/* ── الداكن — يتبع نظام الجهاز — 33 رمزًا ─────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:            #191817;
+    --panel:            #211f1d;
+    --sand:             #232120;
+    --edge:             #3a352f;
+    --edge-soft:        #2c2926;
+    --gold:             #b9a88a;
+    --gold-ink:         #cdbb96;
+    --gold-wash:        #23211d;
+    --ink:              #ede8df;
+    --ink-soft:         #a29a8e;
+    --stone:            #7d766c;
+    --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.20'/></svg>");
+    --code-bg:          #1c1b19;
+    --signal-ok:        #4fd17d;
+    --signal-ok-wash:   #14271b;
+    --signal-warn:      #f5a742;
+    --signal-warn-wash: #2c2113;
+    --signal-bad:       #ff7a7a;
+    --signal-bad-wash:  #2e1a1a;
+    --signal-idle:      #a29a8e;
+    --signal-idle-wash: #242220;
+    /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
+    --accent-gold:        #cdbb96;
+    --accent-gold-wash:   #23211d;
+    --accent-clay:        #dd9b76;
+    --accent-clay-wash:   #2a2019;
+    --accent-olive:       #adbc78;
+    --accent-olive-wash:  #222417;
+    --accent-teal:        #79c4bd;
+    --accent-teal-wash:   #172624;
+    --accent-indigo:      #a3aedd;
+    --accent-indigo-wash: #1e2130;
+    --accent-plum:        #cf9ac0;
+    --accent-plum-wash:   #2a1e28;
+  }
+}
+
+/* ── الفاتح — اختيارٌ صريح يغلب النظام — 33 رمزًا ─────────────────────────────── */
+:root[data-theme="light"] {
+  --paper:            #f6f6f4;
+  --panel:            #ffffff;
+  --sand:             #ece7df;
+  --edge:             #d6cdbe;
+  --edge-soft:        #e6e0d6;
+  --gold:             #b9a88a;
+  --gold-ink:         #7a6647;
+  --gold-wash:        #f2ede4;
+  --ink:              #2a2a2a;
+  --ink-soft:         #6e675d;
+  --stone:            #8b847a;
+  --code-bg:          #fbfaf8;
+  --signal-ok:        #0f7b3e;
+  --signal-ok-wash:   #e8f6ec;
+  --signal-warn:      #b45309;
+  --signal-warn-wash: #fef4e8;
+  --signal-bad:       #c62828;
+  --signal-bad-wash:  #fdeaea;
+  --signal-idle:      #6e675d;
+  --signal-idle-wash: #eeece7;
+  /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
+  --accent-gold:        #7a6647;
+  --accent-gold-wash:   #f2ede4;
+  --accent-clay:        #9a5b3f;
+  --accent-clay-wash:   #f7ece7;
+  --accent-olive:       #5d6b35;
+  --accent-olive-wash:  #eff1e6;
+  --accent-teal:        #2f6b66;
+  --accent-teal-wash:   #e9f1f0;
+  --accent-indigo:      #4a5580;
+  --accent-indigo-wash: #eceef4;
+  --accent-plum:        #74476b;
+  --accent-plum-wash:   #f3eaf1;
+  --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.28'/></svg>");
+}
+
+/* ── الداكن — اختيارٌ صريح يغلب النظام — 33 رمزًا ─────────────────────────────── */
+:root[data-theme="dark"] {
+  --paper:            #191817;
+  --panel:            #211f1d;
+  --sand:             #232120;
+  --edge:             #3a352f;
+  --edge-soft:        #2c2926;
+  --gold:             #b9a88a;
+  --gold-ink:         #cdbb96;
+  --gold-wash:        #23211d;
+  --ink:              #ede8df;
+  --ink-soft:         #a29a8e;
+  --stone:            #7d766c;
+  --code-bg:          #1c1b19;
+  --signal-ok:        #4fd17d;
+  --signal-ok-wash:   #14271b;
+  --signal-warn:      #f5a742;
+  --signal-warn-wash: #2c2113;
+  --signal-bad:       #ff7a7a;
+  --signal-bad-wash:  #2e1a1a;
+  --signal-idle:      #a29a8e;
+  --signal-idle-wash: #242220;
+  /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
+  --accent-gold:        #cdbb96;
+  --accent-gold-wash:   #23211d;
+  --accent-clay:        #dd9b76;
+  --accent-clay-wash:   #2a2019;
+  --accent-olive:       #adbc78;
+  --accent-olive-wash:  #222417;
+  --accent-teal:        #79c4bd;
+  --accent-teal-wash:   #172624;
+  --accent-indigo:      #a3aedd;
+  --accent-indigo-wash: #1e2130;
+  --accent-plum:        #cf9ac0;
+  --accent-plum-wash:   #2a1e28;
+  --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.20'/></svg>");
+}

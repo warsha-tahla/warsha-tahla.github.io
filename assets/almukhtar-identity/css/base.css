@@ -1,0 +1,168 @@
+/* Base styles for font faces, page container, and chamfer polygon utilities (all classes prefixed with mz-). */
+
+/* IBM Plex Sans Arabic and IBM Plex Mono webfont definitions with local woff2 sources under OFL license. */
+
+@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 300; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/plex-arabic-300.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 400; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/plex-arabic-400.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 600; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/plex-arabic-600.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 700; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/plex-arabic-700.woff2') format('woff2'); }
+
+@font-face { font-family: 'IBM Plex Mono'; font-weight: 300; font-style: normal; font-display: swap;
+             src: url('../fonts/mono/plex-mono-300.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-weight: 400; font-style: normal; font-display: swap;
+             src: url('../fonts/mono/plex-mono-400.woff2') format('woff2'); }
+@font-face { font-family: 'IBM Plex Mono'; font-weight: 500; font-style: normal; font-display: swap;
+             src: url('../fonts/mono/plex-mono-500.woff2') format('woff2'); }
+
+/* ── الأساسات ─────────────────────────────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--face-ar);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+/* Mono class for machine tokens, numbers, and paths; never used for narrative Arabic body text. */
+.mz-code {
+  font-family: var(--face-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+}
+
+/* الوسم الصغير — بالعربيّة، بلا تباعد حروف: التباعد يقطع وصل العربيّة فيفسدها */
+.mz-anno {
+  font-family: var(--face-ar);
+  font-size: var(--size-xs);
+  letter-spacing: 0;
+  color: var(--stone);
+}
+
+/* A declared direction must isolate, or a run starting with punctuation borrows the paragraph's. */
+[dir="ltr"], [dir="rtl"] { unicode-bidi: isolate; }
+
+a { color: var(--gold-ink); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { color: var(--ink); }
+
+/* Default focus ring styling using outline offset. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold-ink);
+  outline-offset: 3px;
+}
+
+/* Fixed, not on the element: a ground sized to the viewport covers a page of fourteen screens — AM-18. */
+.mz-sheet {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+.mz-sheet::before,
+.mz-sheet::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* One tile per 26s: fast enough that the eye catches it without the page feeling restless. */
+.mz-sheet::before {
+  z-index: -2;
+  background-image: var(--girih);
+  background-size: 132px 132px;
+  animation: mz-girih-drift 26s linear infinite;
+}
+
+/* A centred vignette, not a fade from the top: the layer is now the viewport, so a top anchor would blank every screen below the first. */
+.mz-sheet::after {
+  z-index: -1;
+  background: radial-gradient(ellipse 92% 76% at 50% 50%, color-mix(in srgb, var(--paper) 74%, transparent) 0%, transparent 84%);
+}
+
+.mz-sheet > * { position: relative; }
+
+/* Grid, two gold glows, then girih: ornament is ground, never subject. */
+.mz-sheet--layered::before {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--edge) 42%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--edge) 42%, transparent) 1px, transparent 1px),
+    var(--girih);
+  background-size: 44px 44px, 44px 44px, 132px 132px;
+  animation: mz-ground-drift 26s linear infinite;
+}
+
+/* A period coprime with the drift, so the two never resynchronise into one visible beat. */
+.mz-sheet--layered::after {
+  background:
+    radial-gradient(ellipse 88% 72% at 50% 50%, color-mix(in srgb, var(--paper) 68%, transparent) 0%, transparent 82%),
+    radial-gradient(circle at 86% 4%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 34%),
+    radial-gradient(circle at 8% 92%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 30%);
+  animation: mz-ground-breathe 7s ease-in-out infinite;
+}
+
+/* One tile of travel each, so every layer's last frame is its first frame and no seam can appear. */
+@keyframes mz-girih-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 132px 132px; }
+}
+@keyframes mz-ground-drift {
+  from { background-position: 0 0, 0 0, 0 0; }
+  to   { background-position: 44px 44px, 44px 44px, 132px 132px; }
+}
+
+/* Only the glows move; the wash is the first layer and stays anchored to the reading area. */
+@keyframes mz-ground-breathe {
+  0%, 100% { background-size: auto, 100% 100%, 100% 100%; opacity: 1; }
+  50%      { background-size: auto, 138% 138%, 128% 128%; opacity: .74; }
+}
+
+/* Opt-in: not every sheet is a head plus a body that fills the rest. */
+.mz-sheet--column { display: flex; flex-direction: column; }
+
+/* A document foot stays in view, while the sheet reserves the space it occupies. */
+.mz-sheet--column:has(> .mz-footer) {
+  --mz-footer-reserve: 4rem;
+  padding-block-end: var(--mz-footer-reserve);
+}
+.mz-sheet--column > .mz-footer {
+  position: fixed;
+  z-index: 19;
+  inset-inline: 0;
+  inset-block-end: 0;
+  inline-size: 100%;
+}
+
+@media (max-width: 760px) {
+  .mz-sheet--column:has(> .mz-footer) { --mz-footer-reserve: 4.25rem; }
+}
+
+/* Chamfer polygon clip-path enforcing 45-degree corner bevels instead of border-radius. */
+.mz-chamfer {
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+
+/* عرض الصفحة — عمودٌ واحد بهامشٍ من الدليل */
+.mz-page {
+  width: min(100% - 1.5rem, 1480px);
+  margin-inline: auto;
+}
+
+/* An author `display` outranks the UA's `[hidden]`, so it is honoured here once — AM-56. */
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
