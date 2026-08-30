@@ -1,34 +1,19 @@
-* { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
+/* The identity owns the page ground and type. The public desktop slice adds only its fixed canvas and reading rhythm. */
 body {
   min-width: 1100px;
-  margin: 0;
-  color: var(--ink);
-  background: var(--paper);
-  font-family: var(--face-ar);
   line-height: 1.6;
 }
-
-a { color: inherit; text-decoration: none; }
 
 /* The identity's .mz-topbar-frame already gives the three-column contract, the centring and the
    rail height, and .mz-topbar already draws the rule beneath. Only the page's content width is ours. */
 .site-header { width: min(1380px, calc(100% - 96px)); }
 
-.wordmark { gap: 13px; width: max-content; }
-
-.wordmark-mark {
-  width: 40px;
-  height: 40px;
-  display: block;
-}
-.wordmark > span:last-child { font-family: var(--face-ar); font-size: 1.25rem; }
-
-nav { display: flex; gap: 34px; font-size: .86rem; color: var(--ink-soft); }
-nav a { transition: color 160ms ease; }
-nav a:hover { color: var(--gold-ink); }
+/* The identity centres the rail slot; this page supplies only the landing-page links and their spacing. */
+.site-header nav { display: flex; gap: 34px; font-size: .86rem; color: var(--ink-soft); }
+.site-header nav a { color: inherit; text-decoration: none; transition: color 160ms ease; }
+.site-header nav a:hover { color: var(--gold-ink); }
 
 .hero {
   width: min(1380px, calc(100% - 96px));
@@ -74,7 +59,7 @@ h1 em, .closing h2 em { color: var(--gold-ink); font-style: normal; }
   font-weight: 700;
   transition: transform 160ms ease, background 160ms ease;
 }
-/* No darker-than-ink token exists in the identity, so the hover lifts and does not recolour — see the note in .docs. */
+/* No darker-than-ink token exists in the identity, so the hover lifts and does not recolour. */
 .primary-action:hover { transform: translateY(-2px); }
 .quiet-note { color: var(--ink-soft); font-size: .72rem; line-height: 1.5; }
 
@@ -227,21 +212,16 @@ h1 em, .closing h2 em { color: var(--gold-ink); font-style: normal; }
 .closing h2 { margin: 0; text-align: center; font-family: var(--face-ar); font-size: 5.4rem; line-height: .98; font-weight: 600; }
 .closing h2 em { color: var(--ink); }
 
-.footer-frame { width: min(1380px, calc(100% - 96px)); height: 130px; margin: 0 auto; color: var(--ink-soft); font-size: .72rem; }
-.footer-frame > p:nth-child(2) { justify-self: center; text-align: center; } .footer-frame > p:last-child { text-align: left; }
-.footer-mark .wordmark-mark { width: 32px; height: 32px; }
+/* The identity owns the footer grid and anatomy; the public page adds only its shared width and breathing room. */
+.footer-frame { width: min(1380px, calc(100% - 96px)); min-height: 112px; margin: 0 auto; color: var(--ink-soft); font-size: .72rem; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
 }
 
-/* The header carries what the workshop declares about itself: its version and when it last moved. */
-/* The rail is 68px: it holds one short token, not a sentence. The date lives in the footer. */
-.build-version { font-family: var(--face-mono); font-size: .72rem; color: var(--gold-ink); }
-
-/* A privacy policy has to be findable — by a reader and by a reviewer — so it is a link of its own,
-   in the page's own direction, not a fragment inside the ltr machine stamp. */
-.footer-legal { margin: 0; font-size: .82rem; }
-.footer-legal a { border-bottom: 1px solid var(--gold); padding-bottom: 2px; transition: color 160ms ease; }
-.footer-legal a:hover { color: var(--gold-ink); }
+/* The identity has no secondary document link inside .mz-footer-id; the public surface keeps it beside its owner. */
+.footer-legal { margin-inline-start: .5rem; padding-inline-start: .9rem; border-inline-start: 1px solid var(--edge); font-size: .82rem; }
+.footer-legal:hover { color: var(--gold-ink); }
+/* The identity footer has no language switch; legal pages place one after the document link without changing the grid. */
+.footer-language { padding-inline-start: .8rem; color: var(--gold-ink); font-size: .76rem; }

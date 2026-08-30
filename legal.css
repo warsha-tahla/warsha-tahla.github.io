@@ -1,33 +1,42 @@
-/* Document pages: one readable column on the workshop's paper. Tokens only, never a literal colour. */
-.legal { max-width: 780px; margin: 0 auto; padding: 96px max(28px, 6vw) 120px; }
+/* The identity supplies the paper and type; the legal surface adds a deliberate document measure and vertical rhythm. */
+.legal { width: min(980px, calc(100% - 160px)); margin: 0 auto; padding: 104px 0 132px; counter-reset: legal-section; }
 
-.legal-head { border-bottom: 1px solid var(--edge); padding-bottom: 34px; margin-bottom: 54px; }
-.legal-head .section-kicker { color: var(--gold-ink); font-size: .74rem; letter-spacing: .08em; margin: 0 0 14px; }
-.legal-head h1 { font-family: var(--face-ar); font-size: 2.4rem; line-height: 1.35; margin: 0; }
-.legal-stamp { color: var(--ink-soft); font-size: .8rem; margin: 18px 0 0; }
+.legal-head { display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 26px; border-bottom: 1px solid var(--edge); padding-bottom: 38px; margin-bottom: 42px; }
+.legal-head > img { width: 72px; height: 72px; }
+.legal-head .section-kicker { color: var(--gold-ink); font-size: .74rem; letter-spacing: 0; margin: 0 0 8px; }
+.legal-head h1 { font-family: var(--face-ar); font-size: 3.25rem; font-weight: 600; line-height: 1.1; margin: 0; }
+.legal-stamp { align-self: stretch; display: flex; flex-direction: column; justify-content: center; margin: 0; padding-inline-start: 26px; border-inline-start: 1px solid var(--edge); color: var(--stone); font-family: var(--face-mono); font-size: .68rem; line-height: 1.8; }
+.legal-stamp time { color: var(--gold-ink); font-size: .78rem; }
+
+/* The identity has surfaces but no legal-document lead; this chamfer calls out the policy's scope before its clauses. */
+.legal-lead { margin: 0 0 74px; padding: 28px 32px; border-inline-start: 3px solid var(--gold); background: var(--gold-wash); clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); color: var(--ink) !important; font-size: 1.08rem !important; }
 
 .legal h2 {
+  counter-increment: legal-section;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: baseline;
   font-family: var(--face-ar);
-  font-size: 1.35rem;
-  margin: 54px 0 16px;
-  padding-inline-start: 16px;
-  border-inline-start: 3px solid var(--gold);
+  font-size: 1.45rem;
+  font-weight: 600;
+  margin: 64px 0 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--edge-soft);
 }
+.legal h2::before { content: counter(legal-section, decimal-leading-zero); color: var(--gold-ink); font-family: var(--face-mono); font-size: .66rem; font-weight: 400; }
 
-.legal p, .legal li { color: var(--ink-soft); line-height: 2; font-size: .97rem; }
+.legal p, .legal li { color: var(--ink-soft); line-height: 2; font-size: 1rem; }
 .legal strong { color: var(--ink); font-weight: 700; }
-.legal ul { padding-inline-start: 22px; margin: 14px 0; }
-.legal li { margin: 8px 0; }
-.legal code { font-family: var(--face-mono); background: var(--code-bg); padding: 2px 7px; font-size: .86em; }
-.legal a { color: var(--gold-ink); }
+.legal ul { padding-inline-start: 26px; margin: 18px 0; }
+.legal li { margin: 10px 0; padding-inline-start: 6px; }
+.legal li::marker { color: var(--gold); }
+.legal code { font-family: var(--face-mono); background: var(--code-bg); padding: 3px 8px; font-size: .86em; }
+.legal a { color: var(--gold-ink); text-decoration-thickness: 1px; text-underline-offset: 4px; }
 
-/* The scope table is what a reviewer reads first, so it is the one thing here that is not prose. */
-.legal-scopes { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: .9rem; }
-.legal-scopes th, .legal-scopes td { text-align: start; padding: 12px 14px; border-bottom: 1px solid var(--edge-soft); }
-.legal-scopes th { color: var(--ink); font-weight: 700; border-bottom-color: var(--edge); }
+/* The identity supplies .mz-surface; the policy adds only the two-column scope table's reading geometry. */
+.legal-scopes { width: 100%; border-collapse: separate; border-spacing: 0; margin: 24px 0 30px; font-size: .9rem; }
+.legal-scopes th, .legal-scopes td { text-align: start; padding: 16px 18px; border-bottom: 1px solid var(--edge-soft); }
+.legal-scopes tr:last-child td { border-bottom: 0; }
+.legal-scopes th { color: var(--ink); background: var(--gold-wash); font-weight: 700; border-bottom-color: var(--edge); }
 .legal-scopes td { color: var(--ink-soft); }
 .legal-scopes code { background: none; padding: 0; color: var(--gold-ink); }
-
-/* The English half is a mirror, not a second document: same rhythm, opposite direction. */
-.legal-en { margin-top: 96px; padding-top: 54px; border-top: 1px solid var(--edge); direction: ltr; text-align: left; }
-.legal-en h2 { padding-inline-start: 0; padding-left: 16px; border-inline-start: 0; border-left: 3px solid var(--gold); }
