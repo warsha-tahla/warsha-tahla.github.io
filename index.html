@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ورشة طحلة — منصّة شخصية تجمع أدوات جهاز المطوّر وقواعده وسطوحه في مكان واحد.">
+    <meta name="description" content="ورشة طحلة — أداة شخصية صاغها مبرمج من خبرته اليومية لتساعده على رؤية العمل وإدارته من جهازه.">
     <meta name="theme-color" content="#ece7df">
-    <title>ورشة طحلة — مكانٌ واحد لما يعمل وما يجب وما يُرى</title>
+    <title>ورشة طحلة — أداة صنعتها الحاجة وصقلها العمل</title>
     <link rel="icon" type="image/svg+xml" href="./assets/almukhtar-identity/marks/mark.svg">
     <link rel="stylesheet" href="./assets/almukhtar-identity/css/tokens.css">
     <link rel="stylesheet" href="./assets/almukhtar-identity/css/base.css">
@@ -15,188 +15,116 @@
   <body class="mz-sheet">
     <header class="mz-topbar mz-topbar--flush">
       <div class="site-header mz-topbar-frame">
-      <a class="wordmark mz-brand" href="#top" aria-label="ورشة طحلة — الصفحة الرئيسية">
-        <img class="wordmark-mark" src="./assets/almukhtar-identity/marks/mark.svg" alt="" width="40" height="40">
-        <span>ورشة طحلة</span>
-      </a>
-      <nav class="mz-topbar-center" aria-label="التنقّل الرئيسي">
-        <a href="#purpose">لماذا الورشة؟</a>
-        <a href="#goals">الأهداف</a>
-        <a href="#architecture">البنية</a>
-      </nav>
-      <div class="mz-topbar-end" aria-hidden="true"></div>
+        <a class="mz-brand" href="#top" aria-label="ورشة طحلة — الصفحة الرئيسية">
+          <img src="./assets/almukhtar-identity/marks/mark.svg" alt="" width="40" height="40">
+          <span>ورشة طحلة</span>
+        </a>
+        <nav class="mz-topbar-center" aria-label="التنقّل الرئيسي">
+          <a href="#story">القصة</a>
+          <a href="#work">ما تفعله</a>
+          <a href="#principles">مبادئها</a>
+        </nav>
+        <div class="mz-topbar-end" aria-hidden="true"></div>
       </div>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span></span> منصّة شخصية · لجهاز مطوّر واحد</p>
-          <h1 id="hero-title">مكانٌ واحد<br>لما <em>يعمل</em>، وما يجب،<br>وما يُرى.</h1>
-          <p class="hero-lead">ورشة طحلة تجمع أدوات الجهاز وقواعد العمل وسطوح المتابعة في نظامٍ محليّ واحد؛ كي لا تضيع الحقيقة بين طرفيّةٍ مفتوحة، ولوحةٍ بعيدة، وذاكرةٍ لا تُقاس.</p>
+          <p class="eyebrow"><span></span> أداة شخصية · صنعتها الحاجة</p>
+          <h1 id="hero-title">حين صار العملُ<br>أكبرَ من <em>الذاكرة،</em><br>وُلدت الورشة.</h1>
+          <p class="hero-lead">ورشة طحلة أداة بناها مبرمج لنفسه، من عصارة خبرته وتفاصيل أيامه؛ لتجمع ما يتناثر أثناء العمل، وتحوّل الأسئلة المتكررة إلى إجابات يراها أمامه.</p>
           <div class="hero-actions">
-            <a class="primary-action" href="#goals">اكتشف الورشة <span aria-hidden="true">↓</span></a>
-            <span class="quiet-note">لا سحابة تديرها<br>ولا لوحة تستبدل جهازك</span>
+            <a class="primary-action" href="#story">ابدأ الحكاية <span aria-hidden="true">↓</span></a>
+            <span class="quiet-note">ليست منصّة تراقب العمل؛<br>إنها أداة تعمل إلى جواره.</span>
           </div>
         </div>
 
-        <div class="workshop-map" role="img" aria-label="مخطط يضع ورشة طحلة في مركز أربع طبقات: الأساسات، السطوح والعمليات، الالتقاط والتجهيز، والمختبر">
-          <div class="map-grid" aria-hidden="true"></div>
-          <span class="map-label label-top">الأساسات</span>
-          <span class="map-label label-right">السطوح والعمليات</span>
-          <span class="map-label label-bottom">الالتقاط والتجهيز</span>
-          <span class="map-label label-left">المختبر</span>
-          <div class="orbit orbit-outer" aria-hidden="true">
-            <i class="node n1"></i><i class="node n2"></i><i class="node n3"></i><i class="node n4"></i>
-          </div>
-          <div class="orbit orbit-inner" aria-hidden="true">
-            <i class="node n5"></i><i class="node n6"></i><i class="node n7"></i><i class="node n8"></i>
-          </div>
-          <div class="map-core">
-            <span class="core-kicker">المصدر المحلي</span>
+        <div class="workshop-piece" role="img" aria-label="دورة عمل تبدأ بالسؤال، تقرأ الواقع، ثم تصنع إجابة واضحة">
+          <div class="piece-grid" aria-hidden="true"></div>
+          <span class="piece-label label-question">سؤالٌ يتكرّر</span>
+          <span class="piece-label label-reality">واقعٌ يُقرأ</span>
+          <span class="piece-label label-answer">جوابٌ يُرى</span>
+          <div class="piece-orbit orbit-outer" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="piece-orbit orbit-inner" aria-hidden="true"></div>
+          <div class="piece-core">
+            <img src="./assets/almukhtar-identity/marks/mark.svg" alt="" width="86" height="86">
             <strong>ورشة<br>طحلة</strong>
-            <small>حقيقةٌ واحدة</small>
+            <small>صنعةٌ تتعلّم من صاحبها</small>
           </div>
-          <span class="map-count count-one"><b>22</b> وحدة</span>
-          <span class="map-count count-two"><b>4</b> طبقات</span>
-          <span class="map-count count-three"><b>1</b> جهاز</span>
+          <p class="piece-note">لا تبدأ من ميزةٍ للبيع.<br>تبدأ من مشقّةٍ تستحق أن تنتهي.</p>
         </div>
       </section>
 
-      <section class="manifesto" id="purpose" aria-labelledby="purpose-title">
-        <div class="section-number">01 / المعنى</div>
-        <div class="manifesto-copy">
-          <p class="section-kicker">لماذا «طُحلة»؟</p>
-          <h2 id="purpose-title">الرماديّ بين الأبيض والأسود.</h2>
-          <p>الطُّحلة لون الرماد: لا ينتمي إلى هذا الطرف ولا ذاك. والورشة كذلك؛ تخدم أكثر من نطاق عمل من غير أن تصبح جزءًا من أيٍّ منها. ما يخصّ جانبًا يُعزل في نطاقه، وما ينفع الجميع يبقى في القلب.</p>
+      <section class="story" id="story" aria-labelledby="story-title">
+        <p class="section-number">01 / المنشأ</p>
+        <div class="story-copy">
+          <p class="section-kicker">كيف بدأت؟</p>
+          <h2 id="story-title">من احتكاك اليد بالعمل.</h2>
+          <p>في يوم المبرمج أشياء صغيرة تسرق وقتًا كبيرًا: حالةٌ يبحث عنها، قاعدةٌ يحاول تذكّرها، وأداةٌ تخبره نصف الحقيقة. لم تبدأ ورشة طحلة كفكرةٍ على سبورة؛ بدأت كلما قال صاحبها: <strong>لا ينبغي أن أفعل هذا بالطريقة نفسها مرةً أخرى.</strong></p>
         </div>
         <blockquote>
           <span aria-hidden="true">“</span>
-          <p>الآلة أمامك هي الأصل.<br>وكلّ ما عداها نسخةٌ منها.</p>
+          <p>كلّ تعبٍ متكرر<br>هو أداةٌ لم تُبنَ بعد.</p>
         </blockquote>
       </section>
 
-      <section class="goals" id="goals" aria-labelledby="goals-title">
+      <section class="craft" aria-labelledby="craft-title">
+        <div class="craft-title">
+          <p class="section-kicker">عصارة الصنعة</p>
+          <h2 id="craft-title">لم تُكتب دفعةً واحدة.<br>نمت مع كلّ يوم عمل.</h2>
+        </div>
+        <div class="craft-trail">
+          <article><span>01</span><h3>مشقّةٌ ظهرت</h3><p>شيءٌ يستهلك الانتباه أو يقطع سير العمل.</p></article>
+          <article><span>02</span><h3>حلٌّ صغيرٌ أُثبت</h3><p>أقصر طريقٍ يعيد للمبرمج وقته وتركيزه.</p></article>
+          <article><span>03</span><h3>خبرةٌ بقيت</h3><p>ما نجح صار قدرةً دائمة بدل أن يبقى حيلةً عابرة.</p></article>
+        </div>
+      </section>
+
+      <section class="work" id="work" aria-labelledby="work-title">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">الثلاثة التي بدأت منها</p>
-            <h2 id="goals-title">أسئلةٌ بسيطة.<br>نظامٌ كامل للإجابة.</h2>
+            <p class="section-kicker">ما الذي تفعله؟</p>
+            <h2 id="work-title">تضع العملَ<br>في متناول صاحبه.</h2>
           </div>
-          <p>بدل ثلاثين استدعاءً للحالة، وعشرات الألسنة المفتوحة، ومعلومةٍ تتغير قبل أن تصل إليها.</p>
+          <p>لا تستبدل خبرة المبرمج، بل تمنحه سطحًا يرى عليه ما يعرفه وما يحدث فعلًا وما يحتاج إلى قراره.</p>
         </div>
-
-        <div class="goal-list">
-          <article class="goal-card goal-active">
-            <span class="goal-index">01</span>
-            <div class="goal-icon pulse-icon" aria-hidden="true"><i></i></div>
-            <h3>ما الذي يعمل الآن؟</h3>
-            <p>الخدمات والحاويات والمنافذ والعمليات وحالة الجهاز، مقروءةً من الواقع لا من تقريرٍ قديم.</p>
-            <span class="goal-tag">الحالة الحيّة</span>
+        <div class="work-list">
+          <article>
+            <span class="work-index">01</span>
+            <div class="work-glyph glyph-pulse" aria-hidden="true"><i></i></div>
+            <h3>تقرأ الواقع</h3>
+            <p>تجمع إشارات الجهاز والعمل الجاري، وتجيب عن سؤال: ما الذي يحدث الآن؟</p>
+            <strong>حقيقةٌ حيّة</strong>
           </article>
-          <article class="goal-card">
-            <span class="goal-index">02</span>
-            <div class="goal-icon rule-icon" aria-hidden="true"><i></i><i></i><i></i></div>
-            <h3>ما الذي يجب أن ألتزم به؟</h3>
-            <p>قاعدةٌ واحدة مكتوبة مرة، مفهرسة وقابلة للبحث، تصل إلى كل أداة تعمل على الجهاز.</p>
-            <span class="goal-tag">قواعدٌ نافذة</span>
+          <article>
+            <span class="work-index">02</span>
+            <div class="work-glyph glyph-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+            <h3>تحفظ المعرفة</h3>
+            <p>تحوّل القواعد والخبرة المتراكمة إلى شيءٍ حاضر وقت الحاجة، لا ذكرى مبعثرة.</p>
+            <strong>ذاكرةٌ نافذة</strong>
           </article>
-          <article class="goal-card">
-            <span class="goal-index">03</span>
-            <div class="goal-icon view-icon" aria-hidden="true"><i></i></div>
-            <h3>كيف يبدو كل ذلك؟</h3>
-            <p>سطوحٌ هادئة تحمل هويةً واحدة، وتحوّل ما في الطرفية إلى قرارٍ تستطيع رؤيته ولمسه.</p>
-            <span class="goal-tag">سطوحٌ مرئيّة</span>
+          <article>
+            <span class="work-index">03</span>
+            <div class="work-glyph glyph-frame" aria-hidden="true"><i></i></div>
+            <h3>تُظهر القرار</h3>
+            <p>تنقل ما يختبئ في الأوامر والملفات إلى سطحٍ هادئ يمكن فهمه والتصرّف منه.</p>
+            <strong>رؤيةٌ قابلة للفعل</strong>
           </article>
         </div>
       </section>
 
-      <section class="architecture" id="architecture" aria-labelledby="architecture-title">
-        <div class="architecture-copy">
-          <p class="section-kicker">البنية</p>
-          <h2 id="architecture-title">كلّ شيءٍ<br>في موضعه.</h2>
-          <p>وحداتٌ مستقلة في إصدارها واختبارها، تجتمع داخل مساحة عمل واحدة. الدليل ليس قائمة مشروعات؛ بل حدود مسؤولية تمنع الأدوات من ابتلاع البرامج، وتمنع البرامج من إعادة اختراع الأدوات.</p>
+      <section class="principles" id="principles" aria-labelledby="principles-title">
+        <div class="principles-head">
+          <p class="section-kicker">مبادئها</p>
+          <h2 id="principles-title">الأداة الجيّدة<br>تعرف حدودها.</h2>
+          <p>كلّ قرارٍ في الورشة يعود إلى ثلاث أفكار بسيطة تحميها من أن تصبح عبئًا جديدًا.</p>
         </div>
-        <ol class="layer-list">
-          <li>
-            <span class="layer-number">01</span>
-            <div><h3>الأساسات</h3><p>القدرات، الهوية، البيان، القواعد، والسجل الدائم.</p></div>
-            <span class="layer-count">5 وحدات</span>
-          </li>
-          <li>
-            <span class="layer-number">02</span>
-            <div><h3>السطوح والعمليات</h3><p>الأبواب التي تقرأ الجهاز وتعرضه وتدير ما عليه.</p></div>
-            <span class="layer-count">11 وحدة</span>
-          </li>
-          <li>
-            <span class="layer-number">03</span>
-            <div><h3>الالتقاط والتجهيز</h3><p>ما يمسك الأثر، ويحفظه، ويهيّئ مساحة العمل.</p></div>
-            <span class="layer-count">5 وحدات</span>
-          </li>
-          <li>
-            <span class="layer-number">04</span>
-            <div><h3>المختبر</h3><p>مساحة لإثبات الفكرة قبل أن تستحق بناء نظامٍ دائم.</p></div>
-            <span class="layer-count">1 إثبات</span>
-          </li>
-        </ol>
-      </section>
-
-      <section class="catalog" id="units" aria-labelledby="units-title">
-        <div class="catalog-intro">
-          <div>
-            <p class="section-kicker">علامات الوحدات</p>
-            <h2 id="units-title">اثنتان وعشرون وحدة.<br>عائلةٌ بصريّة واحدة.</h2>
-          </div>
-          <p>لكلّ وحدة علامةٌ تميّزها داخل الورشة. تُعرض العلامات ضمن طبقاتها الأربع من غير نشر أسماء المشروعات أو تفاصيلها الخاصة.</p>
+        <div class="principle-list">
+          <article><span>01</span><div><h3>الجهاز هو الأصل</h3><p>تعمل بالقرب من بيانات صاحبها وأدواته، حيث تقع الحقيقة فعلًا.</p></div></article>
+          <article><span>02</span><div><h3>يُقاس، لا يُفترض</h3><p>تسأل الواقع قبل أن تصف الحالة، وتعرض الدليل قبل الادعاء.</p></div></article>
+          <article><span>03</span><div><h3>الإنسان صاحب القرار</h3><p>تختصر الطريق وتكشف الصورة؛ ولا تنتزع الحكم ممّن يعرف عمله.</p></div></article>
         </div>
-        <section class="catalog-group" aria-labelledby="group-foundations">
-          <header class="catalog-group-head"><h3 id="group-foundations">الأساسات</h3><span>5 وحدات</span></header>
-          <div class="unit-grid">
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-be072652.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-e443627b.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-c4e18a2d.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-c4334df8.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-9d3b1112.svg" alt="" width="64" height="64"></article>
-          </div>
-        </section>
-        <section class="catalog-group" aria-labelledby="group-surfaces">
-          <header class="catalog-group-head"><h3 id="group-surfaces">السطوح والعمليات</h3><span>11 وحدة</span></header>
-          <div class="unit-grid">
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-a38f58fe.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-5771ba4a.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-f7db938c.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-7162ca28.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-c38132c9.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-6921cab9.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-20ee0eaa.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-edb9b825.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-caeee334.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-713eb8a1.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-111daee1.svg" alt="" width="64" height="64"></article>
-          </div>
-        </section>
-        <section class="catalog-group" aria-labelledby="group-capture">
-          <header class="catalog-group-head"><h3 id="group-capture">الالتقاط والتجهيز</h3><span>5 وحدات</span></header>
-          <div class="unit-grid">
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-99803c95.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-c2502d0d.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-137543b7.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-c6b5afe5.svg" alt="" width="64" height="64"></article>
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-2e964afe.svg" alt="" width="64" height="64"></article>
-          </div>
-        </section>
-        <section class="catalog-group" aria-labelledby="group-laboratory">
-          <header class="catalog-group-head"><h3 id="group-laboratory">المختبر</h3><span>1 إثبات</span></header>
-          <div class="unit-grid">
-            <article class="unit-card mz-surface"><img src="./assets/almukhtar-identity/marks/mark-280bc68c.svg" alt="" width="64" height="64"></article>
-          </div>
-        </section>
-      </section>
-
-
-      <section class="principles" aria-label="مبادئ الورشة">
-        <article><span>محليّ أولًا</span><h3>الجهاز ليس طرفًا.<br>إنه موطن النظام.</h3></article>
-        <article><span>يُقاس لا يُفترض</span><h3>الحالة تُقرأ من الكود<br>والاختبار والعملية الحيّة.</h3></article>
-        <article><span>محايدٌ بالنطاق</span><h3>ما يخدم جانبًا يُعزل،<br>ولا يلوّن قلب الورشة.</h3></article>
       </section>
 
       <section class="voice" aria-labelledby="voice-title">
@@ -204,40 +132,32 @@
           <img src="./assets/almukhtar-identity/marks/mark.svg" alt="" width="88" height="88">
           <div>
             <p class="section-kicker">الختم الناطق</p>
-            <h2 id="voice-title">صوتُ الورشة.</h2>
+            <h2 id="voice-title">الصنعة لها صوت.</h2>
           </div>
-          <p>ما تقوله الورشة عن طريقتها، مأخوذٌ من سجلّ صوتها نفسه لا من نسخةٍ كُتبت لهذه الصفحة.</p>
+          <p>لا تتحدث الورشة كمنتجٍ كامل؛ بل كعملٍ حيّ يترك كلّ يومٍ أفضل ممّا وجده.</p>
         </div>
         <div class="voice-mottos">
-        <!-- voice:start -->
-          <blockquote class="voice-motto">
-            <span class="voice-index" dir="ltr">01</span>
-            <p>البساطة قوّة.</p>
-            <cite>شعار ورشة طحلة · يكتبه صاحب الورشة</cite>
-          </blockquote>
-          <blockquote class="voice-motto">
-            <span class="voice-index" dir="ltr">02</span>
-            <p>اترك كلّ مشروعٍ أفضلَ ممّا وجدتَه.</p>
-            <cite>شعار ورشة طحلة · يكتبه صاحب الورشة</cite>
-          </blockquote>
-        <!-- voice:end -->
+          <blockquote><span dir="ltr">01</span><p>البساطة قوّة.</p><cite>مبدأٌ في ورشة طحلة</cite></blockquote>
+          <blockquote><span dir="ltr">02</span><p>اترك كلّ مشروعٍ أفضلَ ممّا وجدته.</p><cite>عهدُ الصنعة</cite></blockquote>
         </div>
       </section>
 
       <section class="closing">
-        <p>ورشةٌ شخصية،<br>لكنّ فكرتها قابلةٌ للمشاركة.</p>
-        <h2>اجعل الآلة<br><em>تجيبك.</em></h2>
+        <p>أداةٌ شخصية،<br>بُنيت من عملٍ حقيقي.</p>
+        <h2>حين يتكرّر التعب،<br><em>تبدأ الصنعة.</em></h2>
+        <p>وكلّ ما تتعلّمه<br>يبقى جاهزًا لليوم التالي.</p>
       </section>
     </main>
 
     <footer class="mz-footer mz-footer--document mz-footer--flush">
       <div class="footer-frame mz-footer-frame">
-      <div class="mz-footer-id">
-        <a class="wordmark footer-mark" href="#top"><img class="wordmark-mark" src="./assets/almukhtar-identity/marks/mark.svg" alt="" width="32" height="32"><span>ورشة طحلة</span></a>
-        <a class="footer-legal" href="./privacy.html">سياسة الخصوصيّة</a>
-      </div>
-      <p class="mz-footer-seal">بُنيت لتجيب من الواقع، لا لتصفه من بعيد.</p>
-      <p class="mz-footer-stamp"><b dir="ltr">v1.0.0</b><span>آخر تحديث: 24 أغسطس 2026 · 11 ربيع الأوّل 1448</span></p>
+        <div class="mz-footer-id">
+          <a class="footer-brand" href="#top"><img src="./assets/almukhtar-identity/marks/mark.svg" alt="" width="32" height="32"><span>ورشة طحلة</span></a>
+          <a class="footer-legal" href="./privacy.html">سياسة الخصوصيّة</a>
+          <a class="footer-legal" href="./terms.html">سياسة الاستخدام</a>
+        </div>
+        <p class="mz-footer-seal">صُنعت لتعين صاحبها، لا لتستبدله.</p>
+        <p class="mz-footer-stamp"><b dir="ltr">v1.0.0</b><span>آخر تحديث: 24 أغسطس 2026 · 11 ربيع الأوّل 1448</span></p>
       </div>
     </footer>
   </body>
