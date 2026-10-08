@@ -5,7 +5,7 @@ const SITE = {
   // Formspree form id, the part after https://formspree.io/f/.
   form: 'xaeqeaen',
   // Cloudflare Web Analytics site token.
-  analytics: '',
+  analytics: '68ca8fdf30684b09a2eee9371e30aea6',
 };
 
 const english = document.documentElement.lang === 'en';
