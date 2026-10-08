@@ -3,7 +3,7 @@ const SITE = {
   // WhatsApp Business number in international form, digits only, e.g. '9665XXXXXXXX'.
   whatsapp: '966592104903',
   // Formspree form id, the part after https://formspree.io/f/.
-  form: '',
+  form: 'xaeqeaen',
   // Cloudflare Web Analytics site token.
   analytics: '',
 };
