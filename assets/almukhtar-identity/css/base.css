@@ -1,15 +1,44 @@
 /* Base styles for font faces, page container, and chamfer polygon utilities (all classes prefixed with mz-). */
+@import "patterns.css";
 
-/* IBM Plex Sans Arabic and IBM Plex Mono webfont definitions with local woff2 sources under OFL license. */
+/* Cairo (Arabic, one variable file per subset) and IBM Plex Mono webfont definitions with local woff2 sources under OFL license. */
 
-@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 300; font-style: normal; font-display: swap;
-             src: url('../fonts/arabic/plex-arabic-300.woff2') format('woff2'); }
-@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 400; font-style: normal; font-display: swap;
-             src: url('../fonts/arabic/plex-arabic-400.woff2') format('woff2'); }
-@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 600; font-style: normal; font-display: swap;
-             src: url('../fonts/arabic/plex-arabic-600.woff2') format('woff2'); }
-@font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 700; font-style: normal; font-display: swap;
-             src: url('../fonts/arabic/plex-arabic-700.woff2') format('woff2'); }
+@font-face { font-family: 'Cairo'; font-weight: 300; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-arabic.woff2') format('woff2');
+             unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1; }
+@font-face { font-family: 'Cairo'; font-weight: 300; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin.woff2') format('woff2');
+             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cairo'; font-weight: 300; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin-ext.woff2') format('woff2');
+             unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Cairo'; font-weight: 400; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-arabic.woff2') format('woff2');
+             unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1; }
+@font-face { font-family: 'Cairo'; font-weight: 400; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin.woff2') format('woff2');
+             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cairo'; font-weight: 400; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin-ext.woff2') format('woff2');
+             unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Cairo'; font-weight: 600; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-arabic.woff2') format('woff2');
+             unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1; }
+@font-face { font-family: 'Cairo'; font-weight: 600; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin.woff2') format('woff2');
+             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cairo'; font-weight: 600; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin-ext.woff2') format('woff2');
+             unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Cairo'; font-weight: 700; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-arabic.woff2') format('woff2');
+             unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1; }
+@font-face { font-family: 'Cairo'; font-weight: 700; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin.woff2') format('woff2');
+             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cairo'; font-weight: 700; font-style: normal; font-display: swap;
+             src: url('../fonts/arabic/cairo-latin-ext.woff2') format('woff2');
+             unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
 @font-face { font-family: 'IBM Plex Mono'; font-weight: 300; font-style: normal; font-display: swap;
              src: url('../fonts/mono/plex-mono-300.woff2') format('woff2'); }
@@ -18,7 +47,19 @@
 @font-face { font-family: 'IBM Plex Mono'; font-weight: 500; font-style: normal; font-display: swap;
              src: url('../fonts/mono/plex-mono-500.woff2') format('woff2'); }
 
+/* Amiri Quran 1.003 (OFL, fonts/quran/Amiri-OFL.txt) draws the Uthmani marks Cairo lacks; the range leaves out the ornate brackets U+FD3E-FD3F, so they stay in the body face — AM-105. */
+@font-face { font-family: 'Amiri Quran'; font-weight: 400; font-style: normal; font-display: swap;
+             src: url('../fonts/quran/AmiriQuran.woff2') format('woff2');
+             unicode-range: U+0000-FD3D, U+FD40-10FFFF; }
+
+/* The verse face is a family, not a value of the theme, so it lives beside its @font-face rather than in tokens.css. */
+:root { --face-quran: 'Amiri Quran', var(--face-ar); }
+
 /* ── الأساسات ─────────────────────────────────────────────────────────────── */
+
+:root {
+  line-height: 1.4;
+}
 
 * { box-sizing: border-box; }
 
@@ -26,27 +67,65 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--face-ar);
+  font-family: var(--font-sans, var(--font-arabic, var(--font-ar, var(--face-ar))));
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Headings — leading normalization */
+h1 {
+  line-height: 1.15;
+}
+
+h2 {
+  line-height: 1.2;
+}
+
+h3,
+h4 {
+  line-height: 1.25;
+}
+
+/* Paragraphs, card copies, leads and quotes — cohesive block leading */
+p,
+.mz-lede {
+  line-height: 1.4;
 }
 
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
+small { font-family: var(--font-sans, var(--font-arabic, var(--font-ar, var(--face-ar)))); letter-spacing: 0; }
 
-/* Mono class for machine tokens, numbers, and paths; never used for narrative Arabic body text. */
-.mz-code {
-  font-family: var(--face-mono);
+/* Mono metrics, tokens, code, and table numbers consolidated under --font-mono */
+code,
+kbd,
+samp,
+pre,
+.mz-code,
+.mz-token--code,
+.mz-num,
+table .mz-num {
+  font-family: var(--font-mono, var(--face-mono));
   direction: ltr;
   unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
 }
 
-/* الوسم الصغير — بالعربيّة، بلا تباعد حروف: التباعد يقطع وصل العربيّة فيفسدها */
+/* Numerical alignment: tabular-nums prevents jiggle and guarantees column alignment */
+.mz-metric-value,
+.mz-head-index,
+.mz-token--count,
+.mz-num,
+table .mz-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* الوسم الصغير — بالعربيّة، بنبرة ثانوية عالية التباين وبلا تباعد حروف */
 .mz-anno {
-  font-family: var(--face-ar);
+  font-family: var(--font-sans, var(--font-arabic, var(--font-ar, var(--face-ar))));
   font-size: var(--size-xs);
   letter-spacing: 0;
-  color: var(--stone);
+  color: var(--ink-soft);
 }
 
 /* A declared direction must isolate, or a run starting with punctuation borrows the paragraph's. */
@@ -61,90 +140,35 @@ a:hover { color: var(--ink); }
   outline-offset: 3px;
 }
 
-/* Fixed, not on the element: a ground sized to the viewport covers a page of fourteen screens — AM-18. */
-.mz-sheet {
-  position: relative;
-  min-height: 100vh;
-  isolation: isolate;
-}
-.mz-sheet::before,
-.mz-sheet::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* One tile per 26s: fast enough that the eye catches it without the page feeling restless. */
-.mz-sheet::before {
-  z-index: -2;
-  background-image: var(--girih);
-  background-size: 132px 132px;
-  animation: mz-girih-drift 26s linear infinite;
-}
-
-/* A centred vignette, not a fade from the top: the layer is now the viewport, so a top anchor would blank every screen below the first. */
-.mz-sheet::after {
-  z-index: -1;
-  background: radial-gradient(ellipse 92% 76% at 50% 50%, color-mix(in srgb, var(--paper) 74%, transparent) 0%, transparent 84%);
-}
-
-.mz-sheet > * { position: relative; }
-
-/* Grid, two gold glows, then girih: ornament is ground, never subject. */
-.mz-sheet--layered::before {
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--edge) 42%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--edge) 42%, transparent) 1px, transparent 1px),
-    var(--girih);
-  background-size: 44px 44px, 44px 44px, 132px 132px;
-  animation: mz-ground-drift 26s linear infinite;
-}
-
-/* A period coprime with the drift, so the two never resynchronise into one visible beat. */
-.mz-sheet--layered::after {
-  background:
-    radial-gradient(ellipse 88% 72% at 50% 50%, color-mix(in srgb, var(--paper) 68%, transparent) 0%, transparent 82%),
-    radial-gradient(circle at 86% 4%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 34%),
-    radial-gradient(circle at 8% 92%, color-mix(in srgb, var(--gold) 18%, transparent), transparent 30%);
-  animation: mz-ground-breathe 7s ease-in-out infinite;
-}
-
-/* One tile of travel each, so every layer's last frame is its first frame and no seam can appear. */
-@keyframes mz-girih-drift {
-  from { background-position: 0 0; }
-  to   { background-position: 132px 132px; }
-}
-@keyframes mz-ground-drift {
-  from { background-position: 0 0, 0 0, 0 0; }
-  to   { background-position: 44px 44px, 44px 44px, 132px 132px; }
-}
-
-/* Only the glows move; the wash is the first layer and stays anchored to the reading area. */
-@keyframes mz-ground-breathe {
-  0%, 100% { background-size: auto, 100% 100%, 100% 100%; opacity: 1; }
-  50%      { background-size: auto, 138% 138%, 128% 128%; opacity: .74; }
-}
-
-/* Opt-in: not every sheet is a head plus a body that fills the rest. */
-.mz-sheet--column { display: flex; flex-direction: column; }
-
-/* A document foot stays in view, while the sheet reserves the space it occupies. */
-.mz-sheet--column:has(> .mz-footer) {
-  --mz-footer-reserve: 4rem;
-  padding-block-end: var(--mz-footer-reserve);
-}
-.mz-sheet--column > .mz-footer {
-  position: fixed;
-  z-index: 19;
-  inset-inline: 0;
-  inset-block-end: 0;
-  inline-size: 100%;
-}
-
-@media (max-width: 760px) {
-  .mz-sheet--column:has(> .mz-footer) { --mz-footer-reserve: 4.25rem; }
-}
+/* ⟦SCENES⟧ — one row per unit in scenes/scenes.json; the guard reads both. An ink scene sets --scene, a painting --painting. */
+[data-scene="almukhtar-identity"] { --painting: url("../scenes/almukhtar-identity.webp"); --painting-dark: url("../scenes/almukhtar-identity.dark.webp"); }
+[data-scene="nuqud-al-maqrizi"] { --painting: url("../scenes/nuqud-al-maqrizi.webp"); --painting-dark: url("../scenes/nuqud-al-maqrizi.dark.webp"); }
+[data-scene="nabd-ibn-sina"] { --painting: url("../scenes/nabd-ibn-sina.webp"); --painting-dark: url("../scenes/nabd-ibn-sina.dark.webp"); }
+[data-scene="marsad-ibn-al-shatir"] { --painting: url("../scenes/marsad-ibn-al-shatir.webp"); --painting-dark: url("../scenes/marsad-ibn-al-shatir.dark.webp"); }
+[data-scene="taqdir-al-gamasy"] { --painting: url("../scenes/taqdir-al-gamasy.webp"); --painting-dark: url("../scenes/taqdir-al-gamasy.dark.webp"); }
+[data-scene="nizam-al-mulk"] { --painting: url("../scenes/nizam-al-mulk.webp"); --painting-dark: url("../scenes/nizam-al-mulk.dark.webp"); }
+[data-scene="barid-ibn-thabit"] { --painting: url("../scenes/barid-ibn-thabit.webp"); --painting-dark: url("../scenes/barid-ibn-thabit.dark.webp"); }
+[data-scene="kharaj-abi-yusuf"] { --painting: url("../scenes/kharaj-abi-yusuf.webp"); --painting-dark: url("../scenes/kharaj-abi-yusuf.dark.webp"); }
+[data-scene="hajib-al-mansur"] { --painting: url("../scenes/hajib-al-mansur.webp"); --painting-dark: url("../scenes/hajib-al-mansur.dark.webp"); }
+[data-scene="arkan-al-khwarizmi"] { --painting: url("../scenes/arkan-al-khwarizmi.webp"); --painting-dark: url("../scenes/arkan-al-khwarizmi.dark.webp"); }
+[data-scene="bayan-al-jahiz"] { --painting: url("../scenes/bayan-al-jahiz.webp"); --painting-dark: url("../scenes/bayan-al-jahiz.dark.webp"); }
+[data-scene="sijill-al-tabari"] { --painting: url("../scenes/sijill-al-tabari.webp"); --painting-dark: url("../scenes/sijill-al-tabari.dark.webp"); }
+[data-scene="ayn-al-yassin"] { --painting: url("../scenes/ayn-al-yassin.webp"); --painting-dark: url("../scenes/ayn-al-yassin.dark.webp"); }
+[data-scene="mashghal-al-jazari"] { --painting: url("../scenes/mashghal-al-jazari.webp"); --painting-dark: url("../scenes/mashghal-al-jazari.dark.webp"); }
+[data-scene="maktab-almukhtar"] { --painting: url("../scenes/maktab-almukhtar.webp"); --painting-dark: url("../scenes/maktab-almukhtar.dark.webp"); }
+[data-scene="samt-al-hasan-al-basri"] { --painting: url("../scenes/samt-al-hasan-al-basri.webp"); --painting-dark: url("../scenes/samt-al-hasan-al-basri.dark.webp"); }
+[data-scene="sirr-al-razi"] { --painting: url("../scenes/sirr-al-razi.webp"); --painting-dark: url("../scenes/sirr-al-razi.dark.webp"); }
+[data-scene="amwal-abi-ubayd"] { --painting: url("../scenes/amwal-abi-ubayd.webp"); --painting-dark: url("../scenes/amwal-abi-ubayd.dark.webp"); }
+[data-scene="wahat-ibn-hazm"] { --painting: url("../scenes/wahat-ibn-hazm.webp"); --painting-dark: url("../scenes/wahat-ibn-hazm.dark.webp"); }
+[data-scene="khayr-al-din-barbarosa"] { --painting: url("../scenes/khayr-al-din-barbarosa.webp"); --painting-dark: url("../scenes/khayr-al-din-barbarosa.dark.webp"); }
+[data-scene="namadhij-ibn-muqla"] { --painting: url("../scenes/namadhij-ibn-muqla.webp"); --painting-dark: url("../scenes/namadhij-ibn-muqla.dark.webp"); }
+[data-scene="hisba-al-shayzari"] { --painting: url("../scenes/hisba-al-shayzari.webp"); --painting-dark: url("../scenes/hisba-al-shayzari.dark.webp"); }
+[data-scene="dhakhira-ibn-bassam"] { --painting: url("../scenes/dhakhira-ibn-bassam.webp"); --painting-dark: url("../scenes/dhakhira-ibn-bassam.dark.webp"); }
+[data-scene="laqta-ibn-al-haytham"] { --painting: url("../scenes/laqta-ibn-al-haytham.webp"); --painting-dark: url("../scenes/laqta-ibn-al-haytham.dark.webp"); }
+[data-scene="sada-al-shazly"] { --painting: url("../scenes/sada-al-shazly.webp"); --painting-dark: url("../scenes/sada-al-shazly.dark.webp"); }
+[data-scene="diwan-ibn-al-nadim"] { --painting: url("../scenes/diwan-ibn-al-nadim.webp"); --painting-dark: url("../scenes/diwan-ibn-al-nadim.dark.webp"); }
+[data-scene="mizan-al-khazini"] { --painting: url("../scenes/mizan-al-khazini.webp"); --painting-dark: url("../scenes/mizan-al-khazini.dark.webp"); }
+/* ⟦/SCENES⟧ */
 
 /* Chamfer polygon clip-path enforcing 45-degree corner bevels instead of border-radius. */
 .mz-chamfer {
@@ -154,13 +178,49 @@ a:hover { color: var(--ink); }
   );
 }
 
-/* عرض الصفحة — عمودٌ واحد بهامشٍ من الدليل */
-.mz-page {
-  width: min(100% - 1.5rem, 1480px);
-  margin-inline: auto;
+/* Tags — zero border-radius and 45-degree chamfers */
+.mz-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--size-2xs);
+  font-family: var(--font-mono, var(--face-mono));
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--ink);
+  background: var(--sand);
+  border: 1px solid var(--edge);
+  --chamfer: 3px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-tag--ok {
+  color: var(--signal-ok);
+  background: var(--signal-ok-wash);
+  border-color: color-mix(in srgb, var(--signal-ok) 35%, transparent);
+}
+.mz-tag--rev {
+  color: var(--signal-warn);
+  background: var(--signal-warn-wash);
+  border-color: color-mix(in srgb, var(--signal-warn) 35%, transparent);
+}
+.mz-tag--bad {
+  color: var(--signal-bad);
+  background: var(--signal-bad-wash);
+  border-color: color-mix(in srgb, var(--signal-bad) 35%, transparent);
+}
+.mz-tag--gold {
+  color: var(--gold-ink);
+  background: var(--gold-wash);
+  border-color: var(--gold);
 }
 
-/* An author `display` outranks the UA's `[hidden]`, so it is honoured here once — AM-56. */
+/* An author `display` outranks the UA's `[hidden]`, so it is honoured here once — AM-128. */
 [hidden] { display: none !important; }
 
 @media (prefers-reduced-motion: reduce) {

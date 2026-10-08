@@ -1,9 +1,11 @@
 /* Identity tokens — authored in the package as the single source of truth. */
 
-/* ── الفاتح — الأساس — 56 رمزًا ─────────────────────────────── */
+/* ── الفاتح — الأساس — 98 رمزًا ─────────────────────────────── */
 :root {
   --paper:            #f6f6f4;
   --panel:            #ffffff;
+  /* Marks are drawn for white; this ground does not follow the theme — AM-116. */
+  --mark-ground:      #ffffff;
   --sand:             #ece7df;
   --edge:             #d6cdbe;
   --edge-soft:        #e6e0d6;
@@ -14,6 +16,7 @@
   --ink-soft:         #6e675d;
   --stone:            #8b847a;
   --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.28'/></svg>");
+  --painting-veil:    transparent;
   --code-bg:          #fbfaf8;
   --signal-ok:        #0f7b3e;
   --signal-ok-wash:   #e8f6ec;
@@ -23,6 +26,9 @@
   --signal-bad-wash:  #fdeaea;
   --signal-idle:      #6e675d;
   --signal-idle-wash: #eeece7;
+  /* A fourth calm tone, cool where the others are warm: the indigo accent's own pair, never an alarm — AM-117. */
+  --signal-info:      #4a5580;
+  --signal-info-wash: #eceef4;
   /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
   --accent-gold:        #7a6647;
   --accent-gold-wash:   #f2ede4;
@@ -36,12 +42,36 @@
   --accent-indigo-wash: #eceef4;
   --accent-plum:        #74476b;
   --accent-plum-wash:   #f3eaf1;
-  --face-ar:          "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", "Noto Sans Arabic", "Geeza Pro", sans-serif;
-  --face-mono:        "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  /* المقياس الثابت — قاعُه 12.8px: لا نصّ واجهةٍ دونه، والوسم 14px، ومتن القراءة 16.8-18px */
-  --size-2xs:         .8rem;
-  --size-xs:          .88rem;
-  --size-sm:          .95rem;
+  /* The series ramp — the six accent families stepped up so two series stay apart; chart marks only, never a control — ADR-0144. */
+  --series-1:         #893500;  /* clay */
+  --series-2:         #008b80;  /* teal */
+  --series-3:         #bb881a;  /* gold */
+  --series-4:         #454798;  /* indigo */
+  --series-5:         #627d12;  /* olive */
+  --series-6:         #c471af;  /* plum */
+  --font-sans:        'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-arabic:      'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --face-ar:          'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Plex Mono has no Arabic: an Arabic run falls to Cairo before any system monospace, which would set it in separate letters (AM-129). */
+  --face-mono:        "IBM Plex Mono", 'Cairo', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-ar:          var(--font-sans);
+  --font-mono:        var(--face-mono);
+  --leading-none:     1;
+  --leading-tight:    1.15;
+  --leading-snug:     1.2;
+  --leading-heading:  1.25;
+  --leading-block:    1.4;
+  --leading-body:     1.4;
+  --muted:            var(--ink-soft);
+  --text-secondary:   var(--ink-soft);
+  --ink-secondary:    var(--ink-soft);
+  --border-dark:      var(--edge);
+  --surface-alt:      var(--sand);
+  --tint:             color-mix(in srgb, currentColor 12%, transparent);
+  /* المقياس الثابت — قاعُه 11.5px (0.72rem)، والنص العادي 13px-14px، والعناوين 16.8px-18px */
+  --size-2xs:         .72rem;
+  --size-xs:          .82rem;
+  --size-sm:          .88rem;
   --size-md:          1.05rem;
   --size-lg:          1.125rem;
   --size-xl:          1.3rem;
@@ -53,9 +83,26 @@
   --step-4:           clamp(1.8rem, 1.4rem + 1.8vw, 2.8rem);
   --gutter:           clamp(1.25rem, 4vw, 4.5rem);
   --chamfer:          14px;
+  /* المسافة — ثمانيةُ مقاديرَ لا سلسلةَ متّصلة: الحشو والهامش والفجوة كلّها منها — ADR-0009 */
+  --space-1:          .15rem;
+  --space-2:          .3rem;
+  --space-3:          .45rem;
+  --space-4:          .6rem;
+  --space-5:          .9rem;
+  --space-6:          1.25rem;
+  --space-7:          2.2rem;
+  --space-8:          4.5rem;
+  /* الطبقة — سبعُ مراتبَ مسمّاة، مقيسةً من مواضع z-index في الحزمة نفسها — ADR-0009 */
+  --layer-base:       0;
+  --layer-sticky:     20;
+  --layer-popover:    60;
+  --layer-seal:       80;
+  --layer-toast:      90;
+  --layer-overlay:    100;
+  --layer-dialog:     110;
   /* Rhythm: one height for every control in a row, one rail for the page head — ADR-0035. */
   --control-sm:       27px;
-  --control:          34px;
+  --control:          36px;
   --control-lg:       42px;
   /* The rail holds a 38px mark plus its padding and still breathes; 3.4rem left none. */
   --rail:             4.25rem;
@@ -69,11 +116,13 @@
   --lift-lg:          0 2px 6px rgb(0 0 0 / .06), 0 24px 64px rgb(0 0 0 / .18);
 }
 
-/* ── الداكن — يتبع نظام الجهاز — 33 رمزًا ─────────────────────────────── */
+/* ── الداكن — يتبع نظام الجهاز — 43 رمزًا ─────────────────────────────── */
 @media (prefers-color-scheme: dark) {
   :root {
     --paper:            #191817;
     --panel:            #211f1d;
+    /* Marks are drawn for white; this ground does not follow the theme — AM-116. */
+    --mark-ground:      #ffffff;
     --sand:             #232120;
     --edge:             #3a352f;
     --edge-soft:        #2c2926;
@@ -84,6 +133,7 @@
     --ink-soft:         #a29a8e;
     --stone:            #7d766c;
     --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.20'/></svg>");
+    --painting-veil:    color-mix(in srgb, var(--paper) 45%, transparent);
     --code-bg:          #1c1b19;
     --signal-ok:        #4fd17d;
     --signal-ok-wash:   #14271b;
@@ -93,6 +143,9 @@
     --signal-bad-wash:  #2e1a1a;
     --signal-idle:      #a29a8e;
     --signal-idle-wash: #242220;
+    /* A fourth calm tone, cool where the others are warm: the indigo accent's own pair, never an alarm — AM-117. */
+    --signal-info:      #a3aedd;
+    --signal-info-wash: #1e2130;
     /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
     --accent-gold:        #cdbb96;
     --accent-gold-wash:   #23211d;
@@ -106,13 +159,22 @@
     --accent-indigo-wash: #1e2130;
     --accent-plum:        #cf9ac0;
     --accent-plum-wash:   #2a1e28;
+    /* The series ramp — the six accent families stepped up so two series stay apart; chart marks only, never a control — ADR-0144. */
+    --series-1:         #c2612b;  /* clay */
+    --series-2:         #00a095;  /* teal */
+    --series-3:         #bb881a;  /* gold */
+    --series-4:         #666acd;  /* indigo */
+    --series-5:         #72901e;  /* olive */
+    --series-6:         #ba62a5;  /* plum */
   }
 }
 
-/* ── الفاتح — اختيارٌ صريح يغلب النظام — 33 رمزًا ─────────────────────────────── */
+/* ── الفاتح — اختيارٌ صريح يغلب النظام — 43 رمزًا ─────────────────────────────── */
 :root[data-theme="light"] {
   --paper:            #f6f6f4;
   --panel:            #ffffff;
+  /* Marks are drawn for white; this ground does not follow the theme — AM-116. */
+  --mark-ground:      #ffffff;
   --sand:             #ece7df;
   --edge:             #d6cdbe;
   --edge-soft:        #e6e0d6;
@@ -131,6 +193,9 @@
   --signal-bad-wash:  #fdeaea;
   --signal-idle:      #6e675d;
   --signal-idle-wash: #eeece7;
+  /* A fourth calm tone, cool where the others are warm: the indigo accent's own pair, never an alarm — AM-117. */
+  --signal-info:      #4a5580;
+  --signal-info-wash: #eceef4;
   /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
   --accent-gold:        #7a6647;
   --accent-gold-wash:   #f2ede4;
@@ -144,13 +209,23 @@
   --accent-indigo-wash: #eceef4;
   --accent-plum:        #74476b;
   --accent-plum-wash:   #f3eaf1;
+  /* The series ramp — the six accent families stepped up so two series stay apart; chart marks only, never a control — ADR-0144. */
+  --series-1:         #893500;  /* clay */
+  --series-2:         #008b80;  /* teal */
+  --series-3:         #bb881a;  /* gold */
+  --series-4:         #454798;  /* indigo */
+  --series-5:         #627d12;  /* olive */
+  --series-6:         #c471af;  /* plum */
   --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.28'/></svg>");
+  --painting-veil:    transparent;
 }
 
-/* ── الداكن — اختيارٌ صريح يغلب النظام — 33 رمزًا ─────────────────────────────── */
+/* ── الداكن — اختيارٌ صريح يغلب النظام — 43 رمزًا ─────────────────────────────── */
 :root[data-theme="dark"] {
   --paper:            #191817;
   --panel:            #211f1d;
+  /* Marks are drawn for white; this ground does not follow the theme — AM-116. */
+  --mark-ground:      #ffffff;
   --sand:             #232120;
   --edge:             #3a352f;
   --edge-soft:        #2c2926;
@@ -169,6 +244,9 @@
   --signal-bad-wash:  #2e1a1a;
   --signal-idle:      #a29a8e;
   --signal-idle-wash: #242220;
+  /* A fourth calm tone, cool where the others are warm: the indigo accent's own pair, never an alarm — AM-117. */
+  --signal-info:      #a3aedd;
+  --signal-info-wash: #1e2130;
   /* السلّم — ستّةُ ألوانٍ للحساب والوسم، حِبرًا وغُسالةً كالإشارات — ADR-0006 */
   --accent-gold:        #cdbb96;
   --accent-gold-wash:   #23211d;
@@ -182,5 +260,13 @@
   --accent-indigo-wash: #1e2130;
   --accent-plum:        #cf9ac0;
   --accent-plum-wash:   #2a1e28;
+  /* The series ramp — the six accent families stepped up so two series stay apart; chart marks only, never a control — ADR-0144. */
+  --series-1:         #c2612b;  /* clay */
+  --series-2:         #00a095;  /* teal */
+  --series-3:         #bb881a;  /* gold */
+  --series-4:         #666acd;  /* indigo */
+  --series-5:         #72901e;  /* olive */
+  --series-6:         #ba62a5;  /* plum */
   --girih:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'><path d='M59.4,24.6L24.6,59.4L-24.6,59.4L-59.4,24.6L-59.4,-24.6L-24.6,-59.4L24.6,-59.4L59.4,-24.6Z M191.4,24.6L156.6,59.4L107.4,59.4L72.6,24.6L72.6,-24.6L107.4,-59.4L156.6,-59.4L191.4,-24.6Z M59.4,156.6L24.6,191.4L-24.6,191.4L-59.4,156.6L-59.4,107.4L-24.6,72.6L24.6,72.6L59.4,107.4Z M191.4,156.6L156.6,191.4L107.4,191.4L72.6,156.6L72.6,107.4L107.4,72.6L156.6,72.6L191.4,107.4Z M125.4,90.6L90.6,125.4L41.4,125.4L6.6,90.6L6.6,41.4L41.4,6.6L90.6,6.6L125.4,41.4Z' fill='none' stroke='%23b9a88a' stroke-width='1' stroke-opacity='.20'/></svg>");
+  --painting-veil:    color-mix(in srgb, var(--paper) 45%, transparent);
 }
