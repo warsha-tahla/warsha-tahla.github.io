@@ -1,4 +1,5 @@
 /* Standardized CSS component primitives enforced by gate/gate.mjs (vars, chamfer, mz- prefix, gold contrast). */
+@import "patterns.css";
 
 /* Shared 45-degree chamfer polygon clip path utility. */
 .mz-chamfered {
@@ -18,7 +19,11 @@
     calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
   );
 }
-.mz-surface--pad { padding: 1rem 1.1rem 1.1rem; }
+.mz-surface--pad {
+  padding-block-start: var(--space-5);
+  padding-inline: var(--space-6);
+  padding-block-end: var(--space-6);
+}
 .mz-surface--flush { border: 0; background: none; }
 
 /* glass — the surface lifted off the page: translucent, hairlined, and threaded with light. */
@@ -64,8 +69,9 @@
 .mz-head {
   display: flex;
   align-items: baseline;
-  gap: .7rem;
-  padding: .7rem .9rem;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-5);
   border-bottom: 1px solid var(--edge-soft);
 }
 .mz-head-index {
@@ -75,14 +81,14 @@
   color: var(--gold-ink);
   direction: ltr;
 }
-.mz-head-title { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-md); font-weight: 600; margin: 0; }
+.mz-head-title { display: inline-flex; align-items: center; gap: var(--space-3); font-size: var(--size-md); font-weight: 600; margin: 0; }
 .mz-head-title > .mz-icon { color: var(--gold-ink); }
 .mz-head-note { font-size: var(--size-2xs); color: var(--ink-soft); margin: 0; }
-.mz-head-tools { margin-inline-start: auto; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.mz-head-tools { margin-inline-start: auto; display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
 /* A head's tools are a row like a toolbar's, so a field beside a button lands on one line — ADR-0055. */
 .mz-head-tools > *,
 .mz-head-tools .mz-btn-group > * { block-size: var(--control); align-self: center; }
-.mz-head-tools .mz-tag { padding-block: 0; }
+.mz-head-tools .mz-token { padding-block: 0; }
 
 /* button — button component replacing legacy button classes. */
 /* Height comes from the token, not the padding, so a mixed row lands on one line — ADR-0035. */
@@ -90,14 +96,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: .4rem;
+  gap: var(--space-3);
   block-size: var(--control);
-  padding-inline: .8rem;
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline: var(--space-5);
   font-family: var(--face-ar);
   font-size: var(--size-xs);
   font-weight: 400;
-  line-height: 1.4;
   color: var(--ink);
+  /* An anchor worn as a button is a button: the base underline of every link does not reach it — AM-135. */
+  text-decoration: none;
   background: var(--panel);
   border: 1px solid var(--edge);
   cursor: pointer;
@@ -116,6 +125,8 @@
 .mz-btn:active:not([disabled]) { background: var(--sand); }
 .mz-btn[disabled] { color: var(--stone); background: var(--sand); cursor: not-allowed; }
 .mz-btn[aria-busy="true"] { cursor: progress; color: var(--ink-soft); }
+/* A busy button draws the waiting mark in its leading icon's place; the mark itself is drawn under «wait» — AM-117. */
+.mz-btn[aria-busy="true"] > .mz-icon:first-child { display: none; }
 
 /* Primary button variant using gold accent wash and high-contrast gold-ink text. */
 .mz-btn--primary { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold); font-weight: 600; }
@@ -128,8 +139,8 @@
 .mz-btn--quiet { background: transparent; border-color: transparent; color: var(--ink-soft); }
 .mz-btn--quiet:hover:not([disabled]) { color: var(--ink); border-color: var(--edge); background: transparent; }
 
-.mz-btn--sm { block-size: var(--control-sm); padding-inline: .5rem; font-size: var(--size-2xs); --chamfer: 4px; }
-.mz-btn--lg { block-size: var(--control-lg); padding-inline: 1.15rem; font-size: var(--size-sm); --chamfer: 8px; }
+.mz-btn--sm { block-size: var(--control-sm); padding-inline: var(--space-3); font-size: var(--size-2xs); --chamfer: 4px; }
+.mz-btn--lg { block-size: var(--control-lg); padding-inline: var(--space-6); font-size: var(--size-sm); --chamfer: 8px; }
 
 /* Filter toggle button reflecting pressed state. */
 .mz-btn[aria-pressed="true"] { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold); }
@@ -143,7 +154,7 @@
 .mz-btn--icon > .mz-icon { inline-size: 1.35rem; block-size: 1.35rem; font-size: 1.35rem; }
 .mz-btn--icon.mz-btn--sm > .mz-icon { inline-size: 1.2rem; block-size: 1.2rem; font-size: 1.2rem; }
 .mz-btn--icon.mz-btn--lg > .mz-icon { inline-size: 1.6rem; block-size: 1.6rem; font-size: 1.6rem; }
-/* :where() zeroes specificity so an icon carrying .mz-icon still decides its own size. */
+/* Intrinsic square icon glyph exempt from logical dimension */
 .mz-btn > :where(svg) { width: 1em; height: 1em; flex: none; }
 
 /* The icon is the button: no border, and the ground appears only on touch. */
@@ -171,20 +182,59 @@
   stroke-linejoin: round;
 }
 .mz-icon--sm { inline-size: 1rem; block-size: 1rem; }
-.mz-icon--lg { inline-size: 1.25rem; block-size: 1.25rem; }
+.mz-icon--lg {
+  inline-size: var(--space-6);
+  block-size: var(--space-6);
+}
 .mz-icon--reverse { rotate: 180deg; }
-.mz-icon-label { display: inline-flex; align-items: center; gap: .4rem; }
+/* The chevron is drawn pointing to the inline end, so a quarter turn makes a trend arrow. */
+.mz-icon--up { rotate: 90deg; }
+.mz-icon--down { rotate: -90deg; }
+.mz-icon-label { display: inline-flex; align-items: center; gap: var(--space-3); }
 .mz-icon-label > .mz-icon { color: var(--gold-ink); }
+
+/* wait — the waiting mark: the signal's octagon stands still while its lit quarter steps round it — AM-117. */
+/* Eight steps of 45° land the octagon on itself, so only the light moves; a circle would need the radius the identity refuses. */
+.mz-wait,
+:where(.mz-btn[aria-busy="true"]:not(:has(> .mz-wait)))::before {
+  display: inline-block;
+  flex: none;
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  vertical-align: middle;
+  background: conic-gradient(currentColor 0 25%, color-mix(in srgb, currentColor 22%, transparent) 25% 100%);
+  clip-path: polygon(evenodd,
+    30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%, 30% 0,
+    36% 15%, 15% 36%, 15% 64%, 36% 85%, 64% 85%, 85% 64%, 85% 36%, 64% 15%, 36% 15%, 30% 0);
+  animation: mz-wait-turn 1.2s steps(8) infinite;
+}
+:where(.mz-btn[aria-busy="true"]:not(:has(> .mz-wait)))::before { content: ""; }
+.mz-wait { color: var(--gold-ink); }
+/* Inside a control the mark wears that control's ink, as its icon would. */
+.mz-btn .mz-wait { color: inherit; }
+.mz-wait--sm,
+.mz-btn--sm[aria-busy="true"]::before { inline-size: 1rem; block-size: 1rem; }
+.mz-wait--lg { inline-size: var(--space-6); block-size: var(--space-6); }
+.mz-btn--icon[aria-busy="true"]::before { inline-size: 1.35rem; block-size: 1.35rem; }
+.mz-btn--icon.mz-btn--sm[aria-busy="true"]::before { inline-size: 1.2rem; block-size: 1.2rem; }
+.mz-btn--icon.mz-btn--lg[aria-busy="true"]::before { inline-size: 1.6rem; block-size: 1.6rem; }
+@keyframes mz-wait-turn { to { rotate: 1turn; } }
+/* base.css rests the turn under reduced motion; a still lit quarter would read as a quarter done, so the whole ring dims evenly. */
+@media (prefers-reduced-motion: reduce) {
+  .mz-wait,
+  :where(.mz-btn[aria-busy="true"]:not(:has(> .mz-wait)))::before { background: color-mix(in srgb, currentColor 55%, transparent); }
+}
 
 /* tip — a label that appears under a control without waiting on the browser's own delay. */
 .mz-tip { position: relative; }
 .mz-tip::after {
   content: attr(data-tip);
   position: absolute;
-  inset-block-start: calc(100% + .45rem);
+  inset-block-start: calc(100% + var(--space-3));
   inset-inline-end: 0;
-  z-index: 60;
-  padding: .3rem .55rem;
+  z-index: var(--layer-popover);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-4);
   white-space: nowrap;
   pointer-events: none;
   font-family: var(--face-ar);
@@ -213,53 +263,82 @@
   color: var(--stone);
   background: var(--sand);
   border: 1px solid var(--edge-soft);
-  padding: .05rem .35rem;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-2);
   line-height: 1.5;
   direction: ltr;
   white-space: nowrap;
 }
 
-/* tag — tag component for non-clickable classification chips. */
-.mz-tag {
+/* token — a compact code, count or classification value; it is not a semantic tag. */
+.mz-token {
   display: inline-flex;
   align-items: center;
-  gap: .3rem;
-  padding: .16rem .48rem;
-  font-family: var(--face-ar);
+  gap: var(--space-2);
+  background: var(--surface-alt);
+  border: none;
+  font-family: var(--font-mono);
   font-size: var(--size-2xs);
-  line-height: 1.5;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   color: var(--ink-soft);
-  background: var(--sand);
-  border: 1px solid var(--edge-soft);
-  --chamfer: 4px;
-  clip-path: polygon(
-    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
-    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
-  );
+  line-height: 1.5;
 }
-.mz-tag--gold { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold); }
-.mz-tag--quiet { background: transparent; color: var(--stone); }
-/* وسمٌ يحمل مسارًا أو منفذًا أو فرعًا: أحاديّ ومعزول الاتّجاه، وبلا تباعد حروف. */
-.mz-tag--code {
-  font-family: var(--face-mono);
-  direction: ltr;
-  unicode-bidi: isolate;
-  font-variant-numeric: tabular-nums;
+.mz-token--gold { color: var(--gold-ink); background: var(--gold-wash); border: none; }
+.mz-token--quiet { background: transparent; color: var(--ink-soft); border: none; }
+/* A code token isolates its direction and keeps the monospace rhythm untouched. */
+.mz-token--code {
   letter-spacing: 0;
 }
-.mz-tag--count { font-family: var(--face-mono); font-variant-numeric: tabular-nums; min-width: 1.6em; justify-content: center; }
+/* A count reads its sign at its head inside an RTL page: the run is isolated left-to-right unless its first letter is Arabic — AM-42. */
+.mz-token--count {
+  direction: ltr;
+  unicode-bidi: plaintext;
+  min-inline-size: 1.6em;
+  justify-content: center;
+  align-self: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* tag — semantic operational status indicator with visible border and 45-degree chamfer. */
+almukhtar-tag,
+.mz-tag-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
+  border: 1px solid currentColor;
+  background: var(--tint);
+  clip-path: polygon(4px 0%, calc(100% - 4px) 0%, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0% calc(100% - 4px), 0% 4px);
+  color: var(--ink-soft);
+  font-family: var(--face-ar);
+  font-size: var(--size-2xs);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+almukhtar-tag .mz-icon,
+.mz-tag-label .mz-icon { flex: none; }
+.mz-tag-label--ok, [data-tone="ok"] { color: var(--signal-ok); --tint: var(--signal-ok-wash); }
+/* rev is the warning paint under a revision name, not a hue of its own — a distinct calm category takes info (AM-117). */
+.mz-tag-label--warn, .mz-tag-label--rev, [data-tone="warn"], [data-tone="rev"] { color: var(--signal-warn); --tint: var(--signal-warn-wash); }
+.mz-tag-label--info, [data-tone="info"] { color: var(--signal-info); --tint: var(--signal-info-wash); }
+.mz-tag-label--bad, [data-tone="bad"] { color: var(--signal-bad); --tint: var(--signal-bad-wash); }
+.mz-tag-label--gold, [data-tone="gold"] { color: var(--gold-ink); --tint: var(--gold-wash); }
+.mz-tag-label--idle, [data-tone="idle"] { color: var(--signal-idle); --tint: var(--signal-idle-wash); }
 
 /* signal — signal component displaying status via solid vs hollow shape before color. */
 .mz-signal {
   display: inline-flex;
   align-items: center;
-  gap: .35rem;
+  gap: var(--space-2);
   font-size: var(--size-2xs);
   color: var(--ink-soft);
   white-space: nowrap;
 }
 .mz-signal::before {
   content: "";
+  /* Intrinsic square status indicator dot */
   width: 9px;
   height: 9px;
   flex: none;
@@ -278,20 +357,26 @@
 .mz-row--warn { background: var(--signal-warn-wash); }
 .mz-row--bad { background: var(--signal-bad-wash); }
 
-/* toolbar — toolbar component for filter and search controls. */
+/* toolbar — unified high-density strip for filter and search controls. */
 .mz-toolbar {
   display: flex;
   align-items: center;
-  gap: .45rem;
-  flex-wrap: wrap;
-  padding: .6rem .9rem;
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
+  box-sizing: border-box;
 }
 /* The row owns the height: an --sm button and a bare tag beside a field read as three steps. */
 /* A group is a wrapper, so the row reaches through it too — otherwise its buttons keep their own size. */
 .mz-toolbar > *,
 .mz-toolbar .mz-btn-group > *,
 .mz-toolbar-end > * { block-size: var(--control); align-self: center; }
-.mz-toolbar .mz-tag { padding-block: 0; }
+.mz-toolbar .mz-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.mz-toolbar .mz-token { padding-block: 0; }
 /* field — the three controls wear one skin, so a form never mixes two shapes. */
 .mz-input, .mz-select, .mz-textarea {
   font-family: var(--face-ar);
@@ -299,7 +384,8 @@
   color: var(--ink);
   background: var(--panel);
   border: 1px solid var(--edge);
-  padding: .34rem .8rem;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-5);
   outline: none;
   --chamfer: 4px;
   clip-path: polygon(
@@ -309,35 +395,61 @@
 }
 .mz-input:focus-visible, .mz-select:focus-visible, .mz-textarea:focus-visible { box-shadow: inset 0 0 0 2px var(--gold-ink); }
 /* Input and select wear the row height; only the textarea grows with its content. */
-.mz-input, .mz-select { block-size: var(--control); padding-block: 0; }
-.mz-input { min-width: 14rem; flex: 1 1 auto; max-width: 30rem; }
+.mz-input, .mz-select {
+  block-size: var(--control);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline: var(--space-5);
+}
+.mz-select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256' fill='%238b847a'%3E%3Cpath transform='rotate(-90 128 128)' d='M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 10px center;
+  background-size: 14px 14px;
+  padding-inline-start: var(--space-5);
+  padding-inline-end: var(--space-7);
+}
+[dir="ltr"] .mz-select { background-position: right 10px center; }
+.mz-select option { background: var(--panel); color: var(--ink); }
+.mz-input { min-inline-size: 14rem; flex: 1 1 auto; max-inline-size: 30rem; }
 .mz-input-wrap { position: relative; min-inline-size: 14rem; flex: 1 1 auto; max-inline-size: 30rem; }
-.mz-input-wrap .mz-input { inline-size: 100%; min-inline-size: 0; padding-inline-start: 2.2rem; }
+.mz-input-wrap .mz-input {
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding-inline-start: var(--space-7);
+  padding-inline-end: var(--space-5);
+}
 .mz-input-icon {
   position: absolute;
   z-index: 1;
-  inset-inline-start: .8rem;
+  inset-inline-start: var(--space-5);
   inset-block-start: 50%;
   translate: 0 -50%;
   color: var(--stone);
   pointer-events: none;
 }
-.mz-toolbar-end { margin-inline-start: auto; display: flex; gap: .4rem; align-items: center; }
+.mz-toolbar-end { margin-inline-start: auto; display: flex; gap: var(--space-3); align-items: center; }
 
 /* metric — telemetry metric rail component for summary statistics. */
 .mz-metric-rail {
   display: flex;
-  gap: .75rem;
+  gap: var(--space-4);
   overflow-x: auto;
   scrollbar-width: thin;
-  padding: .25rem .15rem .8rem;
+  padding-block-start: var(--space-2);
+  padding-inline: var(--space-1);
+  padding-block-end: var(--space-5);
 }
 .mz-metric {
   position: relative;
   flex: 1 0 13rem;
   min-inline-size: 13rem;
   min-block-size: 11.5rem;
-  padding: 1rem;
+  padding: var(--space-5);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto 1fr auto auto;
@@ -364,7 +476,7 @@
   background: var(--gold);
 }
 .mz-metric:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: var(--lift); }
-.mz-metric-head { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.mz-metric-head { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
 .mz-metric-icon {
   inline-size: 2.5rem;
   block-size: 2.5rem;
@@ -378,8 +490,9 @@
 .mz-metric-trend {
   display: inline-flex;
   align-items: center;
-  gap: .3rem;
-  padding: .18rem .42rem;
+  gap: var(--space-2);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   color: var(--gold-ink);
   background: color-mix(in srgb, var(--gold-wash) 76%, transparent);
   border: 1px solid var(--edge-soft);
@@ -388,11 +501,43 @@
   direction: ltr;
 }
 .mz-metric-trend .mz-icon { inline-size: .8rem; block-size: .8rem; }
+.mz-metric-trend--ok {
+  color: var(--signal-ok);
+  background: var(--signal-ok-wash);
+  border-color: color-mix(in srgb, var(--signal-ok) 30%, transparent);
+}
+.mz-metric-trend--bad {
+  color: var(--signal-bad);
+  background: var(--signal-bad-wash);
+  border-color: color-mix(in srgb, var(--signal-bad) 30%, transparent);
+}
+.mz-metric--ok {
+  border-color: var(--signal-ok);
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--signal-ok) 14%, transparent), transparent 36%),
+    var(--panel);
+}
+.mz-metric--ok::before { background: var(--signal-ok); }
+.mz-metric--ok:hover { border-color: var(--signal-ok); }
+/* compact — a row of five above a dense page: the same card at a third of the height, the value still the loudest line. */
+.mz-metric--compact { min-block-size: 0; padding: var(--space-3) var(--space-4); --chamfer: 8px; }
+.mz-metric--compact .mz-metric-icon { inline-size: 2rem; block-size: 2rem; }
+.mz-metric--compact .mz-metric-value { margin-block-start: var(--space-2); font-size: clamp(1.5rem, 2.4vw, 2rem); }
+.mz-metric--compact .mz-metric-label { margin-block-start: var(--space-2); }
+.mz-metric-unit {
+  margin-inline-start: var(--space-2);
+  font-family: var(--face-ar);
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+}
+/* Figures only by contract, so its tight tracking stays; Arabic is never letter-spaced — AM-130. */
 .mz-metric-value {
   grid-column: 1 / -1;
   align-self: end;
   display: block;
-  margin-block-start: 1.25rem;
+  margin-block-start: var(--space-6);
   font-family: var(--face-mono);
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 300;
@@ -402,12 +547,155 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-.mz-metric-label { grid-column: 1 / -1; display: block; margin-block-start: .55rem; font-size: var(--size-sm); font-weight: 600; color: var(--ink); }
-.mz-metric-note { grid-column: 1 / -1; display: block; margin-block-start: .15rem; font-size: var(--size-2xs); color: var(--stone); }
+.mz-metric-label { grid-column: 1 / -1; display: block; margin-block-start: var(--space-4); font-size: var(--size-sm); font-weight: 600; color: var(--ink); }
+.mz-metric-note { grid-column: 1 / -1; display: block; margin-block-start: var(--space-1); font-size: var(--size-2xs); color: var(--ink-soft); }
+
+/* steps — a numbered guide strip that counts itself. */
+.mz-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--space-5);
+  counter-reset: mz-step;
+}
+.mz-steps > li {
+  counter-increment: mz-step;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-3);
+  row-gap: var(--space-1);
+  align-items: start;
+}
+.mz-steps > li::before {
+  content: counter(mz-step);
+  grid-row: span 2;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  display: grid;
+  place-items: center;
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  color: var(--gold-ink);
+  background: var(--gold-wash);
+  border: 1px solid color-mix(in srgb, var(--gold) 68%, transparent);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+.mz-steps-title {
+  font-size: var(--size-sm);
+  font-weight: 700;
+  color: var(--ink);
+}
+.mz-steps-text {
+  margin: 0;
+  font-size: var(--size-2xs);
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+@media (min-width: 48rem) {
+  .mz-steps > li + li {
+    padding-inline-start: var(--space-5);
+    border-inline-start: 1px solid var(--edge-soft);
+  }
+}
+/* A step's state rides on its octagon: done in the ok tone, running in the info tone, the rest still in gold — AM-149. */
+.mz-steps > li.mz-steps-item--done::before {
+  color: var(--signal-ok);
+  background: var(--signal-ok-wash);
+  border-color: var(--signal-ok);
+}
+.mz-steps > li.mz-steps-item--running::before {
+  color: var(--signal-info);
+  background: var(--signal-info-wash);
+  border-color: var(--signal-info);
+}
+.mz-steps-item--running > .mz-steps-title { color: var(--signal-info); }
+
+/* progress — a measured pass: its label, its figures, and a chamfered track the fill crosses — AM-149. */
+.mz-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: var(--space-4);
+  row-gap: var(--space-2);
+  min-inline-size: 0;
+  color: var(--gold);
+}
+.mz-progress-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  color: var(--ink);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Figures only, so the run is isolated left-to-right unless its first letter is Arabic, as the count token does — AM-42. */
+.mz-progress-value {
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  color: var(--ink-soft);
+  direction: ltr;
+  unicode-bidi: plaintext;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.mz-progress-track {
+  grid-column: 1 / -1;
+  position: relative;
+  display: block;
+  block-size: var(--space-3);
+  overflow: hidden;
+  background: var(--sand);
+  --chamfer: 3px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+/* The fill reads --progress, which a script sets; the gate refuses a style attribute, so markup never writes it. */
+.mz-progress-fill {
+  display: block;
+  block-size: 100%;
+  inline-size: clamp(0%, var(--progress, 0%), 100%);
+  background: currentColor;
+  transition: inline-size var(--quick);
+}
+/* Where attr() is typed, a page with no script still draws its fill from aria-valuenow over aria-valuemax. */
+@supports (inline-size: calc(attr(data-n type(<number>), 0) * 1%)) {
+  .mz-progress:not(.mz-progress--indeterminate) {
+    --progress: calc(attr(aria-valuenow type(<number>), 0) / attr(aria-valuemax type(<number>), 100) * 100%);
+  }
+}
+.mz-progress--ok { color: var(--signal-ok); }
+.mz-progress--warn { color: var(--signal-warn); }
+.mz-progress--bad { color: var(--signal-bad); }
+.mz-progress--ok > .mz-progress-value { color: var(--signal-ok); }
+.mz-progress--warn > .mz-progress-value { color: var(--signal-warn); }
+.mz-progress--bad > .mz-progress-value { color: var(--signal-bad); }
+/* A pass whose total is not known yet: a third of the track crosses it, start to end, in the page's own direction. */
+.mz-progress--indeterminate .mz-progress-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: -34%;
+  inline-size: 34%;
+  animation: mz-progress-cross 1.6s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+@keyframes mz-progress-cross { to { inset-inline-start: 100%; } }
+/* base.css stops the crossing under reduced motion; a still third would read as a third done, so the whole track dims evenly. */
+@media (prefers-reduced-motion: reduce) {
+  .mz-progress--indeterminate .mz-progress-fill {
+    inset-inline: 0;
+    inline-size: auto;
+    background: color-mix(in srgb, currentColor 40%, transparent);
+  }
+}
 
 /* table — table component with sticky header support. */
-.mz-table-wrap { overflow: auto; max-height: 40rem; }
-.mz-table { width: 100%; border-collapse: collapse; font-size: var(--size-2xs); }
+.mz-table-wrap { overflow: auto; max-block-size: 40rem; }
+.mz-table { inline-size: 100%; border-collapse: collapse; font-size: var(--size-2xs); }
 .mz-table th {
   position: sticky;
   top: 0;
@@ -417,33 +705,78 @@
   font-size: var(--size-2xs);
   font-weight: 600;
   text-align: start;
-  padding: .45rem .55rem;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
   border-bottom: 1px solid var(--edge);
   white-space: nowrap;
 }
-.mz-table td { padding: .4rem .55rem; border-bottom: 1px solid var(--edge-soft); vertical-align: middle; }
+.mz-table td { padding-block: var(--space-3);
+ padding-inline: var(--space-4); border-bottom: 1px solid var(--edge-soft); vertical-align: middle; }
 .mz-table tbody tr:last-child td { border-bottom: 0; }
-.mz-table tbody tr:hover { background: var(--gold-wash); }
-.mz-table .mz-num { font-family: var(--face-mono); direction: ltr; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mz-table tbody tr:not(.mz-table-section, .mz-table-subtotal, .mz-table-total):hover { background: var(--gold-wash); }
+.mz-table .mz-num { direction: ltr; text-align: right; white-space: nowrap; }
+.mz-table tr.mz-table-section td {
+  font-weight: 700;
+  color: var(--ink);
+  padding-block-start: var(--space-4);
+  border-block-end-color: var(--edge);
+}
+.mz-table tr.mz-table-subtotal td {
+  background: var(--sand);
+  font-weight: 700;
+  border-block-start: 1px solid var(--edge);
+}
+.mz-table tr.mz-table-total td {
+  background: var(--signal-ok-wash);
+  color: var(--signal-ok);
+  font-weight: 700;
+  font-size: var(--size-sm);
+  border-block-start: 1px solid color-mix(in srgb, var(--signal-ok) 35%, transparent);
+}
+/* The bottom line's check speaks in the row's green, not the label's gold. */
+.mz-table tr.mz-table-total .mz-icon-label > .mz-icon { color: currentColor; }
+.mz-table .mz-num--neg { color: var(--signal-bad); }
+.mz-table .mz-num--pos { color: var(--signal-ok); }
 
 /* pagination — bounded result navigation with a page-size control. */
 .mz-pagination {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: .7rem;
-  padding: .55rem .75rem;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-4);
   border-top: 1px solid var(--edge);
   background: var(--panel);
   font-size: var(--size-2xs);
 }
-.mz-pagination-summary { display: inline-flex; align-items: center; gap: .35rem; color: var(--stone); font-variant-numeric: tabular-nums; }
-.mz-pagination-controls, .mz-pagination-pages { display: flex; align-items: center; gap: .3rem; }
-.mz-pagination-pages .mz-btn { min-inline-size: var(--control-sm); padding-inline: .45rem; font-family: var(--face-mono); font-variant-numeric: tabular-nums; }
+.mz-pagination-summary { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--stone); font-variant-numeric: tabular-nums; }
+.mz-pagination-controls, .mz-pagination-pages { display: flex; align-items: center; gap: var(--space-2); }
+.mz-pagination-pages .mz-btn,
+.mz-pagination .mz-btn,
+.mz-pagination .mz-input {
+  block-size: var(--control);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline: var(--space-5);
+}
+.mz-pagination-pages .mz-btn { font-family: var(--face-mono); font-variant-numeric: tabular-nums; }
 .mz-pagination-pages .mz-btn[aria-current="page"] { border-color: var(--gold); background: var(--gold-wash); color: var(--gold-ink); font-weight: 600; }
 .mz-pagination-gap { min-inline-size: 1.25rem; color: var(--stone); text-align: center; }
-.mz-pagination-size { display: flex; align-items: center; gap: .4rem; justify-self: end; color: var(--stone); white-space: nowrap; }
-.mz-pagination-size .mz-select { block-size: var(--control-sm); min-inline-size: 4.5rem; padding-block: 0; }
+.mz-pagination-size { display: flex; align-items: center; gap: var(--space-3); justify-self: end; color: var(--stone); white-space: nowrap; }
+.mz-pagination-size .mz-select,
+.mz-pagination-size almukhtar-select {
+  block-size: var(--control);
+  box-sizing: border-box;
+  min-inline-size: 4.5rem;
+  padding-block: 0;
+  font-family: var(--face-mono);
+  font-variant-numeric: tabular-nums;
+}
+.mz-pagination-size almukhtar-select .mz-multiselect-control {
+  block-size: var(--control);
+  box-sizing: border-box;
+}
 @media (max-width: 760px) {
   .mz-pagination { grid-template-columns: 1fr; justify-items: center; }
   .mz-pagination-size { justify-self: center; }
@@ -453,54 +786,63 @@
 .mz-row {
   display: grid;
   grid-template-columns: minmax(14rem, 1.5fr) minmax(12rem, 1.15fr) auto;
-  gap: 1rem;
+  gap: var(--space-5);
   align-items: center;
-  padding: .7rem .9rem;
+  padding-block: var(--space-4);
+  padding-inline: var(--space-5);
   border-bottom: 1px solid var(--edge-soft);
 }
 .mz-row:last-child { border-bottom: 0; }
-.mz-row-title { display: flex; align-items: center; gap: .4rem; font-weight: 600; font-size: var(--size-sm); }
+.mz-row-title { display: flex; align-items: center; gap: var(--space-3); font-weight: 600; font-size: var(--size-sm); }
 .mz-row-title > .mz-icon { color: var(--gold-ink); }
-.mz-row-desc { font-size: var(--size-2xs); color: var(--ink-soft); margin-top: .2rem; }
-.mz-row-tags { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: .4rem; }
-.mz-row-actions { display: flex; gap: .3rem; align-items: center; flex-wrap: wrap; }
+.mz-row-desc { font-size: var(--size-2xs); color: var(--ink-soft); margin-top: var(--space-1); }
+.mz-row-tags {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+}
+.mz-row-actions { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
 /* التفاصيل تنطوي داخل الصفّ — أرخص من صفحةٍ ثانية، وتحفظ موضع القراءة */
-.mz-row-detail { display: none; padding: .7rem .9rem; background: var(--code-bg); border-bottom: 1px solid var(--edge-soft); }
-.mz-row-detail[open], .mz-row-detail.is-open { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .5rem; }
+.mz-row-detail { display: none; padding-block: var(--space-4);
+ padding-inline: var(--space-5); background: var(--code-bg); border-bottom: 1px solid var(--edge-soft); }
+.mz-row-detail[open], .mz-row-detail.is-open { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: var(--space-3); }
 @media (max-width: 860px) { .mz-row { grid-template-columns: 1fr; } }
 
 /* empty — empty state container for blank dataset views. */
 .mz-empty {
   display: grid;
   place-items: center;
-  gap: .5rem;
-  padding: 2.5rem 1rem;
+  gap: var(--space-3);
+  padding-block: var(--space-7);
+  padding-inline: var(--space-5);
   text-align: center;
   color: var(--ink-soft);
   font-size: var(--size-sm);
 }
-.mz-empty-hint { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-2xs); color: var(--stone); }
+.mz-empty-hint { display: inline-flex; align-items: center; gap: var(--space-3); font-size: var(--size-2xs); color: var(--ink-soft); }
 /* The unit mark, faded: it fills the void by saying where you are, not by being read. */
 .mz-empty-mark { inline-size: 4.5rem; block-size: 4.5rem; opacity: .45; }
 
-/* toast — a brief, polite update with one clear reading path. */
+/* toast — a brief, polite update with one clear reading path; like the fab, it stands above the foot the sheet reserves — AM-153. */
 .mz-toast-stack {
   position: fixed;
-  inset-inline-start: 1rem;
-  inset-block-end: 1rem;
-  z-index: 90;
+  inset-inline-start: var(--space-6);
+  inset-block-end: calc(var(--mz-footer-reserve, 0px) + var(--space-6));
+  z-index: var(--layer-toast);
   display: grid;
-  gap: .65rem;
+  gap: var(--space-4);
   max-inline-size: calc(100vw - 2rem);
 }
 .mz-toast {
   position: relative;
   min-inline-size: 18rem;
   max-inline-size: 28rem;
-  padding: .85rem .9rem;
+  padding-block: var(--space-5);
+  padding-inline: var(--space-5);
   display: flex;
   align-items: flex-start;
-  gap: .75rem;
+  gap: var(--space-4);
   overflow: hidden;
   color: var(--ink);
   background: color-mix(in srgb, var(--panel) 94%, transparent);
@@ -517,7 +859,7 @@
 .mz-toast::before {
   content: "";
   position: absolute;
-  inset-block: .65rem;
+  inset-block: var(--space-4);
   inset-inline-start: 0;
   inline-size: 3px;
   background: linear-gradient(transparent, var(--gold) 22% 78%, transparent);
@@ -533,7 +875,7 @@
   border: 1px solid color-mix(in srgb, var(--gold) 62%, transparent);
   clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
 }
-.mz-toast-copy { min-inline-size: 0; flex: 1; display: grid; gap: .12rem; }
+.mz-toast-copy { min-inline-size: 0; flex: 1; display: grid; gap: var(--space-1); }
 .mz-toast-title { margin: 0; font-size: var(--size-sm); font-weight: 600; line-height: 1.45; }
 .mz-toast-body { margin: 0; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.6; }
 .mz-toast-close {
@@ -550,59 +892,75 @@
 }
 .mz-toast-close:hover { color: var(--ink); background: var(--gold-wash); }
 .mz-toast-close:focus-visible { outline: 1px solid var(--gold-ink); outline-offset: 2px; }
-.mz-toast-close .mz-icon { inline-size: .9rem; block-size: .9rem; }
+.mz-toast-close .mz-icon {
+  inline-size: var(--space-5);
+  block-size: var(--space-5);
+}
 @keyframes mz-toast-in {
-  from { opacity: 0; transform: translateY(.65rem) scale(.98); }
+  from { opacity: 0; transform: translateY(var(--space-4)) scale(.98); }
 }
 @media (max-width: 30rem) {
-  .mz-toast-stack { inset-inline: .75rem; inset-block-end: .75rem; max-inline-size: none; }
+  .mz-toast-stack {
+  inset-inline: var(--space-5);
+  inset-block-end: calc(var(--mz-footer-reserve, 0px) + var(--space-5));
+  max-inline-size: none;
+}
   .mz-toast { min-inline-size: 0; max-inline-size: none; inline-size: 100%; }
 }
 
-/* topbar — topbar component for sticky site navigation headers. */
+/* topbar — topbar component for sticky site navigation headers locked to rail height. */
 .mz-topbar {
   position: sticky;
   top: 0;
-  z-index: 20;
+  inset-inline: 0;
+  inline-size: 100%;
+  z-index: var(--layer-sticky);
   display: flex;
   align-items: center;
-  gap: .8rem;
-  padding: .55rem .9rem;
-  min-block-size: var(--rail);
+  gap: var(--space-5);
+  padding-block: 0;
+  padding-inline: var(--space-5);
+  block-size: var(--rail, 48px);
   background: var(--panel);
-  border-bottom: 1px solid var(--edge);
+  border-bottom: 1px solid var(--border, var(--edge));
+  box-sizing: border-box;
 }
 /* Drop the bar inline padding when the row inside it sets the page width — ADR-0035. */
 .mz-topbar--flush { padding-inline: 0; }
+/* The row that sets the width keeps the sheet's gutter, or the brand and the actions touch the screen's edges. */
+.mz-topbar--flush > .mz-topbar-frame { padding-inline: var(--sheet-gutter, clamp(16px, 2.5vw, 36px)); }
 
 /* Glass needs a layered ground under it; over still paper there is nothing to see. */
 .mz-topbar--glass {
   background: color-mix(in srgb, var(--panel) 82%, transparent);
   backdrop-filter: saturate(1.4) blur(14px);
-  border-bottom: 1px solid var(--edge-soft);
+  border-bottom: 1px solid var(--border, var(--edge-soft));
 }
 /* One header contract: brand at the start, context in the true centre, actions at the end. */
 .mz-topbar-frame {
   inline-size: 100%;
+  block-size: 100%;
   margin-inline: auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: clamp(.7rem, 1.6vw, 1.25rem);
-  min-block-size: var(--rail);
+  min-block-size: var(--rail, 48px);
+  box-sizing: border-box;
 }
 .mz-topbar-frame > .mz-brand { justify-self: start; }
 .mz-topbar-center {
   min-inline-size: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .mz-topbar-frame > .mz-topbar-end { justify-self: end; }
 /* A brand is usually an anchor, and an underlined brand is the bug every surface inherited. */
 .mz-brand {
   display: flex;
   align-items: center;
-  gap: .55rem;
+  gap: var(--space-4);
   font-weight: 600;
   font-size: var(--size-md);
   color: inherit;
@@ -634,29 +992,57 @@
 /* The name with a small place line under it, two lines inside the rail. */
 .mz-brand-word { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
 /* The name carries the bar, so it reads a tier above the controls beside it. */
-.mz-brand-word b { font-size: var(--size-lg); font-weight: 600; letter-spacing: -.01em; line-height: 1.2; }
+.mz-brand-word b { font-size: var(--size-lg); font-weight: 600; line-height: 1.2; }
 .mz-brand-word small {
-  font-family: var(--face-mono);
+  font-family: var(--face-ar);
   font-size: var(--size-2xs);
   font-weight: 400;
   color: var(--stone);
-  direction: ltr;
-  unicode-bidi: plaintext;
+  letter-spacing: 0;
   max-inline-size: 19rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.mz-topbar-end { margin-inline-start: auto; display: flex; align-items: center; gap: .4rem; }
+.mz-topbar-end { margin-inline-start: auto; display: flex; align-items: center; gap: var(--space-3); }
 /* A hairline between two tool groups reads where bare spacing does not. */
-.mz-topbar-rule { inline-size: 1px; block-size: 1.4rem; background: var(--edge-soft); margin-inline: .35rem; flex: none; }
+.mz-topbar-rule { inline-size: 1px; block-size: 1.4rem; background: var(--edge-soft); margin-inline: var(--space-2); flex: none; }
+/* The bar's menu: tabs the rail's height, a hairline between them, and the page you are on underlined on the bar's own edge. */
+.mz-topbar-rail {
+  display: flex;
+  align-items: center;
+  max-inline-size: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-inline: 1px solid var(--border, var(--edge-soft));
+}
+.mz-topbar-rail::-webkit-scrollbar { display: none; }
+.mz-topbar-rail > a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-inline: var(--space-5);
+  block-size: var(--rail, 48px);
+  color: var(--ink-soft);
+  font-size: var(--size-xs);
+  text-decoration: none;
+  white-space: nowrap;
+  border-block-end: 2px solid transparent;
+  box-sizing: border-box;
+  margin-block-end: -1px;
+}
+.mz-topbar-rail > a + a { border-inline-start: 1px solid var(--border, var(--edge-soft)); }
+.mz-topbar-rail > a:hover { color: var(--gold-ink); background: var(--gold-wash); }
+.mz-topbar-rail > a[aria-current="page"] { color: var(--ink); background: transparent; border-block-end-color: var(--gold-ink); }
 
 /* The dated stamp every package already declares, published so a surface wears it instead of typing it. */
 .mz-stamp {
   display: inline-flex;
   align-items: center;
-  gap: .4rem;
-  padding: .2rem .5rem .2rem .35rem;
+  gap: var(--space-3);
+  padding-block: var(--space-1);
+  padding-inline-start: var(--space-2);
+  padding-inline-end: var(--space-3);
   border: 1px solid var(--edge);
   background: var(--panel);
   font-family: var(--face-mono);
@@ -675,7 +1061,8 @@
   color: var(--gold-ink);
   background: var(--gold-wash);
   border: 1px solid var(--gold);
-  padding: .12rem .45rem;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   font-weight: 500;
   --chamfer: 3px;
   clip-path: polygon(
@@ -688,71 +1075,256 @@
 
 /* footer — one foot for every surface, so the last line of a page reads the same everywhere. */
 .mz-footer {
-  border-block-start: 1px solid var(--edge);
-  padding-block: .45rem;
-  /* The bar above it carries this same gutter, and a foot without it puts the © and the version against the glass. */
-  padding-inline: .9rem;
-  margin-block-start: 0;
-  background: color-mix(in srgb, var(--panel) 94%, transparent);
-  backdrop-filter: blur(12px);
+  position: fixed;
+  inset-block-end: 0;
+  inset-inline: 0;
+  inline-size: 100%;
+  z-index: var(--layer-sticky);
+  /* One height for every foot, the guide's included; the rail is the header's, not the footer's — ADR-0161 §6. */
+  min-block-size: 48px;
+  border-top: 1px solid var(--border-dark, var(--edge));
+  background: var(--paper);
+  padding: var(--space-4) clamp(16px, 2.5vw, 32px);
+  box-sizing: border-box;
+  /* A footer taller than its row keeps the row in its middle: the space above and below is one — Omar, 18 September 2026. */
+  display: grid;
+  align-content: center;
 }
-/* Drop the foot inline padding when the row inside it sets the page width — ADR-0035. */
-.mz-footer--flush { padding-inline: 0; }
 /* The role is explicit: a document signs itself; a dock carries live controls — ADR-0079. */
-.mz-footer--document, .mz-footer--dock { position: relative; }
-.mz-footer--dock { position: sticky; inset-block-end: 0; z-index: 19; }
+.mz-footer--document, .mz-footer--dock { position: fixed; inset-block-end: 0; inset-inline: 0; inline-size: 100%; }
+.mz-footer--dock { z-index: calc(var(--layer-sticky) - 1); }
 /* A named frame makes the grid contract survive an extra wrapper and gives the gate an anatomy to verify. */
 .mz-footer-frame {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: clamp(.8rem, 2vw, 1.6rem);
-  min-block-size: 36px;
-}
-.mz-footer-id { margin: 0; display: flex; align-items: center; gap: .65rem; min-inline-size: 0; }
-.mz-footer-id > :where(svg, img) { inline-size: 24px; block-size: 24px; flex: none; color: var(--gold); }
-.mz-footer-id p { margin: 0; overflow: hidden; color: var(--stone); font-size: var(--size-xs); white-space: nowrap; text-overflow: ellipsis; }
-.mz-footer-id b { color: var(--ink); font-weight: 600; }
-.mz-footer-id span { color: var(--stone); }
-.mz-footer-seal { display: flex; align-items: center; gap: .55rem; color: var(--gold); }
-.mz-footer-seal > [class*="mz-mark--"] { inline-size: 2.5rem; block-size: 2.5rem; font-size: 2.5rem; }
-.mz-footer-seal::before,
-.mz-footer-seal::after { content: ""; inline-size: 4px; block-size: 4px; background: currentColor; transform: rotate(45deg); }
-.mz-footer-vow { font-size: var(--size-xs); font-weight: 600; letter-spacing: -.01em; color: var(--gold-ink); white-space: nowrap; }
-.mz-footer-stamp {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: .55rem;
-  font-family: var(--face-mono);
-  font-size: var(--size-2xs);
-  color: var(--stone);
+  justify-content: space-between;
+  gap: var(--space-5);
+  box-sizing: border-box;
 }
-.mz-footer-stamp b {
-  font-weight: 500;
-  color: var(--gold-ink);
+.mz-footer-id {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--size-2xs);
+  line-height: 1;
+  color: var(--ink-secondary);
+  min-inline-size: 0;
+  flex: 1 1 0%;
+  white-space: nowrap;
+}
+.mz-footer-id > :where(svg, img) {
+  inline-size: 24px;
+  block-size: 24px;
+  flex: none;
+  display: block;
+  align-self: center;
+  color: var(--gold);
+}
+.mz-footer-id p {
+  margin: 0;
+  /* The name fills its row, so it centres on the mark beside it — Omar, 18 September 2026. */
+  height: -webkit-fill-available;
+  height: stretch;
+  overflow: hidden;
+  color: inherit;
+  font-size: var(--size-2xs);
+  /* WebKit clips Arabic descenders at a line box of 1 inside this clipping row, so the line holds the whole glyph. */
+  line-height: 1.8;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.mz-footer-id b { color: var(--ink); font-weight: 600; line-height: inherit; }
+.mz-footer-id span { color: inherit; line-height: inherit; }
+/* A flex item between two equal halves: centred while both fit, pushed aside rather than covered when the stamp grows — ADR-0161. */
+.mz-footer-seal {
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  flex: 0 0 auto;
+  text-align: center;
+  white-space: nowrap;
+}
+.mz-footer-seal > [class*="mz-mark--"] {
+  inline-size: 2rem;
+  block-size: 2rem;
+  font-size: 2rem;
+  align-self: center;
+  display: block;
+}
+.mz-footer-seal::before,
+.mz-footer-seal::after {
+  content: "◆";
+  font-size: var(--size-3xs, .55rem);
+  opacity: 0.7;
+  line-height: 1;
+}
+.mz-footer-vow {
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  color: inherit;
+  white-space: nowrap;
+  line-height: 1;
+}
+/* One line of the unit's own in a document footer — a live state, a count — beside the stamp, never in place of it (AM-151). */
+.mz-footer-unit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  font-size: var(--size-2xs);
+  line-height: 1;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+}
+.mz-footer-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--size-2xs);
+  line-height: 1;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex: 1 1 0%;
+}
+.mz-footer-stamp b,
+.mz-footer .mz-stamp {
+  font-size: var(--size-2xs);
+  font-weight: 600;
+  line-height: 1;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   border: 1px solid var(--gold);
-  padding: .15rem .48rem;
-  letter-spacing: .06em;
-  --chamfer: 4px;
+  background: var(--gold-wash);
+  color: var(--gold-ink);
+  --chamfer: 3px;
   clip-path: polygon(
     var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
     calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
   );
 }
-@media (max-width: 760px) {
-  .mz-footer { padding-block: .65rem; }
-  .mz-footer-frame { grid-template-columns: minmax(0, 1fr) auto; gap: .8rem; }
-  .mz-footer-seal { display: none; }
-  .mz-footer-stamp { justify-content: flex-end; }
-  .mz-footer-stamp :where(time, span) { display: none; }
+.mz-footer-stamp time,
+.mz-footer-stamp span {
+  color: inherit;
+  line-height: 1;
 }
+.mz-footer-stamp [data-release-hijri] {
+  color: var(--ink);
+  font-weight: 700;
+  opacity: 1;
+}
+.mz-footer-stamp > span:not([data-release-hijri], .mz-footer-dev) {
+  color: var(--stone);
+  opacity: .5;
+  font-weight: 400;
+  padding-inline: var(--space-1);
+}
+/* A page served from a working tree says so beside its version — ADR-0161 §7. */
+.mz-footer-stamp .mz-footer-dev {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--signal-bad);
+}
+.mz-footer-dev::before {
+  content: "";
+  inline-size: 8px;
+  block-size: 8px;
+  /* The signal's own octagon: the identity chamfers, it does not round. */
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+  background: currentColor;
+  flex: none;
+}
+@media (max-width: 900px) {
+  .mz-footer-seal { display: none; }
+}
+@media (max-width: 760px) {
+  .mz-footer { padding-block: var(--space-4);
+ padding-inline: var(--space-5); }
+  .mz-footer-frame { flex-wrap: wrap; gap: var(--space-4); }
+  .mz-footer-seal { display: none; }
+  .mz-footer-stamp { justify-content: flex-end; flex: auto; }
+  .mz-footer-stamp :where(time, span) { display: none; }
+  .mz-footer-stamp .mz-footer-dev { display: inline-flex; }
+}
+
+/* The layout's foot stays in its flow, so this follows the footer's fixed rules; the rest of the layout is in patterns.css — AM-123. */
+.mz-layout-foot { position: relative; inset-block-end: auto; }
+
+/* prose — rendered reading text, Markdown or a document, in either language; lifted from nizam-al-mulk's document body — AM-125. */
+.mz-prose { --measure: 40rem; color: var(--ink); font-family: var(--face-ar); font-size: var(--size-md); line-height: 1.8; }
+/* Each block takes its direction from its own first letter, so one text in two languages reads; the measure is centred so the remainder is not banked on one edge. */
+.mz-prose > * { max-inline-size: var(--measure); margin-inline: auto; unicode-bidi: plaintext; }
+.mz-prose :is(h1, h2, h3, h4, h5, h6) { margin-block: calc(var(--space-6) + var(--space-2)) var(--space-4); color: var(--ink); font-weight: 600; line-height: 1.35; unicode-bidi: plaintext; }
+.mz-prose h1 { margin-block-start: 0; padding-block-end: var(--space-4); border-block-end: 1px solid var(--edge); font-size: var(--step-3); }
+.mz-prose h2 { padding-block-end: var(--space-2); border-block-end: 1px solid var(--edge-soft); font-size: var(--step-2); }
+.mz-prose h3 { font-size: var(--step-1); }
+.mz-prose :is(h4, h5, h6) { color: var(--ink-soft); font-size: var(--size-md); }
+/* The prose's leading reaches its paragraphs too; base.css's p rule would otherwise draw them at 1.4 — AM-155. */
+.mz-prose :is(p, li) { unicode-bidi: plaintext; line-height: inherit; }
+.mz-prose p { margin-block: 0 var(--space-5); }
+.mz-prose :is(ul, ol) { margin-block: 0 var(--space-5); padding-inline-start: var(--space-6); }
+.mz-prose li { margin-block-end: var(--space-2); }
+/* A link and a foreign-script run are isolated, so a URL never reorders the sentence around it. */
+.mz-prose :is(a, bdi) { unicode-bidi: isolate; }
+.mz-prose a { color: var(--gold-ink); text-decoration-thickness: 1px; text-underline-offset: .2em; overflow-wrap: anywhere; }
+.mz-prose a:hover { color: var(--ink); }
+.mz-prose strong { color: var(--ink); font-weight: 600; }
+.mz-prose code { padding: 0 var(--space-2); border: 1px solid var(--edge-soft); background: var(--code-bg); font-family: var(--face-mono); font-size: var(--size-xs); unicode-bidi: isolate; }
+.mz-prose pre { margin-block: var(--space-5); padding: var(--space-4) var(--space-5); overflow-x: auto; border: 1px solid var(--edge-soft); background: var(--code-bg); direction: ltr; }
+.mz-prose pre code { padding: 0; border: 0; background: transparent; font-size: var(--size-2xs); line-height: 1.7; }
+.mz-prose blockquote { margin-block: var(--space-5); margin-inline: 0; padding: var(--space-4) var(--space-5); border-inline-start: 3px solid var(--gold); background: var(--gold-wash); unicode-bidi: plaintext; }
+.mz-prose blockquote p { margin-block-end: 0; }
+.mz-prose hr { margin-block: var(--space-6); border: 0; border-block-start: 1px solid var(--edge-soft); }
+.mz-prose table { inline-size: 100%; border-collapse: collapse; }
+.mz-prose :is(th, td) { padding: var(--space-3) var(--space-4); border: 1px solid var(--edge-soft); font-size: var(--size-xs); text-align: start; vertical-align: top; unicode-bidi: plaintext; }
+.mz-prose th { background: var(--sand); font-weight: 500; }
+.mz-prose img { max-inline-size: 100%; block-size: auto; }
+
+/* verse — a Quranic verse in the Quran face, one step above the reading body, its marks intact; the brackets stay in the body face by the face's range — AM-105. */
+.mz-verse { margin: 0; color: var(--ink); font-family: var(--face-quran); font-size: var(--size-lg); font-weight: 400; line-height: 2.1; direction: rtl; unicode-bidi: isolate; }
+.mz-verse-ref { display: inline-block; margin-inline-start: var(--space-2); color: var(--ink-soft); font-family: var(--face-ar); font-size: var(--size-2xs); line-height: 1.4; }
+
+/* theme — the reader's light or dark pick: one button, one stored key that every unit reads. */
+.mz-theme { display: inline-flex; }
+
+/* fab — the page's one standing action: a gold button fixed at the reading side, above the foot the sheet reserves. */
+.mz-fab {
+  position: fixed;
+  inset-inline-start: var(--sheet-gutter, var(--space-6));
+  inset-block-end: calc(var(--mz-footer-reserve, var(--space-8)) + var(--space-5));
+  z-index: var(--layer-sticky);
+  block-size: calc(var(--control) + var(--space-4));
+  padding-inline: var(--space-6);
+  font-size: var(--size-sm);
+  font-weight: 600;
+  color: var(--panel);
+  background: var(--gold-ink);
+  border-color: var(--gold-ink);
+}
+.mz-fab:hover:not([disabled]) { color: var(--gold-ink); background: var(--gold-wash); border-color: var(--gold-ink); }
 
 /* palette — command palette modal component (Cmd+K). */
 .mz-palette-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: var(--layer-overlay);
   display: none;
   padding-top: 11vh;
   justify-content: center;
@@ -763,7 +1335,7 @@
 .mz-palette {
   display: flex;
   flex-direction: column;
-  width: min(46rem, calc(100% - 2rem));
+  inline-size: min(46rem, calc(100% - 2rem));
   max-block-size: 72vh;
   overflow: hidden;
   background: var(--panel);
@@ -777,11 +1349,12 @@
 }
 /* What is typed may be Arabic or a path, so the first character decides direction. */
 .mz-palette-input {
-  width: 100%;
+  inline-size: 100%;
   border: 0;
   border-bottom: 1px solid var(--edge-soft);
   outline: none;
-  padding: .7rem .9rem;
+  padding-block: var(--space-4);
+  padding-inline: var(--space-5);
   font-family: var(--face-ar);
   font-size: var(--size-md);
   color: var(--ink);
@@ -792,8 +1365,9 @@
 .mz-palette-find {
   display: flex;
   align-items: center;
-  gap: .6rem;
-  padding: .7rem .9rem;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-5);
   border-bottom: 1px solid var(--edge-soft);
   color: var(--stone);
   flex: none;
@@ -804,78 +1378,107 @@
 .mz-palette-foot {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-5);
   flex: none;
-  padding: .45rem .9rem;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-5);
   border-top: 1px solid var(--edge-soft);
   background: var(--sand);
   font-family: var(--face-ar);
   font-size: var(--size-2xs);
   color: var(--stone);
 }
-.mz-palette-foot span { display: inline-flex; align-items: center; gap: .3rem; }
+.mz-palette-foot span { display: inline-flex; align-items: center; gap: var(--space-2); }
 .mz-palette-foot span:last-child { margin-inline-start: auto; }
-.mz-palette-item { display: flex; align-items: center; gap: .5rem; width: 100%; padding: .45rem .9rem; border: 0; background: transparent; text-align: start; font-size: var(--size-xs); color: var(--ink); }
+.mz-palette-item { display: flex; align-items: center; gap: var(--space-3); inline-size: 100%; padding-block: var(--space-3);
+ padding-inline: var(--space-5); border: 0; background: transparent; text-align: start; font-size: var(--size-xs); color: var(--ink); }
 .mz-palette-item:hover, .mz-palette-item[aria-selected="true"], .mz-palette-item[data-at] { background: var(--gold-wash); }
-.mz-palette-item .mz-tag--code { margin-inline-start: auto; }
+.mz-palette-item .mz-token--code { margin-inline-start: auto; }
 
 /* field — form field binding a label, a control and its hint or error into one column. */
-.mz-field { display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
-.mz-field-label { display: inline-flex; align-items: center; gap: .35rem; font-size: var(--size-2xs); color: var(--ink-soft); }
+.mz-field { display: flex; flex-direction: column; gap: var(--space-2); min-inline-size: 0; }
+/* A field declared full width spans its row, and its control drops the 30rem cap with it — the one way to widen a field (AM-134). */
+.mz-field--full { inline-size: 100%; }
+.mz-field--full :is(.mz-input, .mz-input-wrap, .mz-select) { inline-size: 100%; max-inline-size: none; }
+
+/* links — a column of links, each a glyph and its label, and the form that writes it: rows of label and address, each removed by its own button, one button to add (AM-136). */
+.mz-link-list { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.mz-link-list > li { min-inline-size: 0; }
+.mz-link-list a { overflow-wrap: anywhere; }
+.mz-link-form { display: grid; gap: var(--space-3); min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.mz-link-form > legend { padding: 0; margin-block-end: var(--space-2); }
+.mz-link-row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) auto; gap: var(--space-3); align-items: center; }
+.mz-link-row .mz-input { inline-size: 100%; min-inline-size: 0; max-inline-size: none; }
+.mz-link-form > .mz-btn { justify-self: start; }
+/* On a phone the label takes its own line, and the address keeps its remove button beside it. */
+@media (max-width: 30rem) {
+  .mz-link-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .mz-link-row > :first-child { grid-column: 1 / -1; }
+}
+.mz-field-label { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--size-2xs); color: var(--ink-soft); }
 .mz-field-label .mz-icon { inline-size: .85rem; block-size: .85rem; color: var(--gold-ink); }
-.mz-field-hint { font-size: var(--size-2xs); color: var(--stone); }
+.mz-field-hint { font-size: var(--size-2xs); color: var(--ink-soft); }
 /* The error replaces the hint instead of joining it, so a field never argues with itself. */
 .mz-field-error { font-size: var(--size-2xs); color: var(--signal-bad); }
-.mz-textarea { min-height: 5rem; resize: vertical; width: 100%; line-height: 1.6; }
+.mz-textarea { min-block-size: 5rem; resize: vertical; inline-size: 100%; line-height: 1.6; }
 .mz-input[aria-invalid="true"], .mz-select[aria-invalid="true"], .mz-textarea[aria-invalid="true"] {
   border-color: var(--signal-bad);
   background: var(--signal-bad-wash);
 }
-.mz-input[disabled], .mz-select[disabled], .mz-textarea[disabled] { color: var(--stone); background: var(--sand); cursor: not-allowed; }
+.mz-input[disabled], .mz-textarea[disabled] { color: var(--stone); background: var(--sand); cursor: not-allowed; }
+.mz-select[disabled] { color: var(--stone); background-color: var(--sand); cursor: not-allowed; }
 .mz-input[readonly], .mz-textarea[readonly] { background: var(--sand); color: var(--ink-soft); }
 .mz-input::placeholder, .mz-textarea::placeholder { color: var(--stone); }
 
-/* multiselect — searchable multiple choice with removable selected values. */
-almukhtar-multiselect {
+/* select — one searchable choice, or many with removable selected values. */
+almukhtar-select, almukhtar-multiselect {
   position: relative;
   display: grid;
-  gap: .3rem;
+  gap: var(--space-2);
   inline-size: min(30rem, 100%);
   min-inline-size: 18rem;
   font-family: var(--face-ar);
   text-align: start;
 }
 .mz-multiselect-control {
-  min-block-size: var(--control-lg);
+  block-size: var(--control);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline-start: var(--space-5);
+  padding-inline-end: 0;
   display: flex;
   align-items: stretch;
   color: var(--ink);
   background: var(--panel);
   border: 1px solid var(--edge);
+  cursor: pointer;
   --chamfer: 6px;
   clip-path: polygon(
     var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
     calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
   );
 }
-almukhtar-multiselect[open] .mz-multiselect-control { border-color: var(--gold-ink); box-shadow: inset 0 0 0 1px var(--gold-ink); }
-almukhtar-multiselect[disabled] .mz-multiselect-control { color: var(--stone); background: var(--sand); }
+almukhtar-select[open] .mz-multiselect-control, almukhtar-multiselect[open] .mz-multiselect-control { border-color: var(--gold-ink); box-shadow: inset 0 0 0 1px var(--gold-ink); }
+almukhtar-select[disabled] .mz-multiselect-control, almukhtar-multiselect[disabled] .mz-multiselect-control { color: var(--stone); background: var(--sand); cursor: not-allowed; }
 .mz-multiselect-values {
   min-inline-size: 0;
   flex: 1;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: .35rem;
-  padding: .35rem .55rem;
+  gap: var(--space-2);
+  padding: 0;
+  padding-inline-end: var(--space-2);
 }
 .mz-multiselect-placeholder { color: var(--stone); font-size: var(--size-xs); }
+.mz-select-value { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--size-xs); }
 .mz-multiselect-chip {
   min-inline-size: 0;
-  padding: .18rem .42rem;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-3);
   display: inline-flex;
   align-items: center;
-  gap: .3rem;
+  gap: var(--space-2);
   color: var(--gold-ink);
   background: var(--gold-wash);
   border: 1px solid color-mix(in srgb, var(--gold) 74%, transparent);
@@ -888,9 +1491,16 @@ almukhtar-multiselect[disabled] .mz-multiselect-control { color: var(--stone); b
   );
 }
 .mz-multiselect-chip:hover { color: var(--ink); border-color: var(--gold-ink); }
-.mz-multiselect-chip .mz-icon { inline-size: .75rem; block-size: .75rem; }
+.mz-multiselect-chip .mz-icon {
+  inline-size: var(--space-4);
+  block-size: var(--space-4);
+}
 .mz-multiselect-toggle {
-  inline-size: var(--control-lg);
+  block-size: var(--control);
+  inline-size: var(--control);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline: 0;
   flex: none;
   display: grid;
   place-items: center;
@@ -901,12 +1511,14 @@ almukhtar-multiselect[disabled] .mz-multiselect-control { color: var(--stone); b
 }
 .mz-multiselect-toggle:hover { color: var(--gold-ink); background: var(--gold-wash); }
 .mz-multiselect-toggle .mz-icon { transition: rotate var(--quick); }
-almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
+almukhtar-select[open] .mz-multiselect-toggle .mz-icon, almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
 .mz-multiselect-panel {
   position: absolute;
-  z-index: 60;
-  inset-block-start: calc(100% + .4rem);
+  z-index: var(--layer-popover);
+  inset-block-start: calc(100% + var(--space-2));
   inset-inline: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   overflow: hidden;
   background: color-mix(in srgb, var(--panel) 96%, transparent);
   border: 1px solid var(--edge);
@@ -919,12 +1531,18 @@ almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
   );
   animation: mz-multiselect-open .18s cubic-bezier(.2, .8, .2, 1) both;
 }
+.mz-multiselect-panel[data-portal] {
+  position: fixed;
+  z-index: var(--layer-dialog);
+  margin: 0;
+  font-family: var(--face-ar);
+}
 .mz-multiselect-search {
   min-block-size: var(--control-lg);
-  padding-inline: .7rem;
+  padding-inline: var(--space-4);
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: var(--space-3);
   border-block-end: 1px solid var(--edge-soft);
   color: var(--stone);
 }
@@ -940,14 +1558,15 @@ almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
   font-size: var(--size-xs);
 }
 .mz-multiselect-search input::placeholder { color: var(--stone); }
-.mz-multiselect-list { max-block-size: 14rem; padding-block: .35rem; overflow-y: auto; scrollbar-width: thin; }
+.mz-multiselect-list { max-block-size: 14rem; padding-block: var(--space-2); overflow-y: auto; scrollbar-width: thin; }
 .mz-multiselect-option {
   inline-size: 100%;
   min-block-size: 2.4rem;
-  padding: .4rem .65rem;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
   display: flex;
   align-items: center;
-  gap: .55rem;
+  gap: var(--space-4);
   color: var(--ink);
   background: transparent;
   border: 0;
@@ -973,14 +1592,15 @@ almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
   background: var(--gold-ink);
   border-color: var(--gold-ink);
 }
-.mz-multiselect-empty { margin: 0; padding: 1.1rem .75rem; color: var(--stone); text-align: center; font-size: var(--size-xs); }
+.mz-multiselect-empty { margin: 0; padding-block: var(--space-6);
+ padding-inline: var(--space-4); color: var(--stone); text-align: center; font-size: var(--size-xs); }
 .mz-multiselect-foot {
   min-block-size: var(--control);
-  padding-inline: .7rem;
+  padding-inline: var(--space-4);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-5);
   color: var(--stone);
   background: var(--sand);
   border-block-start: 1px solid var(--edge-soft);
@@ -988,23 +1608,282 @@ almukhtar-multiselect[open] .mz-multiselect-toggle .mz-icon { rotate: 180deg; }
 }
 .mz-multiselect-foot button { padding: 0; color: var(--gold-ink); background: transparent; border: 0; font-size: inherit; }
 .mz-multiselect-foot button[disabled] { color: var(--stone); cursor: not-allowed; }
-almukhtar-multiselect[data-inline] .mz-multiselect-panel { position: static; margin-block-start: .1rem; }
+almukhtar-select:not([multiple]) .mz-multiselect-option-mark { clip-path: polygon(24% 0, 76% 0, 100% 24%, 100% 76%, 76% 100%, 24% 100%, 0 76%, 0 24%); }
+almukhtar-select[data-inline] .mz-multiselect-panel, almukhtar-multiselect[data-inline] .mz-multiselect-panel { position: static; margin-block-start: var(--space-1); }
 @keyframes mz-multiselect-open {
   from { opacity: 0; transform: translateY(-.35rem) scale(.99); }
+  to { opacity: 1; transform: none; }
 }
 @media (max-width: 30rem) {
-  almukhtar-multiselect { min-inline-size: 0; }
+  almukhtar-select, almukhtar-multiselect { min-inline-size: 0; }
+}
+
+/* date — day and date-range selection controls. */
+almukhtar-date, almukhtar-date-range {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-inline-size: 15.5rem;
+  font-family: var(--face-ar);
+  text-align: start;
+  margin-inline: auto;
+}
+almukhtar-date[range], almukhtar-date-range {
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-inline-size: 19rem;
+}
+.mz-date-control {
+  inline-size: 100%;
+  min-inline-size: 15.5rem;
+  block-size: var(--control);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline-start: var(--space-5);
+  padding-inline-end: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  cursor: pointer;
+  user-select: none;
+  --chamfer: 6px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+almukhtar-date[range] .mz-date-control, almukhtar-date-range .mz-date-control {
+  min-inline-size: 19rem;
+}
+.mz-date-control:hover { border-color: var(--gold-ink); }
+almukhtar-date[open] .mz-date-control, almukhtar-date-range[open] .mz-date-control,
+.mz-date-control:focus-visible {
+  border-color: var(--gold-ink);
+  box-shadow: inset 0 0 0 1px var(--gold-ink);
+  outline: 0;
+}
+almukhtar-date[disabled] .mz-date-control, almukhtar-date-range[disabled] .mz-date-control {
+  color: var(--stone);
+  background: var(--sand);
+  cursor: not-allowed;
+}
+.mz-date-value {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--size-xs);
+  /* The value names its month in Arabic, and Arabic is never set in the mono face: Cairo, with figures tabular — AM-137. */
+  font-family: var(--face-ar);
+  font-variant-numeric: tabular-nums;
+}
+.mz-date-placeholder { flex: 1; min-inline-size: 0; color: var(--stone); font-size: var(--size-xs); }
+.mz-date-value:empty, .mz-date-placeholder:empty { display: none; }
+.mz-date-toggle {
+  block-size: var(--control);
+  inline-size: var(--control);
+  box-sizing: border-box;
+  padding-block: 0;
+  padding-inline: 0;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  border-inline-start: 1px solid var(--edge-soft);
+}
+.mz-date-toggle:hover { color: var(--gold-ink); background: var(--gold-wash); }
+almukhtar-date[open] .mz-date-toggle .mz-icon, almukhtar-date-range[open] .mz-date-toggle .mz-icon { rotate: 180deg; }
+.mz-date-panel {
+  position: absolute;
+  z-index: var(--layer-popover);
+  inset-block-start: calc(100% + var(--space-2));
+  inset-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  box-shadow: var(--lift-lg);
+  margin-inline: auto;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+  box-sizing: border-box;
+}
+.mz-date-body {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+}
+almukhtar-date[data-inline] .mz-date-panel, almukhtar-date-range[data-inline] .mz-date-panel {
+  position: static;
+  margin-block-start: var(--space-2);
+  margin-inline: auto;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+}
+.mz-date-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  background: var(--paper);
+  border-inline-end: 1px solid var(--edge-soft);
+  min-inline-size: 9.5rem;
+}
+.mz-date-preset {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-3);
+  font-family: var(--face-ar);
+  font-size: var(--size-xs);
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid transparent;
+  text-align: start;
+  cursor: pointer;
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-date-preset:hover { background: var(--sand); }
+.mz-date-preset--active { background: var(--gold-wash); border-color: var(--gold); color: var(--gold-ink); font-weight: 600; }
+.mz-date-preset:disabled { color: var(--stone); cursor: not-allowed; opacity: .5; }
+.mz-date-calendars {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+almukhtar-date:not([range]):not(almukhtar-date-range) .mz-date-calendars {
+  flex-wrap: nowrap;
+  inline-size: fit-content;
+}
+almukhtar-date[range] .mz-date-calendars,
+almukhtar-date-range .mz-date-calendars {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: var(--space-4);
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  overflow: visible;
+}
+.mz-date-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  inline-size: 15.5rem;
+}
+.mz-date-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block-end: var(--space-2);
+  border-block-end: 1px solid var(--edge-soft);
+}
+.mz-date-nav {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  display: grid;
+  place-items: center;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  color: var(--ink);
+  cursor: pointer;
+  --chamfer: 4px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-date-nav * { pointer-events: none; }
+.mz-date-nav:hover { border-color: var(--gold-ink); color: var(--gold-ink); background: var(--gold-wash); }
+.mz-date-month-name { font-size: var(--size-xs); font-weight: 600; color: var(--ink); text-align: center; }
+.mz-date-hijri-name { font-size: var(--size-2xs); color: var(--gold-ink); font-family: var(--face-ar); font-weight: 600; letter-spacing: 0; text-align: center; }
+.mz-date-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-1); text-align: center; }
+.mz-date-weekday { font-size: var(--size-2xs); color: var(--ink-soft); padding-block: var(--space-1); white-space: nowrap; overflow: hidden; }
+.mz-date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-1); }
+.mz-date-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 2rem;
+  padding: 0;
+  font-family: var(--face-mono);
+  font-size: var(--size-2xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid transparent;
+  cursor: pointer;
+  --chamfer: 3px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-date-cell:hover:not(:disabled) { border-color: var(--gold-ink); background: var(--sand); }
+.mz-date-cell--other-month { color: var(--edge); opacity: .45; }
+.mz-date-cell--today { box-shadow: inset 0 0 0 1px var(--gold-ink); }
+.mz-date-cell--in-range { background: var(--gold-wash); color: var(--gold-ink); }
+.mz-date-cell--selected, .mz-date-cell--range-start, .mz-date-cell--range-end {
+  background: var(--gold-wash);
+  border-color: var(--gold);
+  color: var(--gold-ink);
+  font-weight: 600;
+}
+.mz-date-cell:disabled { opacity: .3; cursor: not-allowed; }
+.mz-date-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-4);
+  background: var(--sand);
+  border-block-start: 1px solid var(--edge-soft);
+  inline-size: 100%;
+  box-sizing: border-box;
+}
+.mz-date-foot-action { font-size: var(--size-2xs); }
+@media (max-width: 30rem) {
+  almukhtar-date, almukhtar-date-range { min-inline-size: 0; }
+  .mz-date-body { flex-direction: column; }
+  .mz-date-rail { border-inline-end: 0; border-block-end: 1px solid var(--edge-soft); }
 }
 
 /* choice — a chamfered square to tick, an octagon to pick, and both fill when chosen. */
 .mz-check, .mz-radio {
   display: inline-flex;
   align-items: center;
-  gap: .45rem;
+  gap: var(--space-3);
   font-size: var(--size-xs);
   color: var(--ink);
   cursor: pointer;
 }
+/* Intrinsic square checkbox/radio indicator exempt from logical dimension */
 .mz-check > input, .mz-radio > input {
   appearance: none;
   margin: 0;
@@ -1034,14 +1913,44 @@ almukhtar-multiselect[data-inline] .mz-multiselect-panel { position: static; mar
 .mz-check > input[disabled], .mz-radio > input[disabled] { background: var(--sand); border-color: var(--edge-soft); cursor: not-allowed; }
 .mz-check:has(> input[disabled]), .mz-radio:has(> input[disabled]) { color: var(--stone); cursor: not-allowed; }
 
-/* card — the surface given a body and a footer, reusing mz-head for its header. */
-.mz-card { display: flex; flex-direction: column; }
-.mz-card-body { display: flex; flex-direction: column; gap: .5rem; padding: .85rem .9rem; font-size: var(--size-xs); color: var(--ink-soft); }
-.mz-card-body > p { margin: 0; }
-/* Actions sit at the end of the card, so cards of unequal height still end on one line. */
-.mz-card-foot { margin-top: auto; display: flex; align-items: center; gap: .4rem; padding: .6rem .9rem; border-top: 1px solid var(--edge-soft); }
+/* card — unified high-density container with strict vertical alignment. */
+.mz-card {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  background: var(--surface, var(--panel));
+  border: 1px solid var(--border, var(--edge-soft));
+  box-sizing: border-box;
+}
+.mz-card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  font-size: var(--size-xs);
+  color: var(--ink-soft);
+}
+.mz-card-body > p { margin: 0; text-align: start; }
+.mz-card-body > div { display: flex; align-items: center; justify-content: flex-start; gap: var(--space-2); flex-wrap: wrap; }
+/* Actions pinned to bottom edge so cards of unequal height end on one line. */
+.mz-card-foot {
+  margin-block-start: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+  padding-inline: var(--space-5);
+  border-top: 1px solid var(--border, var(--edge-soft));
+}
 .mz-card-foot--end { justify-content: flex-end; }
-.mz-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: .6rem; }
+.mz-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--card-min-w, 17.5rem), 1fr));
+  gap: var(--gap, var(--layout-gap, var(--space-4)));
+}
 
 /* ── الحساب: ختمُه ولونُه ────────────────────────────────────────────────── */
 /* اللون يُختار بالاسم لا بالقيمة، فلا يؤلّف سطحٌ لونًا ولا يكسر بوّابة اللوحة — ADR-0006. */
@@ -1064,9 +1973,148 @@ almukhtar-multiselect[data-inline] .mz-multiselect-panel { position: static; mar
 }
 .mz-seal--sm { inline-size: var(--control-sm); block-size: var(--control-sm); font-size: var(--size-2xs); }
 .mz-seal--lg { inline-size: var(--control-lg); block-size: var(--control-lg); font-size: var(--size-md); }
-/* وسمٌ يلبس لونَ صنفه: الوسم وحده يختار لونه، لأنّه بلا نوعٍ يرثه عنه. */
-.mz-tag--accent {
+/* A token may carry one approved accent when no parent category supplies it. */
+.mz-token--accent {
   color: var(--accent, var(--ink-soft));
   background: var(--accent-wash, var(--sand));
   border-color: color-mix(in srgb, var(--accent, var(--edge-soft)) 34%, transparent);
+}
+
+/* modal — one dialog over the current page: the ground behind it dims, and the decision is taken without leaving. */
+.mz-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-overlay);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: color-mix(in srgb, var(--ink) 32%, transparent);
+  backdrop-filter: blur(3px);
+}
+.mz-modal-backdrop.is-open { display: flex; }
+.mz-modal {
+  position: relative;
+  z-index: var(--layer-dialog);
+  display: flex;
+  flex-direction: column;
+  inline-size: min(42rem, 100%);
+  max-block-size: 82vh;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  box-shadow: var(--lift-lg);
+  --chamfer: 8px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0, 100% calc(100% - var(--chamfer)),
+    calc(100% - var(--chamfer)) 100%, 0 100%, 0 var(--chamfer)
+  );
+}
+.mz-modal--sm { inline-size: min(28rem, 100%); }
+.mz-modal--lg { inline-size: min(58rem, 100%); }
+.mz-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-block-end: 1px solid var(--edge-soft);
+}
+.mz-modal-title { margin: 0; font-size: var(--size-sm); font-weight: 600; }
+.mz-modal-close { flex: none; }
+.mz-modal-body {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  overflow: auto;
+}
+.mz-modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-block-start: 1px solid var(--edge-soft);
+}
+
+/* drawer — the detail of what you are looking at, beside it: the page stays where it was and keeps its scroll. */
+.mz-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-overlay);
+  display: none;
+  align-items: stretch;
+  justify-content: flex-end;
+  background: color-mix(in srgb, var(--ink) 26%, transparent);
+}
+.mz-drawer-backdrop.is-open { display: flex; }
+.mz-drawer {
+  position: relative;
+  z-index: var(--layer-dialog);
+  display: flex;
+  flex-direction: column;
+  inline-size: min(30rem, 100%);
+  block-size: 100%;
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--panel);
+  border-inline-start: 1px solid var(--edge);
+  box-shadow: var(--lift-lg);
+}
+.mz-drawer--wide { inline-size: min(44rem, 100%); }
+.mz-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-block-end: 1px solid var(--edge-soft);
+}
+.mz-drawer-title { margin: 0; font-size: var(--size-sm); font-weight: 600; }
+.mz-drawer-close { flex: none; }
+.mz-drawer-body {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  overflow: auto;
+}
+.mz-drawer-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-block-start: 1px solid var(--edge-soft);
+}
+
+/* chart — the ground a chart is drawn on, with no border: the panel it sits in is its frame (AM-121). */
+.mz-chart {
+  display: block;
+  position: relative;
+  min-inline-size: 0;
+  background: var(--panel);
+}
+/* ECharts anchors its labels with left-to-right maths, so an RTL box makes each one run back over its own swatch. */
+.mz-chart-plot { block-size: var(--chart-height, 17rem); inline-size: 100%; direction: ltr; }
+.mz-chart--short { --chart-height: 7rem; }
+.mz-chart--tall { --chart-height: 22rem; }
+/* A consumer that never handed the element its ECharts gets a stated absence, not a silent blank. */
+.mz-chart[data-missing-library] .mz-chart-plot {
+  display: grid;
+  place-items: center;
+  color: var(--stone);
+  font-size: var(--size-2xs);
+}
+.mz-chart[data-missing-library] .mz-chart-plot::after { content: "لم تُسلَّم المكتبة إلى المخطّط"; }
+/* The ends of a series, set beneath the plot rather than over it, so a long axis never hides them. */
+.mz-chart-foot {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  flex-wrap: wrap;
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
+  border-block-start: 1px solid var(--edge-soft);
+  color: var(--stone);
+  font-size: var(--size-2xs);
 }
