@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="./assets/almukhtar-identity/css/base.css">
     <link rel="stylesheet" href="./assets/almukhtar-identity/css/primitives.css">
     <link rel="stylesheet" href="./styles.css">
+    <link rel="alternate" hreflang="en" href="https://warsha-tahla.github.io/en/">
+    <link rel="alternate" hreflang="ar" href="https://warsha-tahla.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://warsha-tahla.github.io/">
+    <meta property="og:title" content="ورشة طحلة — أداة صنعتها الحاجة وصقلها العمل">
+    <meta property="og:description" content="ثلاثون مستودعًا وأكثر من تسعة آلاف إيداع في شهرين: ورشةٌ بناها مبرمج لنفسه ليرى عمله ويديره من جهازه.">
+    <meta property="og:locale" content="ar_AR">
+    <meta name="twitter:card" content="summary_large_image">
+    <script src="./site.js" defer></script>
   </head>
   <body class="mz-sheet">
     <header class="mz-topbar mz-topbar--flush">
@@ -22,9 +31,11 @@
         <nav class="mz-topbar-center" aria-label="التنقّل الرئيسي">
           <a href="#story">القصة</a>
           <a href="#work">ما تفعله</a>
+          <a href="#effort">المجهود</a>
           <a href="#principles">مبادئها</a>
+          <a href="#contact">تواصل</a>
         </nav>
-        <div class="mz-topbar-end" aria-hidden="true"></div>
+        <div class="mz-topbar-end"><a class="lang-switch" href="./en/" hreflang="en" lang="en">English</a></div>
       </div>
     </header>
 
@@ -79,6 +90,24 @@
           <article><span>02</span><h3>حلٌّ صغيرٌ أُثبت</h3><p>أقصر طريقٍ يعيد للمبرمج وقته وتركيزه.</p></article>
           <article><span>03</span><h3>خبرةٌ بقيت</h3><p>ما نجح صار قدرةً دائمة بدل أن يبقى حيلةً عابرة.</p></article>
         </div>
+      </section>
+
+      <section class="effort" id="effort" aria-labelledby="effort-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">المجهود، بالأرقام</p>
+            <h2 id="effort-title">شهران من العمل،<br>كلّه مكتوبٌ ومقيس.</h2>
+          </div>
+          <p>كلّ قرارٍ في الورشة يُكتب قبل أن يُنفَّذ، وكلّ مرحلةٍ تُغلق بسجلٍّ يشهد لها. هذه أرقامها كما قيست يوم 8 أكتوبر 2026.</p>
+        </div>
+        <dl class="effort-grid">
+          <div><dt>مستودعًا</dt><dd dir="ltr">30</dd><p>لكلّ وحدةٍ مستودعها وإصداراتها واختباراتها.</p></div>
+          <div><dt>إيداعًا</dt><dd dir="ltr">9,374</dd><p>منذ أوّل إيداعٍ في 6 أغسطس 2026.</p></div>
+          <div><dt>مهمّةً مكتوبة</dt><dd dir="ltr">2,340</dd><p>لكلّ مهمّةٍ ملفّها: قصّتها ودليلها ومعيار قبولها.</p></div>
+          <div><dt>قرارًا معماريًّا</dt><dd dir="ltr">166</dd><p>كلّ قرارٍ ومعه البديل الذي رُفض، وسبب رفضه.</p></div>
+          <div><dt>حملةً</dt><dd dir="ltr">66</dd><p>مشكلةٌ تُقاس، ثمّ تُحمل مرحلةً مرحلة حتّى تُغلق.</p></div>
+          <div><dt>تقرير محطّة</dt><dd dir="ltr">141</dd><p>ما سُلِّم، وما بقي، وما يُرى بعد كلّ مرحلة.</p></div>
+        </dl>
       </section>
 
       <section class="work" id="work" aria-labelledby="work-title">
@@ -142,6 +171,27 @@
         </div>
       </section>
 
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-copy">
+          <p class="section-kicker">تواصل</p>
+          <h2 id="contact-title">عندك فكرة،<br>أو مشروعٌ تريد بناءه؟</h2>
+          <p>اكتب سطرين عن الفكرة أو المشروع، ويصلك الردّ على ما تختار: واتساب أو البريد.</p>
+          <a class="primary-action whatsapp-action" data-whatsapp hidden href="#" rel="noopener">راسلني على واتساب <span aria-hidden="true">←</span></a>
+        </div>
+        <form class="contact-form" data-form hidden method="post">
+          <label>الاسم<input name="name" required autocomplete="name"></label>
+          <label>البريد أو رقم الهاتف<input name="reply_to" required autocomplete="email"></label>
+          <fieldset><legend>الموضوع</legend>
+            <label><input type="radio" name="kind" value="فكرة" checked> سؤال عن فكرة</label>
+            <label><input type="radio" name="kind" value="مشروع"> طلب مشروع</label>
+          </fieldset>
+          <label>الرسالة<textarea name="message" rows="5" required></textarea></label>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="trap" aria-hidden="true">
+          <button class="primary-action" type="submit">أرسل <span aria-hidden="true">←</span></button>
+          <p class="form-state" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
       <section class="closing">
         <p>أداةٌ شخصية،<br>بُنيت من عملٍ حقيقي.</p>
         <h2>حين يتكرّر التعب،<br><em>تبدأ الصنعة.</em></h2>
@@ -157,7 +207,7 @@
           <a class="footer-legal" href="./terms.html">سياسة الاستخدام</a>
         </div>
         <p class="mz-footer-seal">صُنعت لتعين صاحبها، لا لتستبدله.</p>
-        <p class="mz-footer-stamp"><b dir="ltr">v1.0.0</b><span>آخر تحديث: 24 أغسطس 2026 · 11 ربيع الأوّل 1448</span></p>
+        <p class="mz-footer-stamp"><b dir="ltr">v1.9.0</b><span>آخر تحديث: 8 أكتوبر 2026 · 27 ربيع الآخر 1448</span><small class="footer-credit">صنعها عمر رزق</small></p>
       </div>
     </footer>
   </body>

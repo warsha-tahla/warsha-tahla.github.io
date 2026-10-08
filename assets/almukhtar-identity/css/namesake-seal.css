@@ -1,0 +1,676 @@
+/* namesake — dress for <almukhtar-namesake>: the seal that speaks. Fixed for every project — a consumer links it and changes nothing. */
+
+almukhtar-namesake {
+  /* الختم يبقى داكنًا في الوضعَين لأنّ الذهب لا يُقرأ على أرضٍ فاتحة — والحبر لونٌ من اللوحة السبعيّة. */
+  --namesake-ground: #2a2a2a;
+  /* وما وقف على تلك الأرض يقرأ بحبر الوضع الداكن في الوضعَين، لأنّ أرضه لا تتبدّل معهما. */
+  --namesake-lit: #ede8df;
+  position: fixed;
+  inset-block-end: 24px;
+  inset-inline-end: 24px;
+  z-index: var(--layer-seal);
+  inline-size: 4.625rem;
+  block-size: 4.625rem;
+  /* الختم يقف في زاوية الحاوية لا في صدرها، والرسالة تعلوه بعرضها كلّه. */
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+/* ‏.mz-sheet > * في patterns.css تخصيصُها أعلى من اسم الوسم فتردّ الختمَ الحيَّ relative وتُسقطه من زاويته إلى ذيل المستند — AM-22. */
+almukhtar-namesake:not([data-inline]) {
+  position: fixed;
+  inline-size: 4.625rem;
+  block-size: 4.625rem;
+}
+almukhtar-namesake[data-dragging] {
+  transition: none !important;
+}
+almukhtar-namesake[data-dragging] .namesake-trigger {
+  cursor: grabbing;
+  transform: scale(1.04);
+}
+
+/* ── لسان الإرساء الجانبي: 12 بكسل بشطف 45 درجة لتحرير مساحة المراقبة كاملة ── */
+.namesake-tab {
+  display: none;
+  pointer-events: auto;
+  inline-size: 12px;
+  block-size: 3.5rem;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--gold);
+  background: var(--namesake-ground);
+  cursor: pointer;
+  box-shadow: var(--lift-sm);
+  transition: filter var(--quick);
+}
+.namesake-tab:hover {
+  filter: brightness(1.25);
+}
+almukhtar-namesake[data-docked] {
+  inline-size: 12px !important;
+  block-size: 3.5rem !important;
+  pointer-events: auto;
+}
+almukhtar-namesake[data-docked] .namesake-trigger,
+almukhtar-namesake[data-docked] .namesake-message {
+  display: none !important;
+}
+almukhtar-namesake[data-docked] .namesake-tab {
+  display: block;
+}
+almukhtar-namesake[data-docked="right"] .namesake-tab {
+  border-inline-end: 0;
+  clip-path: polygon(0 6px, 6px 0, 100% 0, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+almukhtar-namesake[data-docked="left"] .namesake-tab {
+  border-inline-start: 0;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
+}
+
+/* ── الزرّ: الختم نفسه ينتظر ──────────────────────────────────────────────── */
+.namesake-trigger {
+  pointer-events: auto;
+  position: relative;
+  inline-size: 4.625rem;
+  block-size: 4.625rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--gold);
+  background: var(--namesake-ground);
+  box-shadow: var(--lift-lg);
+  clip-path: polygon(28% 0, 72% 0, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0 72%, 0 28%);
+  transition: transform var(--quick), filter var(--quick);
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.namesake-trigger:hover { transform: translateY(-3px); filter: brightness(1.12); }
+
+/* نقطةٌ تنبض حين تكون هناك رسالة. ذهبيّة لا حمراء: وصولُ كلمةٍ ليس عطلًا، وألوان الحالة محجوزة للحالة. */
+.namesake-trigger i {
+  position: absolute;
+  inset-block-start: 5px;
+  inset-inline-start: 5px;
+  inline-size: 10px;
+  block-size: 10px;
+  background: var(--gold);
+  border: 2px solid var(--namesake-ground);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+  opacity: 0;
+}
+almukhtar-namesake[data-arrived] .namesake-trigger i {
+  opacity: 1;
+  animation: namesake-pulse 1.5s infinite;
+}
+
+/* ── الرسالة: تخرج من الختم في إطارٍ مثمَّن ───────────────────────────────── */
+.namesake-message {
+  pointer-events: auto;
+  position: absolute;
+  inline-size: min(23rem, calc(100vw - 2rem));
+  height: fit-content;
+  min-height: auto;
+  inset-inline-end: 0;
+  inset-inline-start: auto;
+  inset-block-end: 5.4rem;
+  inset-block-start: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(1.1rem, 1.1rem) scale(.94);
+  transform-origin: inline-end bottom;
+  transition: opacity .26s, transform .32s cubic-bezier(.2, .8, .2, 1), visibility .26s;
+  /* الظلّ من أرض الختم لا من حبر الصفحة: الحبر ينقلب فاتحًا في الوضع الداكن فينقلب الظلّ هالةً. */
+  filter: drop-shadow(0 24px 34px color-mix(in srgb, var(--namesake-ground) 34%, transparent));
+}
+almukhtar-namesake[open] .namesake-message { opacity: 1; visibility: visible; transform: none; }
+almukhtar-namesake[data-leaving] .namesake-message { opacity: 0; transform: translateY(.7rem) scale(.97); }
+
+/* الانعكاس الديناميكي للداخل لتفادي الخروج عن أطراف الشاشة */
+almukhtar-namesake:not([data-inline])[data-flip-y="below"] .namesake-message {
+  inset-block-start: 5.4rem;
+  inset-block-end: auto;
+  transform-origin: inline-end top;
+}
+almukhtar-namesake:not([data-inline])[data-flip-x="start"] .namesake-message {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+  transform-origin: inline-start bottom;
+}
+almukhtar-namesake:not([data-inline])[data-flip-y="below"][data-flip-x="start"] .namesake-message {
+  transform-origin: inline-start top;
+}
+
+/* خيطٌ واصل بين الختم والرسالة: الكلمة خرجت من هنا، لا نزلت من السماء. */
+.namesake-message::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 3.4rem;
+  inset-block-end: -1.2rem;
+  inline-size: 1px;
+  block-size: 1.5rem;
+  background: var(--gold);
+  transform: rotate(-28deg);
+  transform-origin: top;
+}
+almukhtar-namesake[data-flip-y="below"] .namesake-message::after {
+  inset-block-start: -1.2rem;
+  inset-block-end: auto;
+  transform: rotate(28deg);
+  transform-origin: bottom;
+}
+almukhtar-namesake[data-flip-x="start"] .namesake-message::after {
+  inset-inline-start: 3.4rem;
+  inset-inline-end: auto;
+  transform: rotate(28deg);
+}
+almukhtar-namesake[data-flip-y="below"][data-flip-x="start"] .namesake-message::after {
+  transform: rotate(-28deg);
+}
+
+/* ── شريط تحكّم مشغّل العمليّات: إرساء وكتم وإغلاق ────────────────────────── */
+.namesake-controls {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-end: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0;
+  overflow: visible !important;
+}
+almukhtar-namesake[data-look="aperture"] .namesake-controls {
+  inset-inline-end: 12px;
+  inset-block-start: 10px;
+  overflow: visible !important;
+}
+.namesake-btn {
+  pointer-events: auto;
+  position: relative;
+  inline-size: 1.875rem;
+  block-size: 1.875rem;
+  min-inline-size: 30px;
+  min-block-size: 30px;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--namesake-ground) 88%, transparent);
+  color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 48%, transparent);
+  clip-path: polygon(28% 0, 72% 0, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0 72%, 0 28%);
+  cursor: pointer;
+  transition: background var(--quick), color var(--quick), border-color var(--quick), transform var(--quick);
+}
+.namesake-btn:hover {
+  background: var(--namesake-ground);
+  color: var(--gold-wash);
+  border-color: var(--gold);
+  transform: scale(1.08);
+}
+.namesake-btn i {
+  pointer-events: none;
+  display: block;
+  position: relative;
+}
+.namesake-btn--dock i {
+  inline-size: 13px;
+  block-size: 13px;
+  border-inline-end: 2px solid currentColor;
+}
+.namesake-btn--dock i::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 5.5px;
+  inset-inline-start: 1px;
+  inline-size: 7px;
+  block-size: 2px;
+  background: currentColor;
+}
+.namesake-btn--dock i::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 1px;
+  inline-size: 5px;
+  block-size: 5px;
+  border-block-start: 2px solid currentColor;
+  border-inline-start: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+.namesake-btn--mute i {
+  inline-size: 11px;
+  block-size: 11px;
+  background: currentColor;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+[data-seal-action="timing"] i {
+  inline-size: 13px;
+  block-size: 13px;
+  background: currentColor;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+}
+[data-seal-action="timing"] i::before,
+[data-seal-action="timing"] i::after {
+  content: "";
+  position: absolute;
+}
+[data-seal-action="timing"] i::before {
+  inset: 2px;
+  background: var(--namesake-ground);
+  clip-path: inherit;
+}
+[data-seal-action="timing"] i::after {
+  inset-block-start: 3px;
+  inset-inline-start: 6px;
+  inline-size: 1.5px;
+  block-size: 4px;
+  background: currentColor;
+  transform: rotate(-42deg);
+  transform-origin: bottom;
+}
+almukhtar-namesake[data-muted] .namesake-btn--mute {
+  color: var(--stone);
+  border-color: var(--edge);
+  opacity: 0.75;
+}
+almukhtar-namesake[data-muted] .namesake-btn--mute i {
+  background: var(--stone);
+}
+almukhtar-namesake[data-muted] .namesake-btn--mute i::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 4.5px;
+  inset-inline-start: -3px;
+  inline-size: 17px;
+  block-size: 2px;
+  background: var(--signal-bad);
+  transform: rotate(45deg);
+}
+.namesake-btn--close i {
+  inline-size: 13px;
+  block-size: 13px;
+}
+.namesake-btn--close i::before,
+.namesake-btn--close i::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 5.5px;
+  inset-inline-start: 0;
+  inline-size: 13px;
+  block-size: 2px;
+  background: currentColor;
+}
+.namesake-btn--close i::before { transform: rotate(45deg); }
+.namesake-btn--close i::after  { transform: rotate(-45deg); }
+
+/* The timing panel belongs to the seal, so every consumer changes the same two values without inventing controls. */
+[data-seal-timing] {
+  position: absolute;
+  inset-block-start: 3.15rem;
+  inset-inline-end: .75rem;
+  z-index: 12;
+  inline-size: min(18rem, calc(100vw - 3.5rem));
+  padding: .9rem;
+  display: grid;
+  gap: .65rem;
+  color: var(--namesake-lit);
+  background: var(--namesake-ground);
+  border: 1px solid color-mix(in srgb, var(--gold) 58%, transparent);
+  box-shadow: var(--lift-lg);
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0 calc(100% - 6px), 0 6px);
+}
+[data-seal-timing][hidden] { display: none; }
+[data-seal-timing] header { display: grid; gap: .12rem; padding-block-end: .5rem; border-block-end: 1px solid color-mix(in srgb, var(--gold) 28%, transparent); }
+[data-seal-timing] header b { color: var(--gold); font-size: var(--size-sm); }
+[data-seal-timing] header span { color: color-mix(in srgb, var(--namesake-lit) 64%, transparent); font-size: var(--size-2xs); }
+[data-seal-timing] label { display: flex; align-items: center; justify-content: space-between; gap: .7rem; font-size: var(--size-xs); }
+[data-seal-timing] label > span:last-child { display: inline-flex; align-items: center; gap: .35rem; color: color-mix(in srgb, var(--namesake-lit) 70%, transparent); }
+[data-seal-timing] input {
+  inline-size: 6rem;
+  min-block-size: 2rem;
+  padding: .25rem .45rem;
+  color: var(--namesake-lit);
+  background: color-mix(in srgb, var(--namesake-ground) 82%, var(--namesake-lit));
+  border: 1px solid color-mix(in srgb, var(--gold) 42%, transparent);
+  font: 500 var(--size-xs)/1 var(--face-mono);
+  text-align: end;
+}
+[data-seal-timing] input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+[data-seal-timing] [data-timing-error] { margin: 0; color: var(--signal-bad); font-size: var(--size-2xs); }
+[data-timing-reset] {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-block-size: 2rem;
+  padding: .3rem .55rem;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--gold) 42%, transparent);
+  font: 600 var(--size-xs)/1 var(--face-ar);
+  cursor: pointer;
+}
+[data-timing-reset] i { inline-size: .7rem; block-size: .7rem; border-block-start: 1.5px solid currentColor; border-inline-start: 1.5px solid currentColor; transform: rotate(-45deg); }
+[data-timing-reset]:hover { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, transparent); }
+
+/* لا نسبةَ مفروضة: الإطار يأخذ قدر الكلام، فيضيق ويتّسع ولا يترك فراغًا يملأ نفسه. */
+.namesake-frame {
+   position: relative;
+   color: var(--gold);
+   overflow: visible;
+   overflow: visible !important;
+   height: fit-content;
+   min-height: auto;
+}
+
+/* البطاقة شبكةٌ لا عمود: ثلاث هيئاتٍ ترتّب الأجزاء نفسها بلا وسمٍ ثانٍ لكلّ هيئة. */
+.namesake-card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-inline-size: 18rem;
+  height: fit-content;
+  min-height: auto;
+  overflow: visible !important;
+  /* البطاقة تحمل حبرها معها: هي تنزل في صفحة المشروع ولا ترث ألوان قوالبه. */
+  color: var(--ink);
+  font-family: var(--face-ar);
+  background: var(--surface, var(--panel));
+  border: 1px solid var(--edge);
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0% calc(100% - 6px), 0% 6px);
+}
+.namesake-card > * { position: relative; z-index: 2; }
+
+/* الشريط الجانبيّ لهيئة الهامش وحدها، ويبقى مطويًّا في الأخريَين. */
+.namesake-rail { display: none; }
+/* الشريط الجانبي مطويّ نهائيًّا في جميع الهيئات */
+.namesake-rail { display: none !important; }
+
+.namesake-kind {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  margin: .7rem 0 0;
+  padding-inline-end: 8.7rem;
+}
+.namesake-kind span {
+  padding: .2rem .5rem;
+  border: 1px solid var(--gold);
+  font-size: var(--size-2xs);
+  font-weight: 700;
+  color: var(--gold-ink);
+}
+.namesake-kind b { font-family: var(--face-mono); font-size: var(--size-2xs); color: var(--stone); }
+
+.namesake-card blockquote {
+  margin: .55rem 0 .7rem;
+  color: var(--ink);
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1.55;
+  text-wrap: balance;
+}
+.namesake-card a {
+  font-size: var(--size-2xs);
+  color: var(--stone);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* مصدرٌ بلا رابطٍ ليس وصلةً: السورةُ ورقمُها يُقرآن ولا يُنقر عليهما. */
+.namesake-card a:not([href]) { text-decoration: none; }
+/* مصدرٌ ثانويّ يُعلَن ثانويًّا: القارئ يرى درجة التوثيق قبل أن ينقل الكلمة. */
+.namesake-card a[data-quality="secondary"]::before { content: "△ "; color: var(--signal-warn); }
+.namesake-card a[data-quality="project"]::before { content: "✎ "; color: var(--gold-ink); }
+
+/* ── الهيئة: ثلاث بطاقاتٍ لرسالةٍ واحدة، تُختار عشوائيًّا كما تُختار الرسالة ── */
+
+/* 02 — Narrator margin: the message and its source run beside a dark rail. */
+/* 02 — Narrator margin: the message and its source run cleanly within the card. */
+almukhtar-namesake[data-look="margin"] .namesake-card {
+  grid-template-columns: minmax(0, 1fr) 1.15rem;
+  grid-template-columns: 1fr;
+  text-align: start;
+  background: var(--surface, var(--panel));
+  border: 1px solid var(--edge);
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0% calc(100% - 6px), 0% 6px);
+}
+/* خيطٌ ذهبيّ يفصل الشريط عن المتن: أرضه داكنةٌ في الوضعَين، وفي الداكن وحده لا تُرى بغيره. */
+almukhtar-namesake[data-look="margin"] .namesake-rail {
+  display: grid;
+  place-items: center;
+  grid-area: 1 / 2 / 4 / 3;
+  background: var(--namesake-ground);
+  border-inline-start: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  height: 100%;
+  display: none !important;
+}
+/* The margin is a silent landmark: three strokes carry its rhythm without a technical code. */
+almukhtar-namesake[data-look="margin"] .namesake-rail::before {
+  content: "";
+  inline-size: .45rem;
+  block-size: 2.8rem;
+  opacity: .75;
+  background:
+    linear-gradient(135deg, transparent 38%, var(--gold) 40% 58%, transparent 60%) center 0 / 100% .7rem no-repeat,
+    linear-gradient(135deg, transparent 38%, var(--gold) 40% 58%, transparent 60%) center 50% / 100% .7rem no-repeat,
+    linear-gradient(135deg, transparent 38%, var(--gold) 40% 58%, transparent 60%) center 100% / 100% .7rem no-repeat;
+}
+almukhtar-namesake[data-look="margin"] .namesake-rail b {
+  display: none;
+}
+almukhtar-namesake[data-look="margin"] .namesake-kind {
+  grid-area: 1 / 1;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 1.1rem 1.5rem 0;
+  padding-inline-end: 8.7rem;
+}
+almukhtar-namesake[data-look="margin"] .namesake-kind b { display: none; }
+almukhtar-namesake[data-look="margin"] .namesake-card blockquote {
+  grid-area: 2 / 1;
+  margin: .8rem 0 0;
+  padding-inline: 1.5rem;
+}
+/* علامةٌ كبيرة خلف الكلمة: هنا الاقتباس زينةٌ في الخلفيّة لا حرفٌ في السطر — وللقول وحده. */
+almukhtar-namesake[data-look="margin"][data-kind="quote"] .namesake-card blockquote::before {
+  content: "‹‹‹";
+  position: absolute;
+  inset-block-start: -2.6rem;
+  inset-inline-start: .3rem;
+  z-index: -1;
+  color: color-mix(in srgb, var(--gold) 30%, transparent);
+  font-size: 5.5rem;
+  font-weight: 300;
+  letter-spacing: -.24em;
+  line-height: 1;
+}
+
+almukhtar-namesake[data-look="margin"] .namesake-card a {
+  grid-area: 3 / 1;
+  margin-block: .9rem 1.25rem;
+  padding-block-start: .65rem;
+  padding-inline: 1.5rem;
+  border-block-start: 1px solid var(--edge-soft);
+}
+
+/* 03 — صفحة من السجل: الكلمة مقيَّدةٌ في دفتر، ومصدرها حاشيةٌ تحت خطٍّ لا سطرٌ حرّ. */
+almukhtar-namesake[data-look="ledger"] .namesake-card {
+  grid-template-columns: minmax(0, 1fr) auto;
+  /* الحشو منطقيٌّ لا فيزيائيّ: الشريط على الحافّة المنتهية، فلو كُتب اختصارًا لوقع في الجهة المقابلة. */
+  padding-block: .95rem;
+  padding-inline: 1.2rem 3.4rem;
+  text-align: start;
+  border-block: 1px solid var(--edge);
+  background: var(--surface, var(--panel));
+  border: 1px solid var(--edge);
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0% calc(100% - 6px), 0% 6px);
+}
+/* شريطٌ ذهبيٌّ باهت على حافّة الدفتر — هامشٌ مرسوم، وخطُّه هو ما يُبقيه مرئيًّا في الوضع الداكن. */
+almukhtar-namesake[data-look="ledger"] .namesake-card::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: 2.75rem;
+  background: var(--gold-wash);
+  border-inline-start: 1px solid color-mix(in srgb, var(--gold) 32%, transparent);
+}
+/* أزرار التحكّم في هيئة السجل تصطفّ طوليًّا داخل الهامش الذهبي لتفادي التداخل مع رمز القيد */
+almukhtar-namesake[data-look="ledger"] .namesake-controls {
+  flex-direction: column;
+  inset-block-start: 12px;
+  inset-inline-end: calc((2.75rem - 1.875rem) / 2);
+  gap: 0.35rem;
+}
+almukhtar-namesake[data-look="ledger"] .namesake-btn--close { order: 1; }
+almukhtar-namesake[data-look="ledger"] [data-seal-action="timing"] { order: 2; }
+almukhtar-namesake[data-look="ledger"] .namesake-btn--mute  { order: 3; }
+almukhtar-namesake[data-look="ledger"] .namesake-btn--dock  { order: 4; }
+almukhtar-namesake[data-look="ledger"] .namesake-frame::before,
+almukhtar-namesake[data-look="ledger"] .namesake-frame::after {
+  content: "";
+  position: absolute;
+  inline-size: 1.3rem;
+  block-size: 1.3rem;
+  pointer-events: none;
+}
+almukhtar-namesake[data-look="ledger"] .namesake-frame::before {
+  inset-block-start: -.4rem;
+  inset-inline-start: -.4rem;
+  border-block-start: 1px solid var(--gold-ink);
+  border-inline-start: 1px solid var(--gold-ink);
+}
+almukhtar-namesake[data-look="ledger"] .namesake-frame::after {
+  inset-block-end: -.4rem;
+  inset-inline-end: -.4rem;
+  border-block-end: 1px solid var(--gold-ink);
+  border-inline-end: 1px solid var(--gold-ink);
+}
+/* The type and code share the opening row; the message and provenance follow. */
+almukhtar-namesake[data-look="ledger"] .namesake-kind { display: contents; }
+almukhtar-namesake[data-look="ledger"] .namesake-kind > * { position: relative; z-index: 2; }
+almukhtar-namesake[data-look="ledger"] .namesake-kind b {
+  grid-area: 1 / 2;
+  align-self: center;
+  justify-self: end;
+}
+almukhtar-namesake[data-look="ledger"] .namesake-kind span {
+  grid-area: 1 / 1;
+  justify-self: start;
+}
+almukhtar-namesake[data-look="ledger"] .namesake-card blockquote {
+  grid-area: 2 / 1 / 3 / 3;
+  margin-block: 1rem .85rem;
+  padding-inline-start: 1.5rem;
+}
+/* خطٌّ وماسةٌ على حافّة القيد: علامة الدفتر أنّ هنا مدخلًا، لا زخرفةً للكلمة. */
+almukhtar-namesake[data-look="ledger"] .namesake-card blockquote::before {
+  content: "";
+  position: absolute;
+  inset-block: .5rem 0;
+  inset-inline-start: .3rem;
+  inline-size: 1px;
+  background: var(--gold);
+}
+almukhtar-namesake[data-look="ledger"] .namesake-card blockquote::after {
+  content: "";
+  position: absolute;
+  inset-block-start: .12rem;
+  inset-inline-start: 0;
+  inline-size: .6rem;
+  block-size: .6rem;
+  rotate: 45deg;
+  background: var(--panel);
+  border: 1px solid var(--gold-ink);
+}
+almukhtar-namesake[data-look="ledger"] .namesake-card a {
+  grid-area: 3 / 1 / 4 / 3;
+  padding-block-start: .6rem;
+  border-block-start: 1px solid var(--edge-soft);
+}
+
+/* 04 — نافذة اليقين: أرضٌ داكنةٌ في الوضعَين، لأنّ هذه لحظةٌ تُعرض لا صفحةٌ تُقرأ. */
+almukhtar-namesake[data-look="aperture"] .namesake-card {
+  padding: 1.5rem 1.7rem 1.35rem;
+  text-align: center;
+  color: var(--namesake-lit);
+  background: var(--namesake-ground);
+  border: 1px solid color-mix(in srgb, var(--gold) 58%, transparent);
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0% calc(100% - 6px), 0% 6px);
+}
+almukhtar-namesake[data-look="aperture"] .namesake-card::before {
+  content: "";
+  position: absolute;
+  inset: .55rem;
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--gold) 20%, transparent);
+  clip-path: polygon(6px 0%, calc(100% - 6px) 0%, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 0% calc(100% - 6px), 0% 6px);
+}
+almukhtar-namesake[data-look="aperture"] .namesake-kind { grid-row: 1; margin-block-start: 0; }
+almukhtar-namesake[data-look="aperture"] .namesake-kind span { color: var(--gold); }
+almukhtar-namesake[data-look="aperture"] .namesake-kind b { color: color-mix(in srgb, var(--namesake-lit) 52%, transparent); }
+almukhtar-namesake[data-look="aperture"] .namesake-card blockquote {
+  grid-row: 2;
+  color: var(--namesake-lit);
+  font-weight: 400;
+}
+almukhtar-namesake[data-look="aperture"] .namesake-card a {
+  grid-row: 3;
+  margin-block-start: .85rem;
+  padding-block-start: .7rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
+  color: color-mix(in srgb, var(--namesake-lit) 62%, transparent);
+}
+
+/* ── الوصول: ثلاث جهات، تُختار عشوائيًّا ──────────────────────────────────── */
+almukhtar-namesake[open][data-motion="rise"]     .namesake-message { animation: namesake-rise .58s cubic-bezier(.2, .8, .2, 1); }
+almukhtar-namesake[open][data-motion="diagonal"] .namesake-message { animation: namesake-diagonal .62s cubic-bezier(.2, .8, .2, 1); }
+almukhtar-namesake[open][data-motion="curve"]    .namesake-message { animation: namesake-curve .68s cubic-bezier(.2, .8, .2, 1); }
+
+@keyframes namesake-rise     { from { opacity: 0; transform: translateY(2.2rem) scale(.95); } }
+@keyframes namesake-diagonal { from { opacity: 0; transform: translate(-1.6rem, 1.8rem) scale(.94); } }
+@keyframes namesake-curve {
+  0%   { opacity: 0; transform: translate(1.4rem, 1.8rem) scale(.93) rotate(2.5deg); }
+  60%  { opacity: 1; transform: translate(0, -.25rem) scale(1.01) rotate(-.6deg); }
+  100% { transform: none; }
+}
+@keyframes namesake-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 55%, transparent); }
+  50%      { box-shadow: 0 0 0 6px transparent; }
+}
+
+/* base.css يوقف كلّ حركةٍ تحت prefers-reduced-motion، والوصول هنا يبقى ظهورًا بلا سفر. */
+@media (prefers-reduced-motion: reduce) {
+  .namesake-message { transition: opacity .2s; transform: none; }
+  almukhtar-namesake[open] .namesake-message { animation: none; }
+}
+
+@media (max-width: 30rem) {
+  almukhtar-namesake { inset-block-end: 14px; inset-inline-end: 14px; }
+  almukhtar-namesake[data-look="aperture"] .namesake-card { padding: 1.25rem 1.3rem 1.15rem; }
+}
+
+/* ── الوقوف في الصفحة: للكتالوج وحده ──────────────────────────────────────── */
+
+/* دليلٌ يعرض الختم يحتاجه واقفًا مفتوحًا لا منتظرًا في زاوية — والوسم منشور كي لا يخترعه كلّ دليل. */
+almukhtar-namesake[data-inline] {
+  position: static;
+  display: block;
+  inline-size: min(23rem, 100%);
+}
+almukhtar-namesake[data-inline] .namesake-trigger { display: none; }
+almukhtar-namesake[data-inline] .namesake-tab { display: none; }
+almukhtar-namesake[data-inline] .namesake-controls { display: none; }
+almukhtar-namesake[data-inline] .namesake-message {
+  position: static;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  animation: none;
+}
+almukhtar-namesake[data-inline] .namesake-message::after { display: none; }
