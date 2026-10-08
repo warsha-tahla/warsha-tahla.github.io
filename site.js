@@ -1,7 +1,7 @@
 // The site's three outside values, kept in one place. An empty value hides what needs it rather than showing a broken control.
 const SITE = {
   // WhatsApp Business number in international form, digits only, e.g. '9665XXXXXXXX'.
-  whatsapp: '',
+  whatsapp: '966592104903',
   // Formspree form id, the part after https://formspree.io/f/.
   form: '',
   // Cloudflare Web Analytics site token.
