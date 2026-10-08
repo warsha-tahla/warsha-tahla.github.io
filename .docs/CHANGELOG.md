@@ -3,6 +3,11 @@
 The public site's own history. Its version is the site's, not the workshop's. `_tools/site/build-pages.mjs` in the
 workshop reads the newest entry here for the footer's stamp, so the number and the day are written once.
 
+## 1.2.0 — 2026-10-08
+
+- **The vow speaks English on the English page.** The footer of `/en/` reads «We shall meet in Jerusalem», drawn by
+  `almukhtar-identity` 3.23.0 (AM-159), instead of the Arabic vow. The Arabic pages are unchanged.
+
 ## 1.1.0 — 2026-10-08
 
 - **The header and footer are the identity's.** Every page wears «ورشة طحلة» from `almukhtar-identity` 3.22.0
